@@ -1,0 +1,55 @@
+@use '@angular/material' as mat;
+mat.$theme-ignore-duplication-warnings: true;
+@include mat.core();
+
+
+.indigo-theme {
+  @import "./assets/themes/indigo-theme.scss";
+  @include mat.all-component-themes($indigo-theme);
+}
+
+.light-blue-theme {
+  @import "./assets/themes/light-blue-theme.scss";
+  @include mat.all-component-themes($light-blue-theme);
+}
+
+.blue-grey-theme {
+  @import "./assets/themes/blue-grey-theme.scss";
+  @include mat.all-component-themes($blue-grey-theme);
+}
+
+
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+}
+
+// Menu Botones de Selector de Estilo
+.buttons-menu-themes {
+  .mat-mdc-menu-content {
+    display: flex;
+    flex-wrap: wrap;
+    .mat-menu-item,.mat-mdc-menu-item {
+      justify-content: center;
+      width: 50%;
+      padding: 0;
+      .mat-icon{
+        margin: 0;
+        transform: scale(1.4);
+      }
+    }
+
+  }
+}

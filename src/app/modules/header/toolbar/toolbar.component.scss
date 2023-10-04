@@ -1,0 +1,31 @@
+:host {
+
+  .mat-toolbar {
+    height: 54px;
+  }
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .custome-mat-icon {
+    transform: scale(1.2);
+  }
+
+  span {
+    font-weight: 300;
+  }
+
+}
+
+.indigo-icon {
+  color: #3f51b5 !important;
+}
+
+.light-blue-icon {
+  color: #4fc3f7 !important;
+}
+
+.blue-grey-icon {
+  color: #cfd8dc !important;
+}

@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>ProBox</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-button with account icon"
+        matTooltip="Temas" [matMenuTriggerFor]="menu">
+        <mat-icon>circle</mat-icon>
+    </button>
+
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-button with account icon"
+        matTooltip="Notificaciones">
+        <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button class="mat-button-acount custome-mat-icon"
+        aria-label="Example icon-button with account icon" matTooltip="Mi Cuenta">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu class="buttons-menu-themes" #menu="matMenu">
+        <button *ngIf="appService.theme !== 'blue-grey-theme'" mat-menu-item (click)="changeTheme('blue-grey-theme')">
+            <mat-icon class="blue-grey-icon">circle</mat-icon>
+        </button>
+        <button *ngIf="appService.theme !== 'indigo-theme'" mat-menu-item (click)="changeTheme('indigo-theme')">
+            <mat-icon class="indigo-icon">circle</mat-icon>
+        </button>
+        <button *ngIf="appService.theme !== 'light-blue-theme'" mat-menu-item (click)="changeTheme('light-blue-theme')">
+            <mat-icon class="light-blue-icon">circle</mat-icon>
+        </button>
+    </mat-menu>
+</mat-toolbar>
