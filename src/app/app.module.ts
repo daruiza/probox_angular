@@ -10,7 +10,7 @@ import { AppService } from './services/app.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

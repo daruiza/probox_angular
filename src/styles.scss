@@ -23,6 +23,12 @@ mat.$theme-ignore-duplication-warnings: true;
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
+@media (min-width: 1366px) {
+  .container{
+      max-width: 1344px;
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont,
