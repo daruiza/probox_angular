@@ -3,8 +3,10 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </div>
 <div class="modal-body">
-    <form *ngIf="loginForm" [formGroup]="loginForm" >
-        
+    <form *ngIf="loginForm" [formGroup]="loginForm">
+        <mat-form-field class="example-full-width">
+            <input matInput type="email" placeholder="Usuario:" value="" formControlName="email" autofocus>
+        </mat-form-field>
     </form>
 </div>
 <div class="modal-footer">

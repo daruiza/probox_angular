@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
     AccessRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatInputModule
   ]
 })
 export class AccessModule { }
