@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -9,17 +9,23 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class LoginComponent {
 
-  public loginForm: FormGroup = new FormGroup({});
+  hide: boolean = false;
+  buttonAccept: boolean = false;
+  loginForm: FormGroup = new FormGroup({});
+
+  get email(): FormControl {
+    return this.loginForm.controls['email'] as FormControl;
+  }
 
   constructor(public activeModal: NgbActiveModal) { }
-  
+
   ngOnInit() {
     this.formConstructor();
   }
 
   formConstructor() {
     this.loginForm.addControl('email', new FormControl('', {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.email, Validators.minLength(10)]
     }));
     this.loginForm.addControl('password', new FormControl('', {
       validators: [Validators.required]
@@ -27,6 +33,9 @@ export class LoginComponent {
   }
 
   onSubmit($event: any) {
-
+    console.log(this.loginForm);
+    console.log(this.email.errors);
+    
+    
   }
 }
