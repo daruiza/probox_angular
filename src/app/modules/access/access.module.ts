@@ -5,8 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,12 +14,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     AccessRoutingModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule,
 
     MatInputModule,
-    MatIconModule
-  ]
+    
+  ],
+  
 })
 export class AccessModule { }
