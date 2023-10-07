@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Acceso</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    {{loginForm.value | json}}
+    {{loginForm.errors | json}}
+    <form *ngIf="loginForm" [formGroup]="loginForm">
+        <mat-form-field class="example-full-width">
+            <input matInput type="email" placeholder="Usuario:" value="" formControlName="email" autofocus>
+            <mat-error>El campo es <strong>requerido</strong></mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput [type]="hide ? 'password': 'text'" placeholder="Contraseña:" value=""
+                formControlName="password">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility':'visibility_off'}}</mat-icon>
+        </mat-form-field>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" ngbAutofocus
+        (click)="activeModal.dismiss('Login click')">Cancelar</button>
+
+    <button type="button" class="btn btn-light" 
+    
+        (click)="onSubmit($event)">Aceptar</button>
+
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Save click')">Save</button>
+</div>

@@ -5,9 +5,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
+
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AlertComponent
+  ],
   imports: [
     CommonModule,
     MatIconModule,
@@ -16,11 +21,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     NgbModule
   ],
   exports: [
+    NgbModule,
     CommonModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    NgbModule
+    MatCardModule,
+
+    AlertComponent
   ]
 })
 export class SharedModule { }

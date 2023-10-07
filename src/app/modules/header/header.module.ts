@@ -7,6 +7,7 @@ import {MatMenuModule} from '@angular/material/menu';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SharedModule } from '../shared/shared.module';
+import { HeaderRoutingModule } from './header-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,9 +15,10 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
+    HeaderRoutingModule,
     SharedModule, 
     MatToolbarModule,
-    MatMenuModule  
+    MatMenuModule
   ],
   exports: [ToolbarComponent]
 })
