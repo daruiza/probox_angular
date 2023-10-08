@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ArrayHandle } from 'src/app/utils/array-handle';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +14,12 @@ export class LoginComponent {
   buttonAccept: boolean = false;
   loginForm: FormGroup = new FormGroup({});
 
-  get email(): FormControl {
-    return this.loginForm.controls['email'] as FormControl;
-  }
+  get email(): FormControl { return this.loginForm.controls['email'] as FormControl;}
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(
+    public activeModal: NgbActiveModal,
+    private arrayhandle: ArrayHandle
+    ) { }
 
   ngOnInit() {
     this.formConstructor();
@@ -34,8 +36,8 @@ export class LoginComponent {
 
   onSubmit($event: any) {
     console.log(this.loginForm);
-    console.log(this.email.errors);
-    
+    //console.log(Object.keys(this.email.errors??{}).map(el=>({[el]:this.email?.errors?.[el]??null})));
+    console.log(this.arrayhandle.ObjecToArray(this.email.errors));
     
   }
 }

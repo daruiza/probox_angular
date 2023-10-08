@@ -8,10 +8,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 
 import { AlertComponent } from './alert/alert.component';
+import { ErrorInputHandleComponent } from './error-input-handle/error-input-handle.component';
 
 @NgModule({
   declarations: [
-    AlertComponent
+    AlertComponent,
+    ErrorInputHandleComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { AlertComponent } from './alert/alert.component';
     MatTooltipModule,
     MatCardModule,
 
-    AlertComponent
+    AlertComponent,
+    ErrorInputHandleComponent
   ]
 })
 export class SharedModule { }
