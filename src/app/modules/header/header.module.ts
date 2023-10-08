@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HeaderRoutingModule } from './header-routing.module';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
@@ -7,7 +8,6 @@ import {MatMenuModule} from '@angular/material/menu';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SharedModule } from '../shared/shared.module';
-import { HeaderRoutingModule } from './header-routing.module';
 
 @NgModule({
   declarations: [

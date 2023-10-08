@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-error-input-handle',
@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./error-input-handle.component.scss']
 })
 export class ErrorInputHandleComponent {
+
+  @Input() errors: any[] = [];
 
 }

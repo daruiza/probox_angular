@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArrayHandle } from 'src/app/utils/array-handle';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,7 +19,7 @@ export class LoginComponent {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private arrayhandle: ArrayHandle
+    public arrayhandle: ArrayHandle
     ) { }
 
   ngOnInit() {
@@ -35,6 +36,7 @@ export class LoginComponent {
   }
 
   onSubmit($event: any) {
+    console.log(this.loginForm.value);
     console.log(this.loginForm);
     //console.log(Object.keys(this.email.errors??{}).map(el=>({[el]:this.email?.errors?.[el]??null})));
     console.log(this.arrayhandle.ObjecToArray(this.email.errors));

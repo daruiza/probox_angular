@@ -4,7 +4,6 @@ import { AccessRoutingModule } from './access-routing.module';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
 
-    MatInputModule,
     
   ],
   

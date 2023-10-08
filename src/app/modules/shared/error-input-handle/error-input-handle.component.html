@@ -1,1 +1,16 @@
-<p>error-input-handle works!</p>
+<ng-container *ngIf="errors.length">
+    <ng-container *ngFor="let item of errors">
+        <!-- {{item | json}} -->
+        <ng-container *ngIf="item.required">
+            <mat-error>El campo es <strong>requerido</strong></mat-error>
+        </ng-container>
+        <ng-container *ngIf="item.email">
+            <mat-error>El campo debe ser un <strong>correo electróico</strong></mat-error>
+        </ng-container>
+        <ng-container *ngIf="item.minlength">
+            <mat-error>
+                El campo tiene {{item.minlength.actualLength}} dígito, y debe tener <strong>mínimo {{item.minlength.requiredLength}}</strong>
+            </mat-error>
+        </ng-container>
+    </ng-container>
+</ng-container>
