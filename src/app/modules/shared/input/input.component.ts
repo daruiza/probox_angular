@@ -1,4 +1,4 @@
-import { Component, Self, Optional, forwardRef } from '@angular/core';
+import { Component, Self, Optional, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
 
@@ -6,12 +6,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/for
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: InputComponent,
-      multi: true
-    }]
+  
   // providers: [
   //   {
   //     provide: NG_VALUE_ACCESSOR,
@@ -22,20 +17,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/for
 })
 export class InputComponent implements ControlValueAccessor {
 
-  // inputValue: any;
+  @Input() placeholder?: string; 
   isDisabled: boolean = false;
 
-  // constructor(
-  //   @Self() @Optional() private ngControl: NgControl
-  // ) {
-  //   this.ngControl.valueAccessor = this;
-  // }
+   constructor(
+     @Self() @Optional() private ngControl: NgControl
+   ) {
+     this.ngControl.valueAccessor = this;
+   }
 
   onChange = (_: any) => { }
   onTouched = () => { }
 
   set inputValue(val: any) {
-    // this.field = val
     this.onChange(val)
     this.onTouched()
   }
