@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 import { MatCardModule } from '@angular/material/card';
 
@@ -28,6 +29,7 @@ import { InputComponent } from './input/input.component';
     CommonModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
 
     MatFormFieldModule,
     MatInputModule,
@@ -35,7 +37,7 @@ import { InputComponent } from './input/input.component';
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    
+
   ],
   exports: [
     NgbModule,
@@ -47,7 +49,7 @@ import { InputComponent } from './input/input.component';
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    MatCardModule,    
+    MatCardModule,
 
     AlertComponent,
     ErrorInputHandleComponent,
