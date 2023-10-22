@@ -1,7 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { IAlert } from 'src/app/models/IAlert';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/auth/user.service';
 
 @Component({
   selector: 'app-login',
@@ -12,12 +15,17 @@ export class LoginComponent {
 
   public hide = signal<boolean>(false);
   public buttonAccept = signal<boolean>(false);
+
+  public alert = signal<IAlert | undefined>(undefined);
+
   public loginForm: FormGroup = new FormGroup({});
 
   constructor(
+    private readonly translate: TranslateService,
     public readonly activeModal: NgbActiveModal,
     private readonly authService: AuthService,
-  ) { }
+    private readonly userService: UserService,
+  ) { translate.setDefaultLang('en'); }
 
   ngOnInit() {
     this.formConstructor();
@@ -25,10 +33,10 @@ export class LoginComponent {
 
   formConstructor() {
     this.loginForm.addControl('email', new FormControl('', {
-      validators: [Validators.required, Validators.email, Validators.minLength(10)]
+      validators: [Validators.required, Validators.email, Validators.maxLength(32)]
     }));
     this.loginForm.addControl('password', new FormControl('', {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.maxLength(32)]
     }));
   }
 
@@ -44,16 +52,26 @@ export class LoginComponent {
         this.loginForm.value.email,
         this.loginForm.value.password
       ).subscribe({
-        next: (item) => {
+        next: (acces) => {
           this.buttonAccept.set(false);
-          console.log('next: ', item);
+          this.userService.getUser().subscribe({
+            next: (user) => {
+              // ya se actualiza en el getUser()
+              // this.userService.updatedUserBehavior({ ...user.data.user });
+              this.activeModal.close(user);
+            }
+          })
         },
         error: (err) => {
           this.buttonAccept.set(false);
-          console.log('err: ', err)},
+          this.alert.set({
+            type: 'danger',
+            message: err.error.message,
+            title: 'Acceso Denegado',
+          })
+        },
         complete: () => {
           this.buttonAccept.set(false);
-          console.log("Observable completed");
         }
       })
     }

@@ -1,0 +1,43 @@
+<section [class]="appService.theme">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ user?.name }}</h4>
+        <button mat-fab color="primary" (click)="fileInput.click()">
+            <mat-icon class="account_circle_icon">account_circle</mat-icon>
+            <!-- <img class="mat-card-image-custom" mat-card-image alt="profile-img" src={{url}} /> -->
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <app-alert [alert]="alert()"></app-alert>
+        <form *ngIf="userForm" [formGroup]="userForm">
+            <div class="row">
+                <div class="col">
+                    <app-input formControlName="name" [label]="'Nombres*'" [placeholder]="'Nombres Usuario:'"></app-input>
+                </div>
+                <div class="col">
+                    <app-input formControlName="lastname" [label]="'Apellidos*'" [placeholder]="'Apellidos Usuario:'"></app-input>
+                </div>
+                <div class="col">
+                    <app-input formControlName="email" [label]="'Email*'" [placeholder]="'Correo electrónico'"></app-input>
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <app-input formControlName="birthdate"  [type]="'date'" [label]="'Fecha Nacimiento*'" [placeholder]="'Fecha de Nacimiento'"></app-input>
+                </div>
+                <div class="col"></div>
+                <div class="col"></div>
+            </div>
+
+        </form>
+
+
+    </div>
+    <div class="modal-footer">
+        footer
+    </div>
+
+    <input style="display: none" type="file" (change)="onFileChanged($event)" #fileInput>
+</section>

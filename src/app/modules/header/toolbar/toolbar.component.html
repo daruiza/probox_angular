@@ -4,8 +4,14 @@
     </button>
     <span>ProBox</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto"
-        matTooltip="Temas" [matMenuTriggerFor]="menu">
+
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="language"
+        [matMenuTriggerFor]="menuLanguage">
+        <mat-icon>translate</mat-icon>
+    </button>
+
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="Temas"
+        [matMenuTriggerFor]="menu">
         <mat-icon>circle</mat-icon>
     </button>
 
@@ -13,8 +19,9 @@
         matTooltip="Notificaciones">
         <mat-icon>notifications</mat-icon>
     </button>
-    <button mat-icon-button class="mat-button-acount custome-mat-icon" (click)="openModalLogin()"
-        aria-label="Example icon-button with account icon" matTooltip="Mi Cuenta">
+    <button mat-icon-button class="mat-button-acount custome-mat-icon"
+        (click)="!authService.checkLogin() ? openModalLogin(): null" aria-label="Example icon-button with account icon"
+        matTooltip="Mi Cuenta" [matMenuTriggerFor]="authService.checkLogin() ? menuProfile: null">
         <mat-icon>account_circle</mat-icon>
     </button>
 
@@ -27,6 +34,27 @@
         </button>
         <button *ngIf="appService.theme !== 'light-blue-theme'" mat-menu-item (click)="changeTheme('light-blue-theme')">
             <mat-icon class="light-blue-icon">circle</mat-icon>
+        </button>
+    </mat-menu>
+
+    <mat-menu class="buttons-menu-language" #menuLanguage="matMenu">
+        <button *ngIf="appService.translateDefault !== 'en'" mat-menu-item (click)="changeLanguage('en')">
+            {{ 'english' | translate }}
+        </button>
+        <button *ngIf="appService.translateDefault !== 'es'" mat-menu-item (click)="changeLanguage('es')">
+            {{ 'spanisg' | translate }}
+        </button>
+    </mat-menu>
+
+    <mat-menu class="buttons-menu-profile" #menuProfile="matMenu">
+        <button mat-menu-item (click)="openModalProfile()">
+            <mat-icon>settings</mat-icon>
+            {{ 'profile' | translate }}
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="callLogout()">
+            <mat-icon>close</mat-icon>
+            {{ 'exit' | translate }}
         </button>
     </mat-menu>
 </mat-toolbar>

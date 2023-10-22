@@ -1,0 +1,21 @@
+:host {
+    .modal-title {
+        margin: 0;
+    }
+
+    form {
+        .mat-mdc-form-field {
+            width: 100%;
+        }
+    }
+
+    .account_circle_icon {
+        transform: scale(2.5) !important;
+    }
+
+    .mat-card-image-custom{
+        width: 100% !important;
+        border-radius: 50% !important;
+    }
+
+}

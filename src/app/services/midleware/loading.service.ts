@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { ISnackModel } from '../models/ISnackModel';
-// import { ISnackModel } from 'src/app/model/ISnackModel';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LoadingService {
@@ -9,12 +7,9 @@ export class LoadingService {
     public loading: boolean;
     public arrayRequest: number[] = [];
     public loadingSubject = new Subject<boolean>();
-    public snackbar!: Observable<any>;
-    private snackBehavior = new BehaviorSubject<ISnackModel | undefined>(undefined);
-
+    
     constructor() {
-        this.loading = false;
-        this.snackbar = this.snackBehavior.asObservable();
+        this.loading = false;        
     }
 
     togleLoading() {
@@ -34,11 +29,5 @@ export class LoadingService {
     getLoadingSubject() {
         return this.loadingSubject.asObservable();
     }
-
-
-    updatedSnackBehavior(message: ISnackModel) {
-        this.snackBehavior.next(message);
-    }
-
 
 }

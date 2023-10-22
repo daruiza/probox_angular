@@ -1,9 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { Observable, catchError, tap, throwError } from "rxjs";
-import { IUser } from "src/app/models/IUser";
+import { Observable, catchError, of, tap, throwError } from "rxjs";
 import { environment } from "src/environments/environment";
+import { UserService } from "./user.service";
 
 
 @Injectable({
@@ -18,13 +18,9 @@ export class AuthService {
         'Content-Type': 'application/json',
     });
 
-    public user: IUser | undefined = undefined;
-
     constructor(
         protected http: HttpClient,
-        private readonly router: Router
-        // private readonly messagesAlertService: ModalAlertService,
-        // private readonly userService: UserService,
+        private readonly router: Router,
     ) { }
 
     public getNameToken(): string {
@@ -38,6 +34,7 @@ export class AuthService {
     public checkLogin(): boolean {
         return localStorage.getItem(this.nameToken) && localStorage.getItem(this.nameToken) !== 'undefined' ? true : false;
     }
+
 
     // Login
     public login(email: string, password: string): Observable<any> {
@@ -55,21 +52,34 @@ export class AuthService {
             },
             options)
             .pipe(
-                tap(auth => {
-                    this.setAccesToken(auth.access_token);
+                tap(({ data: { access_token } }) => {
+                    this.setAccesToken(access_token);
                 }),
                 catchError(this.erroHandler)
             );
     }
 
+    // Logout
+    public logout(): Observable<any> {
+        const options = {
+            headers: this.httpHeaders,
+            params: {}
+        };
+        return this.http.get<any>(`${this.url}/auth/logout`, options).pipe(
+            tap(res => {
+                // this.user = undefined;
+                // this.updatedUserBehavior(undefined);
+                this.logoutForce();
+            })
+        );
+    }
+
     public logoutForce() {
         localStorage.removeItem(this.nameToken);
-        this.user = undefined;
         this.router.navigate(['/']);
-      }
+    }
 
     erroHandler(error: HttpErrorResponse) {
-        console.log('error', error);
         return throwError(() => error);
     }
 }

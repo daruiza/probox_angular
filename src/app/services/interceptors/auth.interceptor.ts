@@ -8,14 +8,21 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { finalize, catchError } from 'rxjs/operators';
-import { LoadingService } from '../loading.service';
+import { LoadingService } from '../midleware/loading.service';
+import { SnackBarService } from '../midleware/snackbar.service';
+import { UserService } from '../auth/user.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private readonly authService: AuthService,
-    public readonly loadingService: LoadingService) { }
+    private readonly userService: UserService,
+    public readonly loadingService: LoadingService,
+    public readonly snackBarService: SnackBarService,
+    public readonly router: Router
+  ) { }
 
   intercept(
     request: HttpRequest<unknown>,
@@ -36,19 +43,24 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
+
+      console.log('error',error);
+      
+
       // Si el error es de autenticación
       if (error.status === 401 || error.status === 403) {
         // logout Manual
         this.authService.logoutForce();
+        this.userService.updatedUserBehavior(undefined);
+        this.router.navigate(['/']);
+
       }
       const errorMessage = error?.error?.message ? error.error.message : error.message;
       const errorAction = error?.error?.action ? error.error.action : 'Error!';
-      this.loadingService.updatedSnackBehavior({
+      this.snackBarService.updatedSnackBehavior({
         message: errorMessage,
         action: errorAction,
-        onAction: () => {
-          console.log(operation, error);
-        }
+        onAction: () => { console.log(operation, error) }
       });
       return throwError(() => error);
     };

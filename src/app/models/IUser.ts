@@ -1,14 +1,14 @@
 export interface IUser {
-    id?: number;
-    name?: string;
-    surname?: string;
-    email?: string;
-    phone?: string;
-    avatar?: string;
-    password?: string;
-    active?: string;
-    rol_id?: number;
-    acount_id?: number;
-    commerce_id?: number;
-    permits?: any[];
-  }
+  id?: number;
+  name?: string;
+  lastname?: string;
+  email?: string;
+  phone?: string;
+  photo?: string;
+  rol_id?: number;
+  chexk_digit?: number;
+  nacionality?: string;
+  birthdate?: string;
+  active?: string;
+  permits?: any[];
+}
