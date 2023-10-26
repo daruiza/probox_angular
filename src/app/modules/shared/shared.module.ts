@@ -4,6 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -18,11 +21,13 @@ import { MatCardModule } from '@angular/material/card';
 
 
 import { AlertComponent } from './alert/alert.component';
-import { ErrorInputHandleComponent } from './error-input-handle/error-input-handle.component';
 import { InputComponent } from './input/input.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { SelectComponent } from './select/select.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { ModalMapComponent } from './modal-map/modal-map.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -31,8 +36,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AlertComponent,
-    ErrorInputHandleComponent,
-    InputComponent
+    InputComponent,
+    SelectComponent,
+    ModalMapComponent
   ],
   imports: [
     CommonModule,
@@ -49,6 +55,10 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
 
+    NgSelectModule,
+
+    GoogleMapsModule,
+
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
@@ -63,6 +73,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgbModule,
     CommonModule,
     TranslateModule,
+
+    NgSelectModule,
+
+    GoogleMapsModule,
+
+
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
@@ -74,8 +90,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatCardModule,
 
     AlertComponent,
-    ErrorInputHandleComponent,
-    InputComponent
+    InputComponent,
+    SelectComponent
   ],
   providers: []
 })

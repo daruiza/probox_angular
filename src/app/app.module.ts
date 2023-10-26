@@ -19,11 +19,10 @@ import { UserService } from './services/auth/user.service';
 import { SnackBarService } from './services/midleware/snackbar.service';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BaseComponent } from './components/base/base.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -50,14 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    // TranslateModule.forChild({
-    //   defaultLanguage: 'en',
-    //   loader: {
-    //     provide: TranslateLoader,
-    //     useFactory: HttpLoaderFactory,
-    //     deps: [HttpClient]
-    //   }
-    // }),
+    
     MatSnackBarModule,
     HeaderModule,
   ],

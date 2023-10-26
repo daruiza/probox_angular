@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { BaseComponent } from 'src/app/components/base/base.component';
 import { IAlert } from 'src/app/models/IAlert';
 import { IUser } from 'src/app/models/IUser';
 import { AppService } from 'src/app/services/app.service';
@@ -18,17 +18,20 @@ interface Locale {
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss']
 })
-export class WelcomeComponent implements OnInit, OnDestroy {
+export class WelcomeComponent extends BaseComponent implements OnInit, OnDestroy {
 
   public alert = signal<IAlert | undefined>(undefined);
 
   userSuscription: Subscription | undefined;
 
   constructor(
-    private readonly translate: TranslateService,
-    public readonly appService: AppService,
+    public override readonly translate: TranslateService,
+    public override readonly appService: AppService,
     public readonly userService: UserService,
-  ) { this.ngOnInit() }
+  ) {
+    super(translate, appService);
+    this.ngOnInit()
+  }
 
   ngOnDestroy(): void {
     if (this.userSuscription) {
@@ -61,11 +64,10 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         // }
       });
 
-
     this.alert.set({
       type: 'success',
       message: `Tu acceso ha sido exitoso`,
-      title: `¡Bienvenid@`,
+      title: `welcome`,
     })
   }
 

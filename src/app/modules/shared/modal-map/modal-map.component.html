@@ -1,0 +1,8 @@
+<section [class]="appService.theme">
+    <div class="modal-body my-primary-text">
+        <google-map (mapClick)="mapClick($event)" (mapDblclick)="mapDblclick($event)" width="100%"></google-map>
+    </div>
+</section>
+
+<!-- maps Documentation -->
+<!-- https://timdeschryver.dev/blog/google-maps-as-an-angular-component#googlemap -->

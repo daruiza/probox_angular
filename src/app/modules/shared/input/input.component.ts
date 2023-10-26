@@ -40,7 +40,6 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Output() onIconClick = new EventEmitter<any>();
 
   inputRef: FormControl = new FormControl('');
-
   isDisabled: boolean = false;
 
   get hasError(): boolean {
@@ -53,6 +52,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
     this.ngControl.valueAccessor = this;
 
   }
+
   ngOnInit(): void {
     this.inputRef.valueChanges.subscribe(
       val => this.setInputValue(val)

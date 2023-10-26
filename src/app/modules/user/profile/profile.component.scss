@@ -13,9 +13,13 @@
         transform: scale(2.5) !important;
     }
 
-    .mat-card-image-custom{
+    .mat-card-image-custom {
         width: 100% !important;
         border-radius: 50% !important;
+    }
+
+    .hidden {
+        display: none
     }
 
 }

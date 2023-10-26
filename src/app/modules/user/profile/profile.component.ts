@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
@@ -8,6 +8,9 @@ import { IAlert } from 'src/app/models/IAlert';
 import { IUser } from 'src/app/models/IUser';
 import { AppService } from 'src/app/services/app.service';
 import { UserService } from 'src/app/services/auth/user.service';
+import { NacionalityService } from 'src/app/services/utils/nacionality.service';
+import { ModalMapComponent } from '../../shared/modal-map/modal-map.component';
+import { GeneralListService } from 'src/app/services/utils/generallist.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +22,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   public alert = signal<IAlert | undefined>(undefined);
   public user: IUser | undefined = undefined;
 
-  public userForm: FormGroup = new FormGroup({});
+  public userForm!: FormGroup;
 
   public url: string | ArrayBuffer | null = null;
   // public url: string | ArrayBuffer | null = `http://localhost/probox_laravel/storage/app/public/images/profile/user.png`;
@@ -27,31 +30,37 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   // public url: string | ArrayBuffer | null = `${window.location.origin}/src/assets/storage/images/profile/user.png`;
   // public url: string | ArrayBuffer | null = `assets/storage/images/profile/user.png`;
 
-  userSuscription: Subscription | undefined;
+
+  public nationalities: any[] = []
+  public storeNationalities: any[] = []
+
 
   constructor(
     public override readonly translate: TranslateService,
     public override readonly appService: AppService,
     public readonly activeModal: NgbActiveModal,
+    private readonly modalService: NgbModal,
     private readonly userService: UserService,
+    private readonly nacionalityService: NacionalityService,
+    private readonly generalListService: GeneralListService,
+
+
   ) { super(translate, appService); }
 
   ngOnDestroy(): void {
     if (this.translateSuscription) {
       this.translateSuscription.unsubscribe();
     }
-
-    if (this.userSuscription) {
-      this.userSuscription.unsubscribe();
-    }
   }
 
   ngOnInit(): void {
-    this.formConstructor();
-    this.suscriptions();
+    this.formConstructor().then(() => {
+      this.callService();
+    })
   }
 
-  formConstructor() {
+  async formConstructor() {
+    this.userForm = new FormGroup({});
     this.userForm.addControl('name', new FormControl('', {
       validators: [Validators.required, Validators.maxLength(32)]
     }));
@@ -72,6 +81,10 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
       validators: [Validators.required,]
     }));
 
+    this.userForm.addControl('address', new FormControl('', {
+      validators: [Validators.required,]
+    }));
+
     this.userForm.addControl('phone', new FormControl('', {
       validators: [Validators.required, Validators.minLength(10)]
     }));
@@ -86,22 +99,39 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
 
     this.userForm.addControl('theme', new FormControl('', {
       validators: [Validators.required]
-    }));    
+    }));
 
     this.userForm.addControl('password', new FormControl('', {
       validators: [Validators.required]
     }));
   }
 
-  suscriptions() {
-    this.userSuscription = this.userService.getUser().subscribe((user) => {
+  getUser() {
+    this.userService.getUser().subscribe((user) => {
+      console.log('nationalities', this.nationalities);
       console.log('user: ', user);
       if (user) {
-        this.user = user;
-        this.userForm.patchValue(user,{emitEvent: false})
+        this.user = { ...user, };
+        this.userForm.patchValue({
+          ...this.user,
+          nacionality: this.nationalities.find(el => el?.name === this.user?.nacionality)
+        }, { emitEvent: false })
       }
 
     })
+  }
+
+  callService() {
+    this.nacionalityService.getNationalities().subscribe((nationalities) => {
+      this.nationalities = nationalities;
+      this.storeNationalities = nationalities;
+      this.getUser();
+    })
+
+    this.generalListService.getListByName('theme').subscribe((list=>{
+      console.log('listing theme', list);
+      
+    }))
   }
 
   onFileChanged(event: any) {
@@ -118,6 +148,18 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
       };
     }
 
+  }
+
+  inputEventNationality(event: any) {
+    this.nationalities = this.storeNationalities.filter(el =>
+      el.name.toLowerCase().includes(event.toLowerCase())
+    )
+  }
+
+  // Eventos
+  showAddressMap() {
+    console.log('showAddressMap');
+    this.modalService.open(ModalMapComponent)
   }
 
 

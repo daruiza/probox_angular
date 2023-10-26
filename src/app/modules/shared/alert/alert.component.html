@@ -1,5 +1,6 @@
 <ngb-alert *ngIf="alert" [type]="alert.type??''" (closed)="close($event)">
-    <strong>{{alert.title}}!</strong>
+    <strong>{{alert.title??'' | translate | titlecase}}!</strong>
+    
     <span>
         {{alert.message}}
     </span>
