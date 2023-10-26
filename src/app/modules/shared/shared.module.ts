@@ -29,6 +29,8 @@ import { SelectComponent } from './select/select.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ModalMapComponent } from './modal-map/modal-map.component';
 
+import { CapitalizeFirstPipe } from 'src/app/pipes/capitalize-first.pipe';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -38,7 +40,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AlertComponent,
     InputComponent,
     SelectComponent,
-    ModalMapComponent
+    ModalMapComponent,
+    CapitalizeFirstPipe
   ],
   imports: [
     CommonModule,

@@ -2,6 +2,6 @@
     <strong>{{alert.title??'' | translate | titlecase}}!</strong>
     
     <span>
-        {{alert.message}}
+        {{alert.message??'' | translate | capitalizeFirst}}
     </span>
 </ngb-alert>

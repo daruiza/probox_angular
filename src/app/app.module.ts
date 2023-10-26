@@ -23,6 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BaseComponent } from './components/base/base.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -34,7 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoadingComponent,
     SnackbarComponent,
     BaseComponent,
-
+    //CapitalizeFirstPipe,
   ],
   imports: [
     CommonModule,

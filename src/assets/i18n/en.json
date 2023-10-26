@@ -5,5 +5,6 @@
   "profile": "profile",
   "exit": "sign off",
   "greeting": "hello",
-  "welcome": "welcome"
+  "welcome": "welcome",
+  "accesok": "your access has been successful"
 }

@@ -66,7 +66,7 @@ export class WelcomeComponent extends BaseComponent implements OnInit, OnDestroy
 
     this.alert.set({
       type: 'success',
-      message: `Tu acceso ha sido exitoso`,
+      message: `accesok`,
       title: `welcome`,
     })
   }
