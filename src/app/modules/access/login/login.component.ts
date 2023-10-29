@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, signal } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ArrayHandle } from 'src/app/utils/array-handle';
+import { TranslateService } from '@ngx-translate/core';
+import { IAlert } from 'src/app/models/IAlert';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/auth/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +13,19 @@ import { ArrayHandle } from 'src/app/utils/array-handle';
 })
 export class LoginComponent {
 
-  hide: boolean = false;
-  buttonAccept: boolean = false;
-  loginForm: FormGroup = new FormGroup({});
+  public hide = signal<boolean>(false);
+  public buttonAccept = signal<boolean>(false);
 
-  get email(): FormControl { return this.loginForm.controls['email'] as FormControl;}
+  public alert = signal<IAlert | undefined>(undefined);
+
+  public loginForm: FormGroup = new FormGroup({});
 
   constructor(
-    public activeModal: NgbActiveModal,
-    private arrayhandle: ArrayHandle
-    ) { }
+    private readonly translate: TranslateService,
+    public readonly activeModal: NgbActiveModal,
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) { translate.setDefaultLang('en'); }
 
   ngOnInit() {
     this.formConstructor();
@@ -27,17 +33,47 @@ export class LoginComponent {
 
   formConstructor() {
     this.loginForm.addControl('email', new FormControl('', {
-      validators: [Validators.required, Validators.email, Validators.minLength(10)]
+      validators: [Validators.required, Validators.email, Validators.maxLength(32)]
     }));
     this.loginForm.addControl('password', new FormControl('', {
-      validators: [Validators.required]
+      validators: [Validators.required, Validators.maxLength(32)]
     }));
   }
 
+  // Comportamiento
+  hideUpload() {
+    this.hide.update(value => !value)
+  }
+
   onSubmit($event: any) {
-    console.log(this.loginForm);
-    //console.log(Object.keys(this.email.errors??{}).map(el=>({[el]:this.email?.errors?.[el]??null})));
-    console.log(this.arrayhandle.ObjecToArray(this.email.errors));
-    
+    if (this.loginForm.valid && !this.buttonAccept()) {
+      this.buttonAccept.set(true);
+      this.authService.login(
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      ).subscribe({
+        next: (acces) => {
+          this.buttonAccept.set(false);
+          this.userService.getUser().subscribe({
+            next: (user) => {
+              // ya se actualiza en el getUser()
+              // this.userService.updatedUserBehavior({ ...user.data.user });
+              this.activeModal.close(user);
+            }
+          })
+        },
+        error: (err) => {
+          this.buttonAccept.set(false);
+          this.alert.set({
+            type: 'danger',
+            message: err.error.message,
+            title: 'Acceso Denegado',
+          })
+        },
+        complete: () => {
+          this.buttonAccept.set(false);
+        }
+      })
+    }
   }
 }

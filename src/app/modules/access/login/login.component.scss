@@ -1,10 +1,21 @@
 :host {
-    .modal-title{
+    .modal-title {
         margin: 0;
     }
+
     form {
         .mat-mdc-form-field {
             width: 100%;
         }
     }
+
+    // button:disabled {
+    //     background-color: #97929248;
+    //     cursor: not-allowed;
+    // }
+
+    // .mat-button-disabled {
+    //     background-color: #97929248;
+    //     cursor: not-allowed;
+    // }
 }

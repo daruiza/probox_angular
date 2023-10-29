@@ -1,7 +1,9 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none'; https://maps.googleapis.com; https://fonts.googleapis.com" /> -->
   <title>ProboxAngular</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,9 +13,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC29Ead5VWYnGJtUQjcA6J0ngNaktX6FWQ">
+</script>
+
 </head>
+
 <body class="mat-typography">
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
+
 </html>

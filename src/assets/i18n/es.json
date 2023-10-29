@@ -1,0 +1,14 @@
+{
+    "english": "inglés",
+    "spanisg": "español",
+    "access": "acceso",
+    "profile": "perfil",
+    "exit": "cerrar sesión",
+    "greeting": "hola",
+    "welcome": "bienvenid@",
+    "accesok": "tu acceso ha sido exitoso",
+    "names": "nombres{{value}}",
+    "usernames": "nombres usuario{{value}}",
+    "lastnames": "apellidos{{value}}",
+    "userlastnames": "apellidos usuario{{value}}"
+}

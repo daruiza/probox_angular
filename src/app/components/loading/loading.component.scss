@@ -1,0 +1,27 @@
+
+.spinner-container {
+    color: var(--primary-color);
+    position: fixed;
+    width: 100%;
+    right: 0;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 2000;
+    background-color: #6a596b;
+    opacity: 0.5;
+  
+    .spinner {
+      position: relative;
+      top: 50%;
+    }
+  
+    .spinner-active {
+      display: block;
+    }
+  
+    .spinner-grow {
+      margin-right: 0.2em;
+    }
+  }
+  

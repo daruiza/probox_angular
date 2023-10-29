@@ -18,10 +18,9 @@ mat.$theme-ignore-duplication-warnings: true;
   @include mat.all-component-themes($blue-grey-theme);
 }
 
-
-
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import "~@ng-select/ng-select/themes/material.theme.css";
 
 @media (min-width: 1366px) {
   .container{
@@ -59,3 +58,6 @@ body {
 
   }
 }
+
+// Para subir el datepiker
+.cdk-overlay-container { z-index: 1200 !important; }

@@ -1,0 +1,65 @@
+<section [class]="appService.theme">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ user?.name??'' |capitalizeFirst }}</h4>
+        <button mat-fab color="primary" (click)="fileInput.click()">
+            <mat-icon class="account_circle_icon">account_circle</mat-icon>
+            <!-- <img class="mat-card-image-custom" mat-card-image alt="profile-img" src={{url}} /> -->
+        </button>
+
+    </div>
+    <div class="modal-body">
+        <app-alert [alert]="alert()"></app-alert>
+        <form *ngIf="userForm" [formGroup]="userForm">
+            <div class="row">
+                <div class="col">
+                    <app-input formControlName="name" [label]="'names' | translate: {value: '*'} | capitalizeFirst"
+                        [placeholder]="'usernames' | translate: {value: ':'} | titlecase"></app-input>
+                </div>
+                <div class="col">
+                    <app-input formControlName="lastname" [label]="'lastnames' | translate: {value: '*'} | capitalizeFirst"
+                        [placeholder]="'userlastnames' | translate: {value: ':'} | capitalizeFirst"></app-input>
+                </div>
+                <div class="col">
+                    <app-input formControlName="email" [label]="'Email*'"
+                        [placeholder]="'Correo electrónico'"></app-input>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <app-input formControlName="birthdate" [type]="'date'" [label]="'Fecha Nacimiento*'"
+                        [placeholder]="'Fecha de Nacimiento'"></app-input>
+                </div>
+                <div class="col">
+                    <app-input formControlName="phone" [type]="'text'" [label]="'Teléfono*'"
+                        [placeholder]="'Contacto Teléfonico'"></app-input>
+                </div>
+                <div class="col">
+                    <app-select formControlName="nacionality" [items]="nationalities" [bindLabel]="'name'"
+                        (inputEvent)="inputEventNationality($event)"></app-select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <app-input formControlName="address" [icon]="'map'" [label]="'Dirección*'"
+                        [placeholder]="'Dirección de residencia'" (onIconClick)="showAddressMap()"></app-input>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+        </form>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" ngbAutofocus
+            (click)="activeModal.dismiss('Login click')">Cancelar</button>
+        <button type="button" class="btn btn-light" ngbAutofocus
+        [disabled]="!userForm.valid || buttonAccept()"
+        [ngClass]="{'mat-button-disabled':!userForm.valid || buttonAccept()}"(click)="activeModal.dismiss('Login click')">Actualizar</button>
+    </div>
+    <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
+</section>
