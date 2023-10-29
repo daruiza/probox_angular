@@ -1,7 +1,6 @@
 <section [class]="appService.theme">
-
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ user?.name }}</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{ user?.name??'' |capitalizeFirst }}</h4>
         <button mat-fab color="primary" (click)="fileInput.click()">
             <mat-icon class="account_circle_icon">account_circle</mat-icon>
             <!-- <img class="mat-card-image-custom" mat-card-image alt="profile-img" src={{url}} /> -->
@@ -13,12 +12,12 @@
         <form *ngIf="userForm" [formGroup]="userForm">
             <div class="row">
                 <div class="col">
-                    <app-input formControlName="name" [label]="'Nombres*'"
-                        [placeholder]="'Nombres Usuario:'"></app-input>
+                    <app-input formControlName="name" [label]="'names' | translate: {value: '*'} | capitalizeFirst"
+                        [placeholder]="'usernames' | translate: {value: ':'} | titlecase"></app-input>
                 </div>
                 <div class="col">
-                    <app-input formControlName="lastname" [label]="'Apellidos*'"
-                        [placeholder]="'Apellidos Usuario:'"></app-input>
+                    <app-input formControlName="lastname" [label]="'lastnames' | translate: {value: '*'} | capitalizeFirst"
+                        [placeholder]="'userlastnames' | translate: {value: ':'} | capitalizeFirst"></app-input>
                 </div>
                 <div class="col">
                     <app-input formControlName="email" [label]="'Email*'"
@@ -59,7 +58,8 @@
         <button type="button" class="btn btn-secondary" ngbAutofocus
             (click)="activeModal.dismiss('Login click')">Cancelar</button>
         <button type="button" class="btn btn-light" ngbAutofocus
-            (click)="activeModal.dismiss('Login click')">Actualizar</button>
+        [disabled]="!userForm.valid || buttonAccept()"
+        [ngClass]="{'mat-button-disabled':!userForm.valid || buttonAccept()}"(click)="activeModal.dismiss('Login click')">Actualizar</button>
     </div>
     <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
 </section>

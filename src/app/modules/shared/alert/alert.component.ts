@@ -12,18 +12,17 @@ import { AppService } from 'src/app/services/app.service';
 export class AlertComponent extends BaseComponent implements OnChanges {
 
   @Input() alert: IAlert | undefined = undefined;
-
   constructor(
     public override readonly translate: TranslateService,
     public override readonly appService: AppService,
-  ) {
-    super(translate, appService);
-  }
-
-  ngOnDestroy(): void {
-    if (this.translateSuscription) {
-      this.translateSuscription.unsubscribe();
+    ) {
+      super(translate, appService);
     }
+    
+    ngOnDestroy(): void {
+      if (this.translateSuscription) {
+        this.translateSuscription.unsubscribe();
+      }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

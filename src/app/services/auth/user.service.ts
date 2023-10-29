@@ -24,16 +24,16 @@ export class UserService {
     constructor(
         protected http: HttpClient,
         private readonly authService: AuthService
-        ) {
+    ) {
         this.observableUser = this.behaviorUser.asObservable();
     }
 
-    updatedUserBehavior(user: IUser |undefined) {
+    updatedUserBehavior(user: IUser | undefined) {
         this.user = user;
         this.behaviorUser.next(user);
     }
 
-    public getUser(): Observable<any> {        
+    public getUser(): Observable<any> {
         if (!this.user && this.authService.checkLogin()) {
             const options = {
                 headers: this.httpHeaders,
@@ -41,12 +41,26 @@ export class UserService {
             };
             return this.http.get<any>(`${this.url}/auth/user`, options)
                 .pipe(map(resuser => {
-                    this.user = resuser.data.user;                    
+                    this.user = resuser.data.user;
                     this.updatedUserBehavior(resuser.data.user);
                     return resuser.data.user;
                 }));
         }
         return of(this.user);
+    }
+
+    public updateUser(): Observable<any> {
+        const options = {
+            headers: this.httpHeaders,
+            params: {}
+        };
+        const body = {}
+        return this.http.put<any>(`${this.url}/auth/user`, options)
+            .pipe(map(resuser => {
+                this.user = resuser.data.user;
+                this.updatedUserBehavior(resuser.data.user);
+                return resuser.data.user;
+            }));
     }
 
 

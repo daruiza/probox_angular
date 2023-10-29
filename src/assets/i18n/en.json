@@ -6,5 +6,9 @@
   "exit": "sign off",
   "greeting": "hello",
   "welcome": "welcome",
-  "accesok": "your access has been successful"
+  "accesok": "your access has been successful",
+  "names": "names{{value}}",
+  "usernames": "user names{{value}}",
+  "lastnames": "surnames{{value}}",
+  "userlastnames": "user surnames{{value}}"
 }

@@ -20,8 +20,9 @@ import { GeneralListService } from 'src/app/services/utils/generallist.service';
 export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy {
 
   public alert = signal<IAlert | undefined>(undefined);
-  public user: IUser | undefined = undefined;
+  public buttonAccept = signal<boolean>(false);
 
+  public user: IUser | undefined = undefined;
   public userForm!: FormGroup;
 
   public url: string | ArrayBuffer | null = null;
