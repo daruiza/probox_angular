@@ -28,6 +28,7 @@ export class StorageService {
         formData.append("file", file, file.name);
 
         const options = {
+            // No tama los headert correctamente
             // headers: this.httpHeaders,
             params: {}
         };
