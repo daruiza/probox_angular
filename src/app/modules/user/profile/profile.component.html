@@ -9,44 +9,48 @@
     </div>
     <div class="modal-body">
         <app-alert [alert]="alert()"></app-alert>
-        <form *ngIf="userForm" [formGroup]="userForm">
+        <form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="onSubmit($event)">
             <div class="row">
                 <div class="col">
                     <app-input formControlName="name" [label]="'names' | translate: {value: '*'} | capitalizeFirst"
                         [placeholder]="'usernames' | translate: {value: ':'} | titlecase"></app-input>
                 </div>
                 <div class="col">
-                    <app-input formControlName="lastname" [label]="'lastnames' | translate: {value: '*'} | capitalizeFirst"
-                        [placeholder]="'userlastnames' | translate: {value: ':'} | capitalizeFirst"></app-input>
+                    <app-input formControlName="lastname"
+                        [label]="'lastnames' | translate | capitalizeFirst"
+                        [placeholder]="'userlastnames' | translate | capitalizeFirst"></app-input>
                 </div>
                 <div class="col">
                     <app-input formControlName="email" [label]="'Email*'"
-                        [placeholder]="'Correo electrónico'"></app-input>
+                        [placeholder]="'email' | translate: {value: '*'} | capitalizeFirst"></app-input>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
-                    <app-input formControlName="birthdate" [type]="'date'" [label]="'Fecha Nacimiento*'"
-                        [placeholder]="'Fecha de Nacimiento'"></app-input>
+                    <app-input formControlName="birthdate" [type]="'date'"
+                        [label]="'birthdate' | translate | capitalizeFirst"
+                        [placeholder]="'birthdate' | translate | capitalizeFirst"></app-input>
                 </div>
                 <div class="col">
-                    <app-input formControlName="phone" [type]="'text'" [label]="'Teléfono*'"
-                        [placeholder]="'Contacto Teléfonico'"></app-input>
+                    <app-input formControlName="phone" [type]="'text'"
+                        [label]="'phone' | translate | capitalizeFirst"
+                        [placeholder]="'phonenumber' | translate | capitalizeFirst"></app-input>
                 </div>
                 <div class="col">
-                    <app-select formControlName="nacionality" [items]="nationalities" [bindLabel]="'name'"
-                        (inputEvent)="inputEventNationality($event)"></app-select>
+                    <app-select formControlName="nacionality" [placeholder]="'nacionality' | translate | capitalizeFirst" [items]="nationalities"
+                        [bindLabel]="'name'" (inputEvent)="inputEventNationality($event)"></app-select>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
-                    <app-input formControlName="address" [icon]="'map'" [label]="'Dirección*'"
-                        [placeholder]="'Dirección de residencia'" (onIconClick)="showAddressMap()"></app-input>
+                    <app-input formControlName="address" [icon]="'map'" [label]="'address' | translate | capitalizeFirst"
+                        [placeholder]="'residenceaddress' | translate | capitalizeFirst" (onIconClick)="showAddressMap()"></app-input>
                 </div>
                 <div class="col">
-
+                    <app-select formControlName="theme" [placeholder]="'theme' | translate | capitalizeFirst" [items]="themes"
+                        [bindLabel]="'name'"></app-select>
                 </div>
             </div>
 
@@ -57,9 +61,10 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" ngbAutofocus
             (click)="activeModal.dismiss('Login click')">Cancelar</button>
-        <button type="button" class="btn btn-light" ngbAutofocus
-        [disabled]="!userForm.valid || buttonAccept()"
-        [ngClass]="{'mat-button-disabled':!userForm.valid || buttonAccept()}"(click)="activeModal.dismiss('Login click')">Actualizar</button>
+        <button type="submit" class="btn btn-light" ngbAutofocus
+            [disabled]="!userForm.valid || buttonAccept() || oldChanges()"
+            [ngClass]="{'mat-button-disabled':!userForm.valid || buttonAccept() || oldChanges()}"
+            (click)="onSubmit($event)">Actualizar</button>
     </div>
     <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
 </section>

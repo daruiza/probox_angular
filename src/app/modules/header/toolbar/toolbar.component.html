@@ -5,23 +5,23 @@
     <span>ProBox</span>
     <span class="example-spacer"></span>
 
-    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="language"
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="{{'language' | translate | capitalizeFirst}}"
         [matMenuTriggerFor]="menuLanguage">
         <mat-icon>translate</mat-icon>
     </button>
 
-    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="Temas"
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="{{'themes' | translate | capitalizeFirst}}"
         [matMenuTriggerFor]="menu">
         <mat-icon>circle</mat-icon>
     </button>
 
     <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-button"
-        matTooltip="Notificaciones">
+        matTooltip="{{'notifications' | translate | capitalizeFirst}}">
         <mat-icon>notifications</mat-icon>
     </button>
     <button mat-icon-button class="mat-button-acount custome-mat-icon"
         (click)="!authService.checkLogin() ? openModalLogin(): null" aria-label="Example icon-button with account icon"
-        matTooltip="Mi Cuenta" [matMenuTriggerFor]="authService.checkLogin() ? menuProfile: null">
+        matTooltip="{{'account' | translate | capitalizeFirst}}" [matMenuTriggerFor]="authService.checkLogin() ? menuProfile: null">
         <mat-icon>account_circle</mat-icon>
     </button>
 

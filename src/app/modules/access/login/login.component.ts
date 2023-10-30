@@ -1,8 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { BaseComponent } from 'src/app/components/base/base.component';
 import { IAlert } from 'src/app/models/IAlert';
+import { AppService } from 'src/app/services/app.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/auth/user.service';
 
@@ -11,7 +13,7 @@ import { UserService } from 'src/app/services/auth/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent extends BaseComponent implements OnInit, OnDestroy {
 
   public hide = signal<boolean>(false);
   public buttonAccept = signal<boolean>(false);
@@ -21,11 +23,18 @@ export class LoginComponent {
   public loginForm: FormGroup = new FormGroup({});
 
   constructor(
-    private readonly translate: TranslateService,
+    public override readonly translate: TranslateService,
+    public override readonly appService: AppService,
     public readonly activeModal: NgbActiveModal,
     private readonly authService: AuthService,
     private readonly userService: UserService,
-  ) { translate.setDefaultLang('en'); }
+  ) { super(translate, appService); }
+
+  ngOnDestroy(): void {
+    if (this.translateSuscription) {
+      this.translateSuscription.unsubscribe();
+    }
+  }
 
   ngOnInit() {
     this.formConstructor();
@@ -58,7 +67,7 @@ export class LoginComponent {
             next: (user) => {
               // ya se actualiza en el getUser()
               // this.userService.updatedUserBehavior({ ...user.data.user });
-              this.activeModal.close(user);
+              this.activeModal.close({...user, ...acces});
             }
           })
         },

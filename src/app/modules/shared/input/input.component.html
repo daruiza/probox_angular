@@ -6,10 +6,12 @@
             <mat-icon *ngIf="icon" matSuffix (click)="onIconClickEvent($event)">{{icon}}</mat-icon>
             <mat-hint *ngIf="hint">{{hint}}</mat-hint>
             <mat-error *ngIf="ngControl.control?.touched&&ngControl.errors?.['required']">
-                El campo es <strong>requerido</strong>
+                {{'fieldrequired' | translate | capitalizeFirst}}
+                <!-- El campo es <strong>requerido</strong> -->
             </mat-error>
             <mat-error *ngIf="ngControl.control?.touched&&ngControl.errors?.['email']">
-                El campo es un <strong>email</strong>
+                {{'isemail' | translate | capitalizeFirst}}
+                <!-- El campo es un <strong>email</strong> -->
             </mat-error>
         </mat-form-field>
     </ng-container>
@@ -23,7 +25,7 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="ngControl.control?.touched&&ngControl.errors?.['required']">
-                El campo es <strong>requerido</strong>
+                {{'fieldrequired' | translate | capitalizeFirst}}
             </mat-error>            
         </mat-form-field>
     </ng-container>

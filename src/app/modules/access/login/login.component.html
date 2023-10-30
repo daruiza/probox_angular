@@ -1,20 +1,20 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{ 'access' | translate }}</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'access' | translate | titlecase }}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close('Cross click')"></button>
 </div>
 <div class="modal-body">
     <app-alert [alert]="alert()"></app-alert>
     <form *ngIf="loginForm" [formGroup]="loginForm">
-        <app-input formControlName="email" [label]="'Usuario*'" [placeholder]="'Correo electrónico:'"></app-input>
+        <app-input formControlName="email" [label]="'user' | translate: {value: '*'} | capitalizeFirst" [placeholder]="'Correo electrónico:'"></app-input>
         <app-input formControlName="password" [type]="hide() ? 'text': 'password'"
-            [icon]=" hide() ?'visibility':'visibility_off'" [placeholder]="'Contraseña:'"
+            [icon]=" hide() ?'visibility':'visibility_off'" [placeholder]="'password' | translate: {value: '*'} | capitalizeFirst"
             (onIconClick)="hideUpload()"></app-input>
     </form>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" ngbAutofocus
-        (click)="activeModal.dismiss('Login click')">Cancelar</button>
+        (click)="activeModal.dismiss('Login click')">{{'cancel' | translate | titlecase}}</button>
     <button type="button" class="btn btn-light" [disabled]="!loginForm.valid || buttonAccept()"
         [ngClass]="{'mat-button-disabled':!loginForm.valid || buttonAccept()}"
-        (click)="onSubmit($event)">Aceptar</button>
+        (click)="onSubmit($event)">{{'accept' | translate | titlecase}}</button>
 </div>

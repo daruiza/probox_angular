@@ -9,6 +9,7 @@ export interface IUser {
   chexk_digit?: number;
   nacionality?: string;
   birthdate?: string;
+  theme?: string;
   active?: string;
   permits?: any[];
 }

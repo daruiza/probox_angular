@@ -1,14 +1,42 @@
 {
   "english": "english",
   "spanisg": "spanish",
-  "access": "access",
+  "language": "language",
+  "themes": "themes",
+  "notifications": "notifications",
+  "account": "my account",
+  "access": "proBox access",
+  "user": "user{{value}}",
+  "password": "password{{value}}",
   "profile": "profile",
   "exit": "sign off",
   "greeting": "hello",
   "welcome": "welcome",
   "accesok": "your access has been successful",
+
   "names": "names{{value}}",
   "usernames": "user names{{value}}",
   "lastnames": "surnames{{value}}",
-  "userlastnames": "user surnames{{value}}"
+  "userlastnames": "user surnames{{value}}",
+  "email": "email{{value}}",
+  "birthdate": "birthdate",
+  "phone": "phone",
+  "phonenumber": "phone number",
+  "nacionality": "nacionality",
+  "address":"address",
+  "residenceaddress":"residence address",
+  "theme":"theme",
+
+  "Sección finalizada": "Session ended",
+  "Usuario logueado con éxito!": "User successfully logged in!",
+  "Usuario actualizado con éxito!": "User successfully updated! ",
+  "accessok": "access ok",
+  "exitok": "exit ok",
+  "updateok": "update ok",
+
+  "fieldrequired": "the field is required",
+  "isemail": "the field is a email",
+
+  "cancel": "cancel",
+  "accept": "accept"
 }

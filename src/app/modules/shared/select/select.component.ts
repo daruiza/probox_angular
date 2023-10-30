@@ -80,10 +80,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
     });
   }
 
-  onBlur() {
-    if (this.inputRef.value) {
-      this.onChange(null);
-    }
+  onBlur() {   
     this.onTouched();
   }
 

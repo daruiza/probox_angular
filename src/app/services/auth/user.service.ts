@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { tap, catchError, map } from 'rxjs/operators';
 import { IUser } from 'src/app/models/IUser';
 import { AuthService } from './auth.service';
+import { AppService } from '../app.service';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,8 @@ export class UserService {
 
     constructor(
         protected http: HttpClient,
-        private readonly authService: AuthService
+        private readonly authService: AuthService,
+        private readonly appService: AppService
     ) {
         this.observableUser = this.behaviorUser.asObservable();
     }
@@ -43,23 +45,24 @@ export class UserService {
                 .pipe(map(resuser => {
                     this.user = resuser.data.user;
                     this.updatedUserBehavior(resuser.data.user);
+                    this.appService.setTheme(this.user?.theme ?? 'blue-grey-theme');
                     return resuser.data.user;
                 }));
         }
         return of(this.user);
     }
 
-    public updateUser(): Observable<any> {
+    public updateUser(body: any): Observable<any> {
         const options = {
             headers: this.httpHeaders,
             params: {}
         };
-        const body = {}
-        return this.http.put<any>(`${this.url}/auth/user`, options)
+        return this.http.put<any>(`${this.url}/user/update`, body, options)
             .pipe(map(resuser => {
                 this.user = resuser.data.user;
                 this.updatedUserBehavior(resuser.data.user);
-                return resuser.data.user;
+                this.appService.setTheme(this.user?.theme ?? 'blue-grey-theme');
+                return { ...resuser.data.user, message: resuser.message };
             }));
     }
 

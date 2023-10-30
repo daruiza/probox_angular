@@ -19,7 +19,6 @@ export class BaseComponent {
     this.translateSuscription = this.appService
       .getTranslateSubject()
       .subscribe((res) => {
-        console.log('res', res);
         this.translate.setDefaultLang(res);
 
       })

@@ -1,14 +1,42 @@
 {
     "english": "inglés",
     "spanisg": "español",
-    "access": "acceso",
+    "language": "lenguaje",
+    "themes": "temáticas",
+    "notifications": "notifiaciones",
+    "account": "mi cuenta",
+    "access": "acceso proBox",
+    "user": "usuario{{value}}",
+    "password": "contraseña{{value}}",
     "profile": "perfil",
     "exit": "cerrar sesión",
     "greeting": "hola",
     "welcome": "bienvenid@",
     "accesok": "tu acceso ha sido exitoso",
+
     "names": "nombres{{value}}",
     "usernames": "nombres usuario{{value}}",
     "lastnames": "apellidos{{value}}",
-    "userlastnames": "apellidos usuario{{value}}"
+    "userlastnames": "apellidos usuario{{value}}",
+    "email": "correo electrónico{{value}}",
+    "birthdate": "fecha de nacimiento",
+    "phone": "teléfono",
+    "phonenumber": "número teléfonico",
+    "nacionality": "nacionalidad",
+    "address":"dirección",
+    "residenceaddress":"dirección de resiencia",
+    "theme":"temática",
+
+    "Sección finalizada": "sesión finalizada",
+    "Usuario logueado con éxito!": "Usuario logueado con éxito!",
+    "Usuario actualizado con éxito!": "Usuario actualizado con éxito!",
+    "accessok": "acceso concedido",
+    "exitok": "cierre exitoso",
+    "updateok": "actualización exitosa",
+
+    "fieldrequired": "el campo es requerido",
+    "isemail": "el campo es un email",
+
+    "cancel": "cancelar",
+    "accept": "aceptar"
 }
