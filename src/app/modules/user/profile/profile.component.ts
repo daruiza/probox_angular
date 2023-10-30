@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/auth/user.service';
 import { NacionalityService } from 'src/app/services/utils/nacionality.service';
 import { ModalMapComponent } from '../../shared/modal-map/modal-map.component';
 import { GeneralListService } from 'src/app/services/utils/generallist.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -42,8 +43,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     private readonly userService: UserService,
     private readonly nacionalityService: NacionalityService,
     private readonly generalListService: GeneralListService,
-
-
+    private readonly storageService: StorageService
   ) { super(translate, appService); }
 
   ngOnDestroy(): void {
@@ -137,9 +137,16 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
 
   // Sube el archivo hasta el backend
   onFileChanged(event: any) {
-    console.log(
-      event.target.files[0]
-    );
+    const file = event.target.files[0] 
+    console.log(file);
+    // user/photo/FS6APt9SnyNtoRuSi3hVQgQqWy704H2w0f7faltR.png
+    if (file) {
+      this.storageService.postUpload('user/photo', file).subscribe(
+        response => {
+          console.log('postUpload', response);
+        })
+    }
+
 
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
