@@ -39,22 +39,22 @@
 
     <mat-menu class="buttons-menu-language" #menuLanguage="matMenu">
         <button *ngIf="appService.translateDefault !== 'en'" mat-menu-item (click)="changeLanguage('en')">
-            {{ 'english' | translate }}
+            {{ 'english' | translate | titlecase }}
         </button>
         <button *ngIf="appService.translateDefault !== 'es'" mat-menu-item (click)="changeLanguage('es')">
-            {{ 'spanisg' | translate }}
+            {{ 'spanisg' | translate | titlecase }}
         </button>
     </mat-menu>
 
     <mat-menu class="buttons-menu-profile" #menuProfile="matMenu">
         <button mat-menu-item (click)="openModalProfile()">
             <mat-icon>settings</mat-icon>
-            {{ 'profile' | translate }}
+            {{ 'profile' | translate | titlecase }}
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="callLogout()">
             <mat-icon>close</mat-icon>
-            {{ 'exit' | translate }}
+            {{ 'exit' | translate | titlecase }}
         </button>
     </mat-menu>
 </mat-toolbar>

@@ -108,6 +108,8 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   getUser() {
     this.userService.getUser().subscribe((user) => {
       if (user) {
+        console.log('user', user);
+
         this.user = { ...user };
         this.userForm.patchValue({
           ...this.user,
@@ -133,6 +135,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     })
   }
 
+  // Sube el archivo hasta el backend
   onFileChanged(event: any) {
     console.log(
       event.target.files[0]
@@ -158,7 +161,13 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   // Eventos
   showAddressMap() {
     console.log('showAddressMap');
-    this.modalService.open(ModalMapComponent)
+    const mapModal = this.modalService.open(ModalMapComponent);
+    // componentInstance es para asignar inputs y para escuchar outputs
+    // mapModal.componentInstance
+    mapModal.result.then(result => {
+      console.log(result);
+    }
+    );
   }
 
   //Validaciones

@@ -17,12 +17,12 @@ export class ModalMapComponent {
   ) { }
 
   mapClick(event: any) {
+    console.log('mapClick', event);
     
   }
 
   mapDblclick(event: any) {
-    event.preventDefault();
-    
+    // event.preventDefault();    
     console.log('mapDblclick', event);
     
   }

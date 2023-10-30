@@ -4,6 +4,7 @@
         <button mat-fab color="primary" (click)="fileInput.click()">
             <mat-icon class="account_circle_icon">account_circle</mat-icon>
             <!-- <img class="mat-card-image-custom" mat-card-image alt="profile-img" src={{url}} /> -->
+            <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
         </button>
 
     </div>
@@ -66,5 +67,5 @@
             [ngClass]="{'mat-button-disabled':!userForm.valid || buttonAccept() || oldChanges()}"
             (click)="onSubmit($event)">Actualizar</button>
     </div>
-    <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
+    
 </section>
