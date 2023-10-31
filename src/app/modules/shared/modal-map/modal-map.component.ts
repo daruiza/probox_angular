@@ -14,8 +14,8 @@ export class ModalMapComponent implements OnInit {
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
     // mapTypeId: 'hybrid',
-    zoomControl: false,
-    scrollwheel: false,
+    // zoomControl: false,
+    // scrollwheel: false,
     disableDoubleClickZoom: true,
     maxZoom: 15,
     minZoom: 8,
