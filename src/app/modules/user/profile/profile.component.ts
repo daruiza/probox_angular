@@ -80,7 +80,9 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
       validators: []
     }));
 
-    this.userForm.addControl('address', new FormControl('', {
+    this.userForm.addControl('address', new FormControl({
+      value: '', disabled: true
+    }, {
       validators: []
     }));
 
@@ -108,8 +110,15 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   getUser() {
     this.userService.getUser().subscribe((user) => {
       if (user) {
-        console.log('user', user);
 
+        if(user.photo){
+          // Vamos a por la imagen del uusario
+          this.storageService.downloadFile(user.photo).subscribe(file=>{
+            console.log('file', file);            
+          })
+        }
+
+        console.log('user', user);
         this.user = { ...user };
         this.userForm.patchValue({
           ...this.user,
@@ -137,13 +146,15 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
 
   // Sube el archivo hasta el backend
   onFileChanged(event: any) {
-    const file = event.target.files[0] 
-    console.log(file);
-    // user/photo/FS6APt9SnyNtoRuSi3hVQgQqWy704H2w0f7faltR.png
+    const file = event.target.files[0]
     if (file) {
       this.storageService.postUpload('user/photo', file).subscribe(
         response => {
-          console.log('postUpload', response);
+          if (response) {
+            console.log('postUpload', response);
+            // asignamos a campo photo
+            this.userForm.get('photo')?.setValue(response.image_path);
+          }
         })
     }
 
@@ -168,7 +179,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   // Eventos
   showAddressMap() {
     console.log('showAddressMap');
-    const mapModal = this.modalService.open(ModalMapComponent);
+    const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
     // componentInstance es para asignar inputs y para escuchar outputs
     // mapModal.componentInstance
     mapModal.result.then(result => {

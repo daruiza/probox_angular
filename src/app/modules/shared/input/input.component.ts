@@ -32,6 +32,7 @@ export class InputComponent extends BaseComponent implements OnInit, ControlValu
   @Input() label?: string;
   @Input() hint?: string;
   @Input() icon?: any;
+  @Input() readonly: boolean = false;
 
   @Output() onIconClick = new EventEmitter<any>();
 
@@ -94,7 +95,9 @@ export class InputComponent extends BaseComponent implements OnInit, ControlValu
   }
 
 
-  onIconClickEvent(event: any) {
+  onIconClickEvent(event: Event) {
+    // Para que en movil no emita evento de campo/input
+    // event.preventDefault();
     this.onIconClick.emit(event)
   }
 

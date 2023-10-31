@@ -1,6 +1,13 @@
 <section [class]="appService.theme">
     <div class="modal-body my-primary-text">
-        <google-map (mapClick)="mapClick($event)" (mapDblclick)="mapDblclick($event)" width="100%"></google-map>
+        <google-map 
+            width="100%"
+            [zoom]="zoom"
+            [center]="center"
+            [options]="options"
+            (mapClick)="mapClick($event)" 
+            (mapDblclick)="mapDblclick($event)" 
+            ></google-map>
     </div>
 </section>
 

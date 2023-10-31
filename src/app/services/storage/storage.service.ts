@@ -20,13 +20,9 @@ export class StorageService {
     }
 
     public postUpload(folder: string, file: File): Observable<any> {
-
-        console.log('file', file);
-
         const formData = new FormData();
         formData.append("folder", folder);
         formData.append("file", file, file.name);
-
         const options = {
             // No tama los headert correctamente
             // headers: this.httpHeaders,
@@ -38,10 +34,11 @@ export class StorageService {
 
     public downloadFile(path: string): Observable<any> {
         const options = {
-            headers: this.httpHeaders,
+            // headers: this.httpHeaders,
+            responseType: 'blob' as 'json',
             params: { path }
         };
-        return this.http.get<any>(`${this.url}/upload/downloadfile`, options);
+        return this.http.get<Blob>(`${this.url}/upload/downloadfile`, options);
 
     }
 }  

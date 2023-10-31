@@ -46,7 +46,7 @@
 
             <div class="row">
                 <div class="col">
-                    <app-input formControlName="address" [icon]="'map'" [label]="'address' | translate | capitalizeFirst"
+                    <app-input [readonly]="true" formControlName="address" [icon]="'map'" [label]="'address' | translate | capitalizeFirst"
                         [placeholder]="'residenceaddress' | translate | capitalizeFirst" (onIconClick)="showAddressMap()"></app-input>
                 </div>
                 <div class="col">
