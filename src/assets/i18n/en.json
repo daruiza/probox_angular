@@ -39,6 +39,9 @@
   "fieldrequired": "the field is required",
   "isemail": "the field is a email",
 
+  "close": "close",
   "cancel": "cancel",
-  "accept": "accept"
+  "accept": "accept",
+  "update": "update"
+
 }

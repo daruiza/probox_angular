@@ -1,6 +1,6 @@
 <ng-container>
     <ng-select [loading]="loading" [placeholder]="placeholder" [formControl]="inputRef" [placeholder]="placeholder"
-        [items]="items" [readonly]="isDisabled" [bindValue]="bindValue" [bindLabel]="bindLabel"
+        [items]="items" [searchable]="searchable" [readonly]="isDisabled" [bindValue]="bindValue" [bindLabel]="bindLabel"
         [typeahead]="selectInput$" [appendTo]="appendTo" (change)="onSelectValue($event)" (blur)="onBlur()"
         (scrollToEnd)="elementSelectScrollToEnd($event)">
     </ng-select>

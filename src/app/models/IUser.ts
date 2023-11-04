@@ -3,6 +3,8 @@ export interface IUser {
   name?: string;
   lastname?: string;
   email?: string;
+  address?: string;
+  location?: string;
   phone?: string;
   photo?: string;
   rol_id?: number;

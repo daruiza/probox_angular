@@ -80,9 +80,11 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
       validators: []
     }));
 
-    this.userForm.addControl('address', new FormControl({
-      value: '', disabled: true
-    }, {
+    this.userForm.addControl('address', new FormControl('', {
+      validators: []
+    }));
+
+    this.userForm.addControl('location', new FormControl('', {
       validators: []
     }));
 
@@ -107,32 +109,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     }));
   }
 
-  getUser() {
-    this.userService.getUser().subscribe((user) => {
-      if (user) {
-
-        if(user.photo){
-          // Vamos a por la imagen del uusario
-          this.storageService.downloadFile(user.photo).subscribe(file=>{
-            console.log('file', file);            
-          })
-        }
-
-        console.log('user', user);
-        this.user = { ...user };
-        this.userForm.patchValue({
-          ...this.user,
-          nacionality: this.nationalities.find(el => el?.name === this.user?.nacionality),
-          theme: this.themes.find(el => el?.name === this.user?.theme)
-        }, { emitEvent: false })
-        this.userFormOld = { ...this.userForm.value }
-      }
-
-    })
-  }
-
   callService() {
-
     forkJoin([
       this.nacionalityService.getNationalities(),
       this.generalListService.getListByName('theme')
@@ -141,6 +118,36 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
       this.storeNationalities = nationalities;
       this.themes = themeList;
       this.getUser();
+    })
+  }
+
+  getUser() {
+    this.userService.getUser().subscribe((user) => {
+      if (user) {
+        console.log('user', user);
+        this.user = { ...user };
+        this.userForm.patchValue({
+          ...this.user,
+          nacionality: this.nationalities.find(el => el?.name === this.user?.nacionality),
+          theme: this.themes.find(el => el?.name === this.user?.theme)
+        }, { emitEvent: false })
+        this.userFormOld = { ...this.userForm.value }
+
+        if (user.photo) {
+          // Vamos a por la imagen del uusario
+          this.storageService.downloadFile(user.photo).subscribe(file => {
+            let reader = new FileReader();
+            reader.addEventListener("load", () => {
+              this.url = reader.result;
+            }, false);
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+          })
+        }
+
+      }
+
     })
   }
 
@@ -153,7 +160,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
           if (response) {
             console.log('postUpload', response);
             // asignamos a campo photo
-            this.userForm.get('photo')?.setValue(response.image_path);
+            this.userForm.get('photo')?.setValue(response.storage_image_path);
           }
         })
     }
@@ -178,14 +185,21 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
 
   // Eventos
   showAddressMap() {
-    console.log('showAddressMap');
+    this.userForm.get('address')?.disable();
     const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
     // componentInstance es para asignar inputs y para escuchar outputs
-    // mapModal.componentInstance
+    mapModal.componentInstance.addMarkerOnClick = true;
+    mapModal.componentInstance.location = JSON.parse(this.user?.location??'');
+    mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
+      this.userForm.get('address')?.setValue(geo.address);
+      this.userForm.get('location')?.setValue(JSON.stringify(geo.location));
+    })
     mapModal.result.then(result => {
       console.log(result);
-    }
-    );
+      this.userForm.get('address')?.enable();
+    }, reason => {
+      this.userForm.get('address')?.enable();
+    });
   }
 
   //Validaciones

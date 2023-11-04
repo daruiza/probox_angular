@@ -27,9 +27,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { SelectComponent } from './select/select.component';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { ModalMapComponent } from './modal-map/modal-map.component';
 
 import { CapitalizeFirstPipe } from 'src/app/pipes/capitalize-first.pipe';
+import { ModalMapComponent } from './modal-map/modal-map.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
