@@ -21,7 +21,8 @@
                         [placeholder]="'usernames' | translate: {value: ':'} | titlecase"></app-input>
                 </div>
                 <div class="col">
-                    <app-input formControlName="lastname" [label]="'lastnames' | translate: {value: ''} | capitalizeFirst"
+                    <app-input formControlName="lastname"
+                        [label]="'lastnames' | translate: {value: ''} | capitalizeFirst"
                         [placeholder]="'userlastnames' | translate: {value: ':'} | capitalizeFirst"></app-input>
                 </div>
                 <div class="col">
@@ -49,7 +50,9 @@
 
             <div class="row">
                 <div class="col">
+
                     <app-input formControlName="address" [icon]="'map'"
+                        [readonly]="true"
                         [label]="'address' | translate | capitalizeFirst"
                         [placeholder]="'residenceaddress' | translate | capitalizeFirst"
                         (onIconClick)="showAddressMap()"></app-input>

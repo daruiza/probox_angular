@@ -49,7 +49,7 @@ export class ModalMapComponent implements OnInit {
 
   mapCenter() {
 
-    if (this.location) {
+    if (this.location && 'lat' in this.location && 'lng' in this.location) {      
       this.center = { ...this.location };
       this.addressMarker = { ...this.location }
       return;
