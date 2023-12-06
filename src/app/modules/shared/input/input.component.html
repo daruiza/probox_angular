@@ -2,14 +2,16 @@
     <ng-container *ngIf="type === 'text' || type === 'password'">
         <mat-form-field>
             <mat-label *ngIf="label">{{label}}</mat-label>
-            <input matInput [formControl]="inputRef" [type]="type" placeholder="{{placeholder}}" (blur)="onInputBlur()">
+            <input matInput [formControl]="inputRef" [type]="type" placeholder="{{placeholder}}" (blur)="onInputBlur()" [readonly]="readonly">
             <mat-icon *ngIf="icon" matSuffix (click)="onIconClickEvent($event)">{{icon}}</mat-icon>
             <mat-hint *ngIf="hint">{{hint}}</mat-hint>
             <mat-error *ngIf="ngControl.control?.touched&&ngControl.errors?.['required']">
-                El campo es <strong>requerido</strong>
+                {{'fieldrequired' | translate | capitalizeFirst}}
+                <!-- El campo es <strong>requerido</strong> -->
             </mat-error>
             <mat-error *ngIf="ngControl.control?.touched&&ngControl.errors?.['email']">
-                El campo es un <strong>email</strong>
+                {{'isemail' | translate | capitalizeFirst}}
+                <!-- El campo es un <strong>email</strong> -->
             </mat-error>
         </mat-form-field>
     </ng-container>
@@ -18,12 +20,12 @@
         <mat-form-field>
             <mat-label *ngIf="label">{{label}}</mat-label>
             <input matInput [formControl]="inputRef" [matDatepicker]="picker" placeholder="{{placeholder}}"
-                (blur)="onInputBlur()">
+                (blur)="onInputBlur()" [readonly]="readonly">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="ngControl.control?.touched&&ngControl.errors?.['required']">
-                El campo es <strong>requerido</strong>
+                {{'fieldrequired' | translate | capitalizeFirst}}
             </mat-error>            
         </mat-form-field>
     </ng-container>

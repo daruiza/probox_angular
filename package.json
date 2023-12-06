@@ -4,7 +4,7 @@
   "scripts": {
     "nl": "ng extract-i18n --output-path src/locale",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4242",
     "build": "ng build --base-href ./",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

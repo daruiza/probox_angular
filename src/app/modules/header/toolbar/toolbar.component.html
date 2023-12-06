@@ -5,23 +5,23 @@
     <span>ProBox</span>
     <span class="example-spacer"></span>
 
-    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="language"
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="{{'language' | translate | capitalizeFirst}}"
         [matMenuTriggerFor]="menuLanguage">
         <mat-icon>translate</mat-icon>
     </button>
 
-    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="Temas"
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="{{'themes' | translate | capitalizeFirst}}"
         [matMenuTriggerFor]="menu">
         <mat-icon>circle</mat-icon>
     </button>
 
     <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-button"
-        matTooltip="Notificaciones">
+        matTooltip="{{'notifications' | translate | capitalizeFirst}}">
         <mat-icon>notifications</mat-icon>
     </button>
     <button mat-icon-button class="mat-button-acount custome-mat-icon"
         (click)="!authService.checkLogin() ? openModalLogin(): null" aria-label="Example icon-button with account icon"
-        matTooltip="Mi Cuenta" [matMenuTriggerFor]="authService.checkLogin() ? menuProfile: null">
+        matTooltip="{{'account' | translate | capitalizeFirst}}" [matMenuTriggerFor]="authService.checkLogin() ? menuProfile: null">
         <mat-icon>account_circle</mat-icon>
     </button>
 
@@ -39,22 +39,22 @@
 
     <mat-menu class="buttons-menu-language" #menuLanguage="matMenu">
         <button *ngIf="appService.translateDefault !== 'en'" mat-menu-item (click)="changeLanguage('en')">
-            {{ 'english' | translate }}
+            {{ 'english' | translate | titlecase }}
         </button>
         <button *ngIf="appService.translateDefault !== 'es'" mat-menu-item (click)="changeLanguage('es')">
-            {{ 'spanisg' | translate }}
+            {{ 'spanisg' | translate | titlecase }}
         </button>
     </mat-menu>
 
     <mat-menu class="buttons-menu-profile" #menuProfile="matMenu">
         <button mat-menu-item (click)="openModalProfile()">
             <mat-icon>settings</mat-icon>
-            {{ 'profile' | translate }}
+            {{ 'profile' | translate | titlecase }}
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="callLogout()">
             <mat-icon>close</mat-icon>
-            {{ 'exit' | translate }}
+            {{ 'exit' | translate | titlecase }}
         </button>
     </mat-menu>
 </mat-toolbar>

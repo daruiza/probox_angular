@@ -15,9 +15,7 @@ import { SharedModule } from '../shared/shared.module';
     AccessRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule,
-
-    
+    ReactiveFormsModule,    
   ],
   
 })

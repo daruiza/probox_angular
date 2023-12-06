@@ -1,6 +1,14 @@
 <section [class]="appService.theme">
     <div class="modal-body my-primary-text">
-        <google-map (mapClick)="mapClick($event)" (mapDblclick)="mapDblclick($event)" width="100%"></google-map>
+        <google-map width="100%" [zoom]="zoom()" [center]="center" [options]="options()" (mapClick)="mapClick($event)"
+            (mapDblclick)="mapDblclick($event)">
+            <map-marker *ngIf="addressMarker" [position]="addressMarker" [options]="optionMarker"
+                (mapDragend)="dragableChanged($event)"></map-marker>
+        </google-map>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" ngbAutofocus
+            (click)="activeModal.dismiss('MapModalClose')">{{'close' | translate | titlecase}}</button>
     </div>
 </section>
 

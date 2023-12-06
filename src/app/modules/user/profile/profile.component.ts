@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { IAlert } from 'src/app/models/IAlert';
 import { IUser } from 'src/app/models/IUser';
@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/auth/user.service';
 import { NacionalityService } from 'src/app/services/utils/nacionality.service';
 import { ModalMapComponent } from '../../shared/modal-map/modal-map.component';
 import { GeneralListService } from 'src/app/services/utils/generallist.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,18 +24,16 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   public buttonAccept = signal<boolean>(false);
 
   public user: IUser | undefined = undefined;
+  // El Old User para activación de boton guardar ante un cambio
+  public userFormOld!: any;
   public userForm!: FormGroup;
 
   public url: string | ArrayBuffer | null = null;
-  // public url: string | ArrayBuffer | null = `http://localhost/probox_laravel/storage/app/public/images/profile/user.png`;
-  // public url: string | ArrayBuffer | null = `http://127.0.0.1:8090/storage/app/public/images/user.png`;
-  // public url: string | ArrayBuffer | null = `${window.location.origin}/src/assets/storage/images/profile/user.png`;
-  // public url: string | ArrayBuffer | null = `assets/storage/images/profile/user.png`;
-
 
   public nationalities: any[] = []
   public storeNationalities: any[] = []
 
+  public themes: any[] = []
 
   constructor(
     public override readonly translate: TranslateService,
@@ -44,8 +43,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     private readonly userService: UserService,
     private readonly nacionalityService: NacionalityService,
     private readonly generalListService: GeneralListService,
-
-
+    private readonly storageService: StorageService
   ) { super(translate, appService); }
 
   ngOnDestroy(): void {
@@ -67,7 +65,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     }));
 
     this.userForm.addControl('lastname', new FormControl('', {
-      validators: [Validators.required, Validators.maxLength(32)]
+      validators: [Validators.maxLength(32)]
     }));
 
     this.userForm.addControl('email', new FormControl('', {
@@ -75,70 +73,98 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     }));
 
     this.userForm.addControl('birthdate', new FormControl('', {
-      validators: [Validators.required,]
+      validators: []
     }));
 
     this.userForm.addControl('nacionality', new FormControl('', {
-      validators: [Validators.required,]
+      validators: []
     }));
 
     this.userForm.addControl('address', new FormControl('', {
-      validators: [Validators.required,]
+      validators: []
+    }));
+
+    this.userForm.addControl('location', new FormControl('', {
+      validators: []
     }));
 
     this.userForm.addControl('phone', new FormControl('', {
-      validators: [Validators.required, Validators.minLength(10)]
+      validators: [Validators.minLength(10)]
     }));
 
     this.userForm.addControl('photo', new FormControl('', {
       validators: []
     }));
 
-    this.userForm.addControl('rol', new FormControl('', {
+    this.userForm.addControl('rol_id', new FormControl('', {
       validators: [Validators.required]
     }));
 
     this.userForm.addControl('theme', new FormControl('', {
-      validators: [Validators.required]
+      validators: []
     }));
 
     this.userForm.addControl('password', new FormControl('', {
-      validators: [Validators.required]
+      validators: []
     }));
+  }
+
+  callService() {
+    forkJoin([
+      this.nacionalityService.getNationalities(),
+      this.generalListService.getListByName('theme')
+    ]).subscribe(([nationalities, themeList]) => {
+      this.nationalities = nationalities;
+      this.storeNationalities = nationalities;
+      this.themes = themeList;
+      this.getUser();
+    })
   }
 
   getUser() {
     this.userService.getUser().subscribe((user) => {
-      console.log('nationalities', this.nationalities);
-      console.log('user: ', user);
       if (user) {
-        this.user = { ...user, };
+        console.log('user', user);
+        this.user = { ...user };
         this.userForm.patchValue({
           ...this.user,
-          nacionality: this.nationalities.find(el => el?.name === this.user?.nacionality)
+          nacionality: this.nationalities.find(el => el?.name === this.user?.nacionality),
+          theme: this.themes.find(el => el?.name === this.user?.theme)
         }, { emitEvent: false })
+        this.userFormOld = { ...this.userForm.value }
+
+        if (user.photo) {
+          // Vamos a por la imagen del uusario
+          this.storageService.downloadFile(user.photo).subscribe(file => {
+            let reader = new FileReader();
+            reader.addEventListener("load", () => {
+              this.url = reader.result;
+            }, false);
+            if (file) {
+              reader.readAsDataURL(file);
+            }
+          })
+        }
+
       }
 
     })
   }
 
-  callService() {
-    this.nacionalityService.getNationalities().subscribe((nationalities) => {
-      this.nationalities = nationalities;
-      this.storeNationalities = nationalities;
-      this.getUser();
-    })
-
-    this.generalListService.getListByName('theme').subscribe((list=>{
-      console.log('listing theme', list);
-      
-    }))
-  }
-
+  // Sube el archivo hasta el backend
   onFileChanged(event: any) {
-    console.log(
-      event.target.files[0]
-    );
+    const file = event.target.files[0]
+    if (file) {
+      this.storageService.postUpload('user/photo', file).subscribe(
+        response => {
+          if (response) {
+            console.log('postUpload', response);
+            // asignamos a campo photo
+            this.userForm.get('photo')?.setValue(response.storage_image_path);
+          }
+        })
+    }
+
 
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
@@ -159,8 +185,52 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
 
   // Eventos
   showAddressMap() {
-    console.log('showAddressMap');
-    this.modalService.open(ModalMapComponent)
+    this.userForm.get('address')?.disable();
+    const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
+    // componentInstance es para asignar inputs y para escuchar outputs
+    mapModal.componentInstance.addMarkerOnClick = true;
+    mapModal.componentInstance.location = JSON.parse(this.user?.location??'');
+    mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
+      this.userForm.get('address')?.setValue(geo.address);
+      this.userForm.get('location')?.setValue(JSON.stringify(geo.location));
+    })
+    mapModal.result.then(result => {
+      console.log(result);
+      this.userForm.get('address')?.enable();
+    }, reason => {
+      this.userForm.get('address')?.enable();
+    });
+  }
+
+  //Validaciones
+  oldChanges() {
+    return JSON.stringify(this.userFormOld) == JSON.stringify(this.userForm.value)
+  }
+
+  onSubmit(event: any) {
+
+    if (this.userForm.valid) {
+
+      this.buttonAccept.set(true);
+      this.userService.updateUser({
+        id: this.user?.id ?? null,
+        ...this.userForm.value,
+        nacionality: this.userForm.value?.nacionality?.name ?? '',
+        theme: this.userForm.value?.theme?.name ?? ''
+      }).subscribe({
+        next: (user) => {
+          this.activeModal.close(user);
+        },
+        error: (error) => {
+          this.alert.set({
+            type: 'danger',
+            message: error.error.message,
+            title: 'Actualizacción denegada',
+          })
+        },
+        complete: () => this.buttonAccept.set(false)
+      })
+    }
   }
 
 

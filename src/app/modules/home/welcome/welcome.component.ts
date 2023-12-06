@@ -43,32 +43,22 @@ export class WelcomeComponent extends BaseComponent implements OnInit, OnDestroy
 
     // Este componente es solo accesible si se esta logueado
 
-    this.userSuscription =
-      this.userService.observableUser.subscribe((user: IUser | undefined) => {
-        if (user) {
-          this.alert.set({
-            type: 'success',
-            message: `Tu acceso ha sido exitoso`,
-            title: `¡Bienvenid@ ${user?.name}`,
-          })
-        }
+    // this.userSuscription =
+    //   this.userService.observableUser.subscribe((user: IUser | undefined) => {
+    //     if (user) {
+    //       this.alert.set({
+    //         type: 'success',
+    //         message: `Tu acceso ha sido exitoso`,
+    //         title: `¡Bienvenid@ ${user?.name}`,
+    //       })
+    //     }
+    //   });
 
-        // No hay necesidad dado que cualquier otro evento disparara el logout en cado de un 401
-        // if (!user) {                  
-        //   // Consultamos el usuario a back, en caso de no llegar bien se debe desloguear          
-        //   // Con solo hacer la suscripción es suficiente, actuan 3 actores
-        //   // 1. errors - snackbar
-        //   // 2. user - actuliza usuario
-        //   // 3 - auth  - desloguea ante un 401
-        //   this.userService.getUser().subscribe();
-        // }
-      });
-
-    this.alert.set({
-      type: 'success',
-      message: `accesok`,
-      title: `welcome`,
-    })
+    // this.alert.set({
+    //   type: 'success',
+    //   message: `accesok`,
+    //   title: `welcome`,
+    // })
   }
 
 }

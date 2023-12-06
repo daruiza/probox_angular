@@ -41,28 +41,30 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
   ngOnInit() { }
 
   openModalLogin() {
-
     if (!this.authService.checkLogin()) {
       const modalRef = this.modalService.open(LoginComponent);
-      modalRef.componentInstance.name = 'World';
       modalRef.result.then(result => {
         this.router.navigate(['/home/welcome']);
         this.snackBarService.updatedSnackBehavior({
           message: result?.message,
-          action: 'Acceso Ok',
+          action: 'accessok',
           onAction: () => { this.router.navigate(['/home/welcome']); }
         })
       }, reason => { console.log('reason', reason); })
     }
-
   }
-
 
   openModalProfile() {
     if (this.authService.checkLogin()) {
       const modalRef = this.modalService.open(ProfileComponent, { size: 'lg', backdrop: 'static' });
       modalRef.result.then(result => {
-        console.log('result', result)
+        console.log('result', result);
+        
+        this.snackBarService.updatedSnackBehavior({
+          message: result?.message,
+          action: 'updateok',
+          onAction: () => { this.router.navigate(['/home/welcome']); }
+        })
       }, reason => {
         console.log('reason', reason);
         modalRef.close();
@@ -75,7 +77,7 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
       this.userService.updatedUserBehavior(undefined);
       this.snackBarService.updatedSnackBehavior({
         message: result?.message,
-        action: 'Acceso Ok',
+        action: 'exitok',
         onAction: () => { this.router.navigate(['/']); }
       })
       this.router.navigate(['/']);

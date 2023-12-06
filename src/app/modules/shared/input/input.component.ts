@@ -1,20 +1,16 @@
 import { Component, Self, Optional, forwardRef, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, NgControl, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { BaseComponent } from 'src/app/components/base/base.component';
+import { AppService } from 'src/app/services/app.service';
 
 
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
-  // providers: [
-  //   {
-  //     provide: NG_VALUE_ACCESSOR,
-  //     useExisting: forwardRef(() => InputComponent),
-  //     multi: true
-  //   }
-  // ]
 })
-export class InputComponent implements OnInit, ControlValueAccessor {
+export class InputComponent extends BaseComponent implements OnInit, ControlValueAccessor {
 
   // Documentación
   // https://stackblitz.com/edit/angular-8fp5qy?file=src%2Fapp%2Fapp-unique-name-text-box%2Fapp-unique-name-text-box.component.css,src%2Fapp%2Fapp-unique-name-text-box%2Fapp-unique-name-text-box.component.html
@@ -36,6 +32,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() label?: string;
   @Input() hint?: string;
   @Input() icon?: any;
+  @Input() readonly: boolean = false;
 
   @Output() onIconClick = new EventEmitter<any>();
 
@@ -47,10 +44,12 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
 
   constructor(
-    @Self() @Optional() public ngControl: NgControl
+    @Self() @Optional() public ngControl: NgControl,
+    public override readonly translate: TranslateService,
+    public override readonly appService: AppService,
   ) {
+    super(translate, appService);
     this.ngControl.valueAccessor = this;
-
   }
 
   ngOnInit(): void {
@@ -96,7 +95,9 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  onIconClickEvent(event: any) {
+  onIconClickEvent(event: Event) {
+    // Para que en movil no emita evento de campo/input
+    // event.preventDefault();
     this.onIconClick.emit(event)
   }
 

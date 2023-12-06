@@ -3,6 +3,9 @@ import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ISnackModel } from 'src/app/models/ISnackModel';
 import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
+import { TranslateService } from '@ngx-translate/core';
+import { AppService } from 'src/app/services/app.service';
+import { BaseComponent } from '../base/base.component';
 
 
 @Component({
@@ -10,19 +13,25 @@ import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
   templateUrl: './snackbar.component.html',
   styleUrls: ['./snackbar.component.scss']
 })
-export class SnackbarComponent implements OnInit, OnDestroy {
+export class SnackbarComponent extends BaseComponent implements OnInit, OnDestroy {
 
   @Input() class: string = 'blue-grey-theme';
 
   snackRefSuscription: Subscription | undefined;
 
   constructor(
+    public override readonly translate: TranslateService,
+    public override readonly appService: AppService,
     public readonly snackBarService: SnackBarService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar) { super(translate, appService); }
 
   ngOnDestroy(): void {
     if (this.snackRefSuscription) {
       this.snackRefSuscription.unsubscribe();
+    }
+
+    if (this.translateSuscription) {
+      this.translateSuscription.unsubscribe();
     }
   }
 
@@ -31,7 +40,7 @@ export class SnackbarComponent implements OnInit, OnDestroy {
       this.snackBarService.snackbar.subscribe((snack: ISnackModel) => {
         if (snack?.message) {
           console.log('snack', snack);
-          this.openSnackBar(snack.message, snack.action, snack.onAction);
+          this.openSnackBar(this.translate.instant(snack.message), this.translate.instant(snack.action), snack.onAction);
         }
       });
   }
