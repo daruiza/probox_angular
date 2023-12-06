@@ -189,7 +189,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
     // componentInstance es para asignar inputs y para escuchar outputs
     mapModal.componentInstance.addMarkerOnClick = true;
-    mapModal.componentInstance.location = JSON.parse(this.user?.location??'');
+    mapModal.componentInstance.location = this.user?.location ? JSON.parse(this.user?.location): null;
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
       this.userForm.get('address')?.setValue(geo.address);
       this.userForm.get('location')?.setValue(JSON.stringify(geo.location));
