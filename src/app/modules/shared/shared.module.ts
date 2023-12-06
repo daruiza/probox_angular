@@ -18,6 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 import { AlertComponent } from './alert/alert.component';
@@ -93,6 +94,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatButtonModule,
     MatTooltipModule,
     MatCardModule,
+    MatDividerModule,
 
     AlertComponent,
     InputComponent,
