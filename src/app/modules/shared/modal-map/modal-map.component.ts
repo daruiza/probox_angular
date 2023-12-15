@@ -76,6 +76,8 @@ export class ModalMapComponent implements OnInit {
       this.geoCoder.geocode({ 'location': { lat: event.latLng.lat(), lng: event.latLng.lng() } }, (results, status) => {
         if (status === 'OK') {
           if (results && results[0]) {
+            console.log('results[0]',results[0]);
+            
             this.addressMarkerOnChange.emit({
               address: results[0].formatted_address,
               location: { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() },
