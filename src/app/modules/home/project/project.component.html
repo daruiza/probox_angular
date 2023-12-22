@@ -8,7 +8,7 @@
         <div *ngFor="let item of projects_customer()" class="col-xs-3 col-md-3">
             <mat-card>
                 <mat-card-header>
-                    <div mat-card-avatar class="example-header-image"></div>
+                    <div mat-card-avatar class="header-image"></div>
                     <mat-card-title>{{item.name??''}}</mat-card-title>
                     <mat-card-subtitle>{{item.address??''}}</mat-card-subtitle>
                 </mat-card-header>
@@ -18,11 +18,27 @@
                     <div> Etiquetas de labor: piso, techo, pintura, etc</div>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-button>Tareas</button>
-                    <button mat-button>Documentos</button>
-                    <button mat-button>Clientes</button>
-                    <button mat-button>Colaboradores</button>
-                  </mat-card-actions>
+
+                    <button mat-mini-fab color="primary" matTooltip="Tareas"
+                        aria-label="assignment icon">
+                        <mat-icon>assignment</mat-icon>
+                    </button>
+
+                    <button mat-mini-fab color="primary" matTooltip="Documentos"
+                        aria-label="description icon">
+                        <mat-icon>description</mat-icon>
+                    </button>
+
+                    <button mat-mini-fab color="primary" matTooltip="Clientes"
+                        aria-label="assignment_ind icon">
+                        <mat-icon>assignment_ind</mat-icon>
+                    </button>
+
+                    <button mat-mini-fab color="primary" matTooltip="Colaboradores"
+                        aria-label="build icon">
+                        <mat-icon>build</mat-icon>
+                    </button>
+                </mat-card-actions>
             </mat-card>
         </div>
 
