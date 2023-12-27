@@ -34,7 +34,11 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "@ng-select/ng-select/themes/material.theme.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/themes/blue-grey-theme.scss",
+              "src/assets/themes/indigo-theme.scss",
+              "src/assets/themes/light-blue-theme.scss",
+              "src/assets/themes/config.scss"
             ],
             "scripts": [],
             "serviceWorker": true,

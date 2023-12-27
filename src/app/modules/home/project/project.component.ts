@@ -17,6 +17,7 @@ export class ProjectComponent extends BaseComponent implements OnInit {
   public alert = signal<IAlert | undefined>(undefined);
   public projects_customer = signal<any[]>([]);
   public projects_colaborator = signal<any[]>([]);
+  public options = signal<any[]>([]);
   
 
   constructor(
@@ -30,13 +31,11 @@ export class ProjectComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     // mis projects_customer, projects_colaborator
     this.callServices().then(()=>{
-      console.log('call callServices');
 
     })
   }
   
   async callServices(){
-    console.log('init callServices');
     this.userService.getUser().subscribe(user => {
       console.log('ProjectComponentUser', user);
       this.projects_customer.set(user?.projects_customer??[]);

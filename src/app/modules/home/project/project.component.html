@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container" [class]="'container-'+appService.theme">
     <div *ngIf="alert()" class="row">
         <app-alert [alert]="{type: 'success', message:'message', title: 'title'}"></app-alert>
     </div>
 
     <div class="row">
         <!-- project_customer -->
-        <div *ngFor="let item of projects_customer()" class="col-xs-3 col-md-3">
+        <div *ngFor="let item of projects_customer()" class="col-xs-3 col-md-3 mat-card-container">
             <mat-card>
                 <mat-card-header>
                     <div mat-card-avatar class="header-image"></div>
@@ -13,34 +13,37 @@
                     <mat-card-subtitle>{{item.address??''}}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    <div> Etiquetas de etado: activo, complete, important in proces, paid, etc</div>
+                    <!-- Tags -->
+                    <!-- <mat-form-field class="mff"> -->
+                    <mat-chip-listbox aria-label="status project">
+                        <ng-container *ngFor="let tag of item.tags">
+                            <!-- {{tag | json}} -->
+                            <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
+                        </ng-container>
+                    </mat-chip-listbox>
+                    <!-- </mat-form-field> -->
+
                     <mat-divider></mat-divider>
                     <div> Etiquetas de labor: piso, techo, pintura, etc</div>
                 </mat-card-content>
                 <mat-card-actions>
-
-                    <button mat-mini-fab color="primary" matTooltip="Tareas"
-                        aria-label="assignment icon">
+                    <button mat-mini-fab color="primary" matTooltip="Tareas" aria-label="assignment icon">
                         <mat-icon>assignment</mat-icon>
                     </button>
 
-                    <button mat-mini-fab color="primary" matTooltip="Documentos"
-                        aria-label="description icon">
+                    <button mat-mini-fab color="primary" matTooltip="Documentos" aria-label="description icon">
                         <mat-icon>description</mat-icon>
                     </button>
 
-                    <button mat-mini-fab color="primary" matTooltip="Clientes"
-                        aria-label="assignment_ind icon">
+                    <button mat-mini-fab color="primary" matTooltip="Clientes" aria-label="assignment_ind icon">
                         <mat-icon>assignment_ind</mat-icon>
                     </button>
 
-                    <button mat-mini-fab color="primary" matTooltip="Colaboradores"
-                        aria-label="build icon">
+                    <button mat-mini-fab color="primary" matTooltip="Colaboradores" aria-label="build icon">
                         <mat-icon>build</mat-icon>
                     </button>
                 </mat-card-actions>
             </mat-card>
         </div>
-
     </div>
 </div>

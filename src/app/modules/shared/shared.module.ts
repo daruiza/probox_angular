@@ -15,6 +15,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 
 import { MatCardModule } from '@angular/material/card';
@@ -71,6 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatChipsModule
 
   ],
   exports: [
@@ -93,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatChipsModule,
     MatCardModule,
     MatDividerModule,
 
