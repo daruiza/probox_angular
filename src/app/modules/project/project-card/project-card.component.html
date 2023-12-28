@@ -1,0 +1,37 @@
+<mat-card>
+    <mat-card-header>
+        <div mat-card-avatar (click)="fileInput.click()">
+            <ng-container *ngIf="url; else usericon">
+                <img class="mat-card-image-custom" mat-card-image alt="profile-img" src={{url}} />
+            </ng-container>
+            <ng-template #usericon>
+                <mat-icon color="accent" class="commerce_icon">store_mall_directory</mat-icon>
+            </ng-template>
+            <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
+        </div>
+        <mat-card-title>{{project.name??''}}</mat-card-title>
+        <mat-card-subtitle>{{project.address??''}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <!-- Tags -->
+        <!-- <mat-form-field class="mff"> -->
+        <mat-chip-listbox aria-label="status project">
+            <ng-container *ngFor="let tag of project.tags">
+                <!-- {{tag | json}} -->
+                <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
+            </ng-container>
+        </mat-chip-listbox>
+        <!-- </mat-form-field> -->
+
+        <mat-divider></mat-divider>
+        <div> Etiquetas de labor: piso, techo, pintura, etc</div>
+    </mat-card-content>
+    <mat-card-actions>
+        <ng-container *ngFor="let option of options">
+            <button mat-mini-fab class="mat-fab-card" color="primary" [matTooltip]="option.label"
+                aria-label="assignment icon">
+                <mat-icon color="accent">{{option.icon}}</mat-icon>
+            </button>
+        </ng-container>
+    </mat-card-actions>
+</mat-card>

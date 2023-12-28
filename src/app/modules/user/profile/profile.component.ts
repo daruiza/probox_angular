@@ -133,7 +133,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
         }, { emitEvent: false })
         this.userFormOld = { ...this.userForm.value }
 
-        if (user.photo) {
+        if (user.photo && user.photo != '') {
           // Vamos a por la imagen del uusario
           this.storageService.downloadFile(user.photo).subscribe(file => {
             let reader = new FileReader();
@@ -189,7 +189,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
     // componentInstance es para asignar inputs y para escuchar outputs
     mapModal.componentInstance.addMarkerOnClick = true;
-    mapModal.componentInstance.location = this.user?.location ? JSON.parse(this.user?.location): null;
+    mapModal.componentInstance.location = this.user?.location ? JSON.parse(this.user?.location) : null;
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
       this.userForm.get('address')?.setValue(geo.address);
       this.userForm.get('location')?.setValue(JSON.stringify(geo.location));

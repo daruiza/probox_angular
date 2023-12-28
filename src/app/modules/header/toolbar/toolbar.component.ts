@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from 'src/app/services/app.service';
 import { LoginComponent } from '../../access/login/login.component';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { filter } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { ProfileComponent } from '../../user/profile/profile.component';
 import { UserService } from 'src/app/services/auth/user.service';
@@ -18,8 +18,6 @@ import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
 })
 export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy {
 
-
-
   constructor(
     public override readonly translate: TranslateService,
     public override readonly appService: AppService,
@@ -30,6 +28,14 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
     public readonly userService: UserService,
   ) {
     super(translate, appService);
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationStart)
+    ).subscribe((event: any) => {
+
+      console.log('event', event?.url);
+
+      // this only fires for `NavigationStart` and no other events
+    });
   }
 
   ngOnDestroy(): void {
@@ -59,7 +65,7 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
       const modalRef = this.modalService.open(ProfileComponent, { size: 'lg', backdrop: 'static' });
       modalRef.result.then(result => {
         console.log('result', result);
-        
+
         this.snackBarService.updatedSnackBehavior({
           message: result?.message,
           action: 'updateok',

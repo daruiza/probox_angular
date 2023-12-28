@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
 @include mat.core();
-// $accent-a100: map-get($custom-theme, primary, default);
+
+// $primary-default: map-get($custom-theme, primary, default);
 $whitesmoke: whitesmoke;

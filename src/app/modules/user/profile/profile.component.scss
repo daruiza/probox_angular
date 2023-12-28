@@ -10,9 +10,20 @@
         }
     }
 
+    .mdc-fab {
+        width: 46px;
+        height: 46px;
+    }
+
     .account_circle_icon {
         display: flex;
-        transform: scale(2.5) !important;
+        transform: scale(1.7) !important;
+    }
+
+    ::ng-deep .mdc-button__label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .mat-card-image-custom {
@@ -22,6 +33,6 @@
 
     .hidden {
         display: none
-    } 
+    }
 
 }

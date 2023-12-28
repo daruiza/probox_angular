@@ -12,6 +12,7 @@ export class StorageService {
     public url = `${environment.baseAPI}`;
     public httpHeaders: HttpHeaders = new HttpHeaders({
         'Content-Type': 'multipart/form-data',
+        //'X-Content-Type-Options': 'nosniff',
     });
 
     constructor(

@@ -17,7 +17,7 @@ export class ProjectComponent extends BaseComponent implements OnInit {
   public alert = signal<IAlert | undefined>(undefined);
   public projects_customer = signal<any[]>([]);
   public projects_colaborator = signal<any[]>([]);
-  public options = signal<any[]>([]);
+  public options_card = signal<any[]>([]);
   
 
   constructor(
@@ -40,6 +40,7 @@ export class ProjectComponent extends BaseComponent implements OnInit {
       console.log('ProjectComponentUser', user);
       this.projects_customer.set(user?.projects_customer??[]);
       this.projects_colaborator.set(user?.projects_colaborator??[]);
+      this.options_card.set(user?.rol?.options?.filter((el:any)=>el.pivot.name == 'card')??[]);
     });
     
   }

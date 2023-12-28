@@ -16,6 +16,7 @@ export class AuthService {
     public url = `${environment.baseAPI}`;
     public httpHeaders: HttpHeaders = new HttpHeaders({
         'Content-Type': 'application/json',
+        //'X-Content-Type-Options': 'nosniff',
     });
 
     constructor(
