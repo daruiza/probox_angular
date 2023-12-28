@@ -21,7 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatRippleModule } from '@angular/material/core';
 
 import { AlertComponent } from './alert/alert.component';
 import { InputComponent } from './input/input.component';
@@ -87,7 +87,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     GoogleMapsModule,
 
-
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
@@ -99,6 +98,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatChipsModule,
     MatCardModule,
     MatDividerModule,
+    MatRippleModule,
 
     AlertComponent,
     InputComponent,
