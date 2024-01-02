@@ -7,8 +7,7 @@ import { environment } from "src/environments/environment";
 @Injectable({
     providedIn: 'root'
 })
-export class StorageService {
-
+export class ProjectService {
     public url = `${environment.baseAPI}`;
     public httpHeaders: HttpHeaders = new HttpHeaders({
         'Content-Type': 'multipart/form-data',
@@ -17,29 +16,14 @@ export class StorageService {
 
     constructor(
         protected http: HttpClient,
-    ) {
-    }
+    ) { }
 
-    public postUpload(folder: string, file: File): Observable<any> {
-        const formData = new FormData();
-        formData.append("folder", folder);
-        formData.append("file", file, file.name);
+    public upate(id: number,formData: any): Observable<any> {
         const options = {
             // No tama los headers correctamente
             // headers: this.httpHeaders,
             params: {}
         };
-        return this.http.post<any>(`${this.url}/upload/photo`, formData, options);
-
+        return this.http.post<any>(`${this.url}/project/upate`, formData, options);
     }
-
-    public downloadFile(path: string): Observable<any> {
-        const options = {
-            // headers: this.httpHeaders,
-            responseType: 'blob' as 'json',
-            params: { path }
-        };
-        return this.http.get<Blob>(`${this.url}/upload/downloadfile`, options);
-
-    }
-}  
+}

@@ -53,6 +53,16 @@
         border: 1px solid var(--mat-datepicker-calendar-date-selected-state-background-color)
     }
 
+    ::ng-deep .mat-mdc-card-subtitle {
+        color: var(--mdc-checkbox-selected-icon-color);
+    }
+
+    ::ng-deep .mat-mdc-card-subtitle:hover {
+        cursor: pointer;
+        filter: brightness(1.2);
+    }
+
+
 
     // CHIPS
     .mat-mdc-chip {

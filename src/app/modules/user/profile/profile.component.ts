@@ -122,32 +122,42 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   }
 
   getUser() {
-    this.userService.getUser().subscribe((user) => {
-      if (user) {
-        console.log('user', user);
-        this.user = { ...user };
-        this.userForm.patchValue({
-          ...this.user,
-          nacionality: this.nationalities.find(el => el?.name === this.user?.nacionality),
-          theme: this.themes.find(el => el?.name === this.user?.theme)
-        }, { emitEvent: false })
-        this.userFormOld = { ...this.userForm.value }
-
-        if (user.photo && user.photo != '') {
-          // Vamos a por la imagen del uusario
-          this.storageService.downloadFile(user.photo).subscribe(file => {
-            let reader = new FileReader();
-            reader.addEventListener("load", () => {
-              this.url = reader.result;
-            }, false);
-            if (file) {
-              reader.readAsDataURL(file);
-            }
-          })
+    this.userService.getUser().subscribe({
+      next: (user) => {
+        if (user) {
+          console.log('user', user);
+          this.user = { ...user };
+          this.userForm.patchValue({
+            ...this.user,
+            nacionality: this.nationalities.find(el => el?.name === this.user?.nacionality),
+            theme: this.themes.find(el => el?.name === this.user?.theme)
+          }, { emitEvent: false })
+          this.userFormOld = { ...this.userForm.value }
+  
+          if (user.photo && user.photo != '') {
+            // Vamos a por la imagen del uusario
+            this.storageService.downloadFile(user.photo).subscribe(file => {
+              let reader = new FileReader();
+              reader.addEventListener("load", () => {
+                this.url = reader.result;
+              }, false);
+              if (file) {
+                reader.readAsDataURL(file);
+              }
+            })
+          }
         }
-
+      },
+      error: (error) => {        
+        this.activeModal.close;
+        console.log('error', error);
+        
+        // this.alert.set({
+        //   type: 'danger',
+        //   message: error.error.message,
+        //   title: 'Actualizacción denegada',
+        // })
       }
-
     })
   }
 
@@ -158,13 +168,11 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
       this.storageService.postUpload('user/photo', file).subscribe(
         response => {
           if (response) {
-            console.log('postUpload', response);
             // asignamos a campo photo
             this.userForm.get('photo')?.setValue(response.storage_image_path);
           }
         })
     }
-
 
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
@@ -174,7 +182,6 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
         this.url = reader.result;
       };
     }
-
   }
 
   inputEventNationality(event: any) {
@@ -208,9 +215,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
   }
 
   onSubmit(event: any) {
-
     if (this.userForm.valid) {
-
       this.buttonAccept.set(true);
       this.userService.updateUser({
         id: this.user?.id ?? null,
