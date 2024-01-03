@@ -1,18 +1,25 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button [matMenuTriggerFor]="menu_burguer" class="example-icon"
-        aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-    </button>
 
-    <mat-menu #menu_burguer="matMenu" class="{{appService.theme}}  mat-menu-custome">
-        <ng-container *ngFor="let option of options_menu()">
-            <button mat-menu-item (click)="navigateTo('project')">
-                <mat-icon>{{option.icon}}</mat-icon>
-                <span>{{option.name}}</span>
-            </button>
-        </ng-container>
+    <ng-template #menu_clean>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </ng-template>
 
-    </mat-menu>
+    <ng-container *ngIf="options_menu().length; else menu_clean">
+        <button mat-icon-button [matMenuTriggerFor]="menu_burguer" class="example-icon"
+            aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu_burguer="matMenu" class="{{appService.theme}}  mat-menu-custome">
+            <ng-container *ngFor="let option of options_menu()">
+                <button mat-menu-item (click)="navigateTo('project')">
+                    <mat-icon>{{option.icon}}</mat-icon>
+                    <span>{{option.name}}</span>
+                </button>
+            </ng-container>
+        </mat-menu>
+    </ng-container>
 
     <span>ProBox</span>
     <span class="example-spacer"></span>
@@ -38,7 +45,7 @@
         <mat-icon>account_circle</mat-icon>
     </button>
 
-    <mat-menu class="buttons-menu-themes" #menu="matMenu">
+    <mat-menu class="buttons-menu-themes" #menu="matMenu" class="{{appService.theme}}  mat-menu-custome">
         <button *ngIf="appService.theme !== 'blue-grey-theme'" mat-menu-item (click)="changeTheme('blue-grey-theme')">
             <mat-icon class="blue-grey-icon">circle</mat-icon>
         </button>
@@ -50,7 +57,7 @@
         </button>
     </mat-menu>
 
-    <mat-menu class="buttons-menu-language" #menuLanguage="matMenu">
+    <mat-menu class="buttons-menu-language" #menuLanguage="matMenu" class="{{appService.theme}}  mat-menu-custome">
         <button *ngIf="appService.translateDefault !== 'en'" mat-menu-item (click)="changeLanguage('en')">
             {{ 'english' | translate | titlecase }}
         </button>
@@ -59,7 +66,7 @@
         </button>
     </mat-menu>
 
-    <mat-menu class="buttons-menu-profile" #menuProfile="matMenu">
+    <mat-menu class="buttons-menu-profile" #menuProfile="matMenu" class="{{appService.theme}}  mat-menu-custome">
         <button mat-menu-item (click)="openModalProfile()">
             <mat-icon>settings</mat-icon>
             {{ 'profile' | translate | titlecase }}
