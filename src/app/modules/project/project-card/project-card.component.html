@@ -10,7 +10,7 @@
             <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
         </div>
         <mat-card-title>{{project.name??''}}</mat-card-title>
-        <mat-card-subtitle (click)="showAddressMap()">{{project.address??''}}</mat-card-subtitle>
+        <mat-card-subtitle matTooltip="{{project.address??''}}" (click)="showAddressMap()">{{project.address??''}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         <!-- Tags -->

@@ -32,7 +32,7 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
       filter((event) => event instanceof NavigationStart)
     ).subscribe((event: any) => {
 
-      console.log('event', event?.url);
+      console.log('listening routes', event?.url);
 
       // this only fires for `NavigationStart` and no other events
     });
@@ -88,6 +88,10 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
       })
       this.router.navigate(['/']);
     })
+  }
+
+  navigateTo(route: string) {
+    this.router.navigate([`/home/${route}`]);
   }
 
   changeTheme(theme: string) {

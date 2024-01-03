@@ -113,11 +113,18 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     forkJoin([
       this.nacionalityService.getNationalities(),
       this.generalListService.getListByName('theme')
-    ]).subscribe(([nationalities, themeList]) => {
-      this.nationalities = nationalities;
-      this.storeNationalities = nationalities;
-      this.themes = themeList;
-      this.getUser();
+    ]).subscribe({
+      next: ([nationalities, themeList]) => {
+        this.nationalities = nationalities;
+        this.storeNationalities = nationalities;
+        this.themes = themeList;
+        this.getUser();
+      },
+      error: (error) => {
+        console.log(error);
+        // Si el erro es 401
+        // this.activeModal.close;
+      }
     })
   }
 
@@ -133,7 +140,7 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
             theme: this.themes.find(el => el?.name === this.user?.theme)
           }, { emitEvent: false })
           this.userFormOld = { ...this.userForm.value }
-  
+
           if (user.photo && user.photo != '') {
             // Vamos a por la imagen del uusario
             this.storageService.downloadFile(user.photo).subscribe(file => {
@@ -148,10 +155,10 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
           }
         }
       },
-      error: (error) => {        
+      error: (error) => {
         this.activeModal.close;
         console.log('error', error);
-        
+
         // this.alert.set({
         //   type: 'danger',
         //   message: error.error.message,

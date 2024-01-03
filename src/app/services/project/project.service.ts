@@ -18,12 +18,12 @@ export class ProjectService {
         protected http: HttpClient,
     ) { }
 
-    public upate(id: number,formData: any): Observable<any> {
+    public update(id: number,formData: any): Observable<any> {
         const options = {
             // No tama los headers correctamente
             // headers: this.httpHeaders,
             params: {}
         };
-        return this.http.post<any>(`${this.url}/project/upate`, formData, options);
+        return this.http.put<any>(`${this.url}/project/update/${id}`, formData, options);
     }
 }

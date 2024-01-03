@@ -53,7 +53,6 @@ export class AuthInterceptor implements HttpInterceptor {
         this.authService.logoutForce();
         this.userService.updatedUserBehavior(undefined);
         this.router.navigate(['/']);
-
       }
       const errorMessage = error?.error?.message ? error.error.message : error.message;
       const errorAction = error?.error?.action ? error.error.action : 'Error!';

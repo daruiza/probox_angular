@@ -18,7 +18,7 @@ export class ProjectComponent extends BaseComponent implements OnInit {
   public projects_customer = signal<any[]>([]);
   public projects_colaborator = signal<any[]>([]);
   public options_card = signal<any[]>([]);
-  
+
 
   constructor(
     public override readonly translate: TranslateService,
@@ -30,19 +30,25 @@ export class ProjectComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     // mis projects_customer, projects_colaborator
-    this.callServices().then(()=>{
+    this.callServices().then(() => {
 
     })
   }
-  
-  async callServices(){
-    this.userService.getUser().subscribe(user => {
+
+  async callServices(update = false) {
+    this.userService.getUser(update).subscribe(user => {
       console.log('ProjectComponentUser', user);
-      this.projects_customer.set(user?.projects_customer??[]);
-      this.projects_colaborator.set(user?.projects_colaborator??[]);
-      this.options_card.set(user?.rol?.options?.filter((el:any)=>el.pivot.name == 'card')??[]);
+      this.projects_customer.set(user?.projects_customer ?? []);
+      this.projects_colaborator.set(user?.projects_colaborator ?? []);
+      this.options_card.set(user?.rol?.options?.filter((el: any) =>
+        el.pivot.name == 'card' && el.pivot.description == 'card') ?? []
+      );
     });
-    
+
   }
 
+  updataProject(evt: any) {
+    console.log('updataProject', evt);
+    this.callServices(true);
+  }
 }

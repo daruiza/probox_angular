@@ -53,16 +53,10 @@
         border: 1px solid var(--mat-datepicker-calendar-date-selected-state-background-color)
     }
 
-    ::ng-deep .mat-mdc-card-subtitle {
-        color: var(--mdc-checkbox-selected-icon-color);
-    }
-
     ::ng-deep .mat-mdc-card-subtitle:hover {
         cursor: pointer;
         filter: brightness(1.2);
     }
-
-
 
     // CHIPS
     .mat-mdc-chip {
@@ -96,4 +90,17 @@
     }
 
     @media only screen and (max-width: 720px) {}
+
+    @media only screen and (min-width: 720px) {
+        ::ng-deep .mat-mdc-card-header-text {
+            overflow: hidden;
+        }
+
+        ::ng-deep .mat-mdc-card-subtitle {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: var(--mdc-checkbox-selected-icon-color);
+        }
+    }
 }

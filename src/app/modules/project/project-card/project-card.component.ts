@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ModalMapComponent } from '../../shared/modal-map/modal-map.component';
 import { ProjectService } from 'src/app/services/project/project.service';
+import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
 
 @Component({
   selector: 'app-project-card',
@@ -14,6 +15,7 @@ export class ProjectCardComponent implements OnInit {
 
   @Input() project: any = {};
   @Input() options: any = [];
+  @Output() updataProject = new EventEmitter<any>();
 
   public projectFormOld!: any;
   public projectForm!: FormGroup;
@@ -24,10 +26,10 @@ export class ProjectCardComponent implements OnInit {
     private readonly storageService: StorageService,
     private readonly projectService: ProjectService,
     private readonly modalService: NgbModal,
+    public readonly snackBarService: SnackBarService,
   ) { }
 
   ngOnInit(): void {
-    console.log('this.project', this.project);
     // throw new Error('Method not implemented.');
     // get image by url - logo
     this.formConstructor().then(() => {
@@ -39,6 +41,7 @@ export class ProjectCardComponent implements OnInit {
   async formConstructor() {
     this.projectForm = new FormGroup({
       id: new FormControl(),
+      name: new FormControl(),
       logo: new FormControl(),
       photo: new FormControl(),
       address: new FormControl(),
@@ -95,7 +98,7 @@ export class ProjectCardComponent implements OnInit {
 
   showAddressMap() {
     const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
-    mapModal.componentInstance.addMarkerOnClick = true;
+    if (this.options.find((el: any) => el.name === 'edit_map')) mapModal.componentInstance.addMarkerOnClick = true;
     mapModal.componentInstance.location = this.project?.location ? JSON.parse(this.project?.location) : null;
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
       this.projectForm.get('address')?.setValue(geo.address);
@@ -113,14 +116,33 @@ export class ProjectCardComponent implements OnInit {
   save() {
     // se guardan los cambios
     if (!this.oldChanges()) {
-      this.projectService.upate(this.project.id, { ...this.projectForm.value }).subscribe({
-        next: (user) => {
-          console.log('user', user);
-
+      this.projectService.update(this.project.id, { ...this.projectForm.value }).subscribe({
+        next: (project) => {
+          // this.alert.set({
+          //   type: 'danger',
+          //   message: error.error.message,
+          //   title: 'Actualizacción denegada',
+          // })
+          const message = project?.message ? project?.message : '';
+          const action = 'update-ok!';
+          this.snackBarService.updatedSnackBehavior({
+            message: message,
+            action: action,
+            onAction: () => { }
+          });
         },
         error: (error) => {
-          console.log('error', error);
-
+          const errorMessage = error?.error?.message ? error.error.message : error.message;
+          const errorAction = error?.error?.action ? error.error.action : 'Error!';
+          this.snackBarService.updatedSnackBehavior({
+            message: errorMessage,
+            action: errorAction,
+            onAction: () => { }
+          });
+        },
+        complete: () => {
+          // Actualizamos los proyectos
+          this.updataProject.emit('update_ok');
         }
       })
     }
@@ -128,9 +150,6 @@ export class ProjectCardComponent implements OnInit {
 
   // validaciones
   oldChanges() {
-    console.log('old', JSON.stringify(this.projectFormOld));
-    console.log('new', JSON.stringify(this.projectForm.value));
-
     return JSON.stringify(this.projectFormOld) == JSON.stringify(this.projectForm.value)
   }
 

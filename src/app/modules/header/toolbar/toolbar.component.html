@@ -1,17 +1,27 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <button mat-icon-button [matMenuTriggerFor]="menu_burguer" class="example-icon"
+        aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
     </button>
+
+    <mat-menu #menu_burguer="matMenu" class="{{appService.theme}}  mat-menu-custome">
+        <button mat-menu-item (click)="navigateTo('project')">
+            <mat-icon>work</mat-icon>
+            <span>projects</span>
+        </button>
+
+    </mat-menu>
+
     <span>ProBox</span>
     <span class="example-spacer"></span>
 
-    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="{{'language' | translate | capitalizeFirst}}"
-        [matMenuTriggerFor]="menuLanguage">
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto"
+        matTooltip="{{'language' | translate | capitalizeFirst}}" [matMenuTriggerFor]="menuLanguage">
         <mat-icon>translate</mat-icon>
     </button>
 
-    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto" matTooltip="{{'themes' | translate | capitalizeFirst}}"
-        [matMenuTriggerFor]="menu">
+    <button mat-icon-button class="example-icon custome-mat-icon" aria-label="Example icon-butto"
+        matTooltip="{{'themes' | translate | capitalizeFirst}}" [matMenuTriggerFor]="menu">
         <mat-icon>circle</mat-icon>
     </button>
 
@@ -21,7 +31,8 @@
     </button>
     <button mat-icon-button class="mat-button-acount custome-mat-icon"
         (click)="!authService.checkLogin() ? openModalLogin(): null" aria-label="Example icon-button with account icon"
-        matTooltip="{{'account' | translate | capitalizeFirst}}" [matMenuTriggerFor]="authService.checkLogin() ? menuProfile: null">
+        matTooltip="{{'account' | translate | capitalizeFirst}}"
+        [matMenuTriggerFor]="authService.checkLogin() ? menuProfile: null">
         <mat-icon>account_circle</mat-icon>
     </button>
 

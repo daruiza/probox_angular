@@ -5,16 +5,32 @@ mat.$theme-ignore-duplication-warnings: true;
 .indigo-theme {
   @import "./assets/themes/indigo-theme.scss";
   @include mat.all-component-themes($custom-theme);
+
+  .mat-mdc-menu-content {
+    background-color: map-get($custom-theme, primary, default) !important;
+
+    .mat-mdc-menu-item-text, .material-icons {
+      color: white !important;
+    }
+  }
 }
 
 .light-blue-theme {
   @import "./assets/themes/light-blue-theme.scss";
   @include mat.all-component-themes($custom-theme);
+
+  .mat-mdc-menu-content {
+    background-color: map-get($custom-theme, primary, default) !important;
+  }
 }
 
 .blue-grey-theme {
   @import "./assets/themes/blue-grey-theme.scss";
   @include mat.all-component-themes($custom-theme);
+
+  .mat-mdc-menu-content {
+    background-color: map-get($custom-theme, primary, default) !important;
+  }
 }
 
 @import './assets/themes/config.scss';
