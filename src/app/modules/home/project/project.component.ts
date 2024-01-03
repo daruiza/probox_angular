@@ -2,7 +2,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { IAlert } from 'src/app/models/IAlert';
-import { IUser } from 'src/app/models/IUser';
 import { AppService } from 'src/app/services/app.service';
 import { UserService } from 'src/app/services/auth/user.service';
 
@@ -18,7 +17,6 @@ export class ProjectComponent extends BaseComponent implements OnInit {
   public projects_customer = signal<any[]>([]);
   public projects_colaborator = signal<any[]>([]);
   public options_card = signal<any[]>([]);
-
 
   constructor(
     public override readonly translate: TranslateService,

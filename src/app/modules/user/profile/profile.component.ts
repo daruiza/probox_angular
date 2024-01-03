@@ -122,6 +122,8 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
       },
       error: (error) => {
         console.log(error);
+        console.log('error.status', error.status);
+        
         // Si el erro es 401
         // this.activeModal.close;
       }

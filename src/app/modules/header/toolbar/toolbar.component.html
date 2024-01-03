@@ -5,10 +5,12 @@
     </button>
 
     <mat-menu #menu_burguer="matMenu" class="{{appService.theme}}  mat-menu-custome">
-        <button mat-menu-item (click)="navigateTo('project')">
-            <mat-icon>work</mat-icon>
-            <span>projects</span>
-        </button>
+        <ng-container *ngFor="let option of options_menu()">
+            <button mat-menu-item (click)="navigateTo('project')">
+                <mat-icon>{{option.icon}}</mat-icon>
+                <span>{{option.name}}</span>
+            </button>
+        </ng-container>
 
     </mat-menu>
 
