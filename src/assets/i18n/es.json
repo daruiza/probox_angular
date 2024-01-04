@@ -42,5 +42,7 @@
     "close": "cerrar",
     "cancel": "cancelar",
     "accept": "aceptar",
-    "update": "actualizar"
+    "update": "actualizar",
+
+    "how_to_get": "como llegar"
 }

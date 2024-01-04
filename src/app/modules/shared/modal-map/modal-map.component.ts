@@ -13,8 +13,9 @@ export class ModalMapComponent implements OnInit {
 
   @Input() addMarkerOnClick: boolean = false;
   @Input() location!: google.maps.LatLngLiteral;
+  @Input() title!: string;
 
-  @Input() limitMarkers: number = 0;
+  @Input() limitMarkers: number = 1;
 
   @Output() addressMarkerOnChange = new EventEmitter<any>();
 
@@ -48,13 +49,11 @@ export class ModalMapComponent implements OnInit {
   }
 
   mapCenter() {
-
     if (this.location && 'lat' in this.location && 'lng' in this.location) {
       this.center = { ...this.location };
       this.addressMarker = { ...this.location }
       return;
     }
-
     navigator.geolocation.getCurrentPosition((position) => {
       // this.center.set({
       //   lat: position.coords.latitude,
@@ -69,7 +68,7 @@ export class ModalMapComponent implements OnInit {
 
   mapClick(event: any) {
     if (this.addMarkerOnClick) {
-      this.addressMarker = {
+      this.location = this.addressMarker = {
         lat: event.latLng.lat(),
         lng: event.latLng.lng(),
       }
@@ -105,6 +104,19 @@ export class ModalMapComponent implements OnInit {
         }
       }
     });
+  }
+
+  markerClick(event: any) {
+    this.location = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    }
+    console.log('markerClick', event.latLng.lat());
+    console.log('markerClick', event.latLng.lng());
+  }
+
+  goToMaps() {
+    window.open(`https://maps.google.com/?q=${this.location.lat},${this.location.lng}`, '_blank');
   }
 
 }

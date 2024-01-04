@@ -42,6 +42,8 @@
   "close": "close",
   "cancel": "cancel",
   "accept": "accept",
-  "update": "update"
+  "update": "update",
+
+  "how_to_get": "how to get"
 
 }

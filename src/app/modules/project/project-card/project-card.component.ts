@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StorageService } from 'src/app/services/storage/storage.service';
@@ -14,8 +14,10 @@ import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
 export class ProjectCardComponent implements OnInit {
 
   @Input() project: any = {};
-  @Input() options: any = [];
+  @Input() options_user: any = [];
   @Output() updataProject = new EventEmitter<any>();
+
+  options_card = signal<any[]>([]);
 
   public projectFormOld!: any;
   public projectForm!: FormGroup;
@@ -32,10 +34,18 @@ export class ProjectCardComponent implements OnInit {
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
     // get image by url - logo
+    this.init();
     this.formConstructor().then(() => {
       this.callService();
+
     })
 
+  }
+
+  async init(){
+    this.options_card.set(this.options_user?.filter((el: any) =>
+        el.pivot.name == 'card' && el.pivot.description == 'card') ?? []
+      );
   }
 
   async formConstructor() {
@@ -50,8 +60,6 @@ export class ProjectCardComponent implements OnInit {
     });
     this.projectForm.patchValue({ ...this.project }, { emitEvent: false });
     this.projectFormOld = { ...this.projectForm.value }
-    console.log('this.projectFormOld', this.projectFormOld);
-
   }
 
   callService() {
@@ -98,7 +106,7 @@ export class ProjectCardComponent implements OnInit {
 
   showAddressMap() {
     const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
-    if (this.options.find((el: any) => el.name === 'edit_map')) mapModal.componentInstance.addMarkerOnClick = true;
+    if (this.options_user.find((el: any) => el.name === 'edit_map')) mapModal.componentInstance.addMarkerOnClick = true;
     mapModal.componentInstance.location = this.project?.location ? JSON.parse(this.project?.location) : null;
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
       this.projectForm.get('address')?.setValue(geo.address);

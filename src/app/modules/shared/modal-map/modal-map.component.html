@@ -3,12 +3,17 @@
         <google-map width="100%" [zoom]="zoom()" [center]="center" [options]="options()" (mapClick)="mapClick($event)"
             (mapDblclick)="mapDblclick($event)">
             <map-marker *ngIf="addressMarker" [position]="addressMarker" [options]="optionMarker"
-                (mapDragend)="dragableChanged($event)"></map-marker>
+                (mapDragend)="dragableChanged($event)" (mapClick)="markerClick($event)" [clickable]="true"
+                [title]="title"></map-marker>
         </google-map>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" ngbAutofocus
+        <button type="button" mat-raised-button color="accent" ngbAutofocus
             (click)="activeModal.dismiss('MapModalClose')">{{'close' | translate | titlecase}}</button>
+        <ng-container *ngIf="location">
+            <button type="button" mat-raised-button color="primary" (click)="goToMaps()">{{'how_to_get' | translate |
+                titlecase}}</button>
+        </ng-container>
     </div>
 </section>
 

@@ -78,12 +78,9 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
     if (this.authService.checkLogin()) {
       const modalRef = this.modalService.open(ProfileComponent, { size: 'lg', backdrop: 'static' });
       modalRef.result.then(result => {
-        console.log('result', result);
-
         this.snackBarService.updatedSnackBehavior({
           message: result?.message,
-          action: 'updateok',
-          onAction: () => { this.router.navigate(['/home/welcome']); }
+          action: 'updateok'
         })
       }, reason => {
         console.log('reason', reason);

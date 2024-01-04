@@ -44,8 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
-      console.log('error',error);
-      
+      console.log('Interceptor',error);     
 
       // Si el error es de autenticación
       if (error.status === 401 || error.status === 403) {

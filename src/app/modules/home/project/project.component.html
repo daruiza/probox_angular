@@ -6,7 +6,7 @@
     <div class="row">
         <!-- project_customer -->
         <div *ngFor="let project of projects_customer()" class="col-xs-3 col-md-3 mat-card-container">
-            <app-project-card [project]="project" [options]="options_card()" (updataProject)="updataProject($event)"></app-project-card>
+            <app-project-card [project]="project" [options_user]="options_user()" (updataProject)="updataProject($event)"></app-project-card>
         </div>
     </div>
 </div>

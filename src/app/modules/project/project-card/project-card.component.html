@@ -27,7 +27,7 @@
         <div> Etiquetas de labor: piso, techo, pintura, etc</div>
     </mat-card-content>
     <mat-card-actions>
-        <ng-container *ngFor="let option of options">
+        <ng-container *ngFor="let option of options_card()">
             <button mat-mini-fab class="mat-fab-card" color="primary" [matTooltip]="option.label"
                 aria-label="assignment icon">
                 <mat-icon color="accent">{{option.icon}}</mat-icon>

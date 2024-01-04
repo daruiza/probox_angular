@@ -16,7 +16,7 @@ export class ProjectComponent extends BaseComponent implements OnInit {
   public alert = signal<IAlert | undefined>(undefined);
   public projects_customer = signal<any[]>([]);
   public projects_colaborator = signal<any[]>([]);
-  public options_card = signal<any[]>([]);
+  public options_user = signal<any[]>([]);
 
   constructor(
     public override readonly translate: TranslateService,
@@ -38,9 +38,7 @@ export class ProjectComponent extends BaseComponent implements OnInit {
       console.log('ProjectComponentUser', user);
       this.projects_customer.set(user?.projects_customer ?? []);
       this.projects_colaborator.set(user?.projects_colaborator ?? []);
-      this.options_card.set(user?.rol?.options?.filter((el: any) =>
-        el.pivot.name == 'card' && el.pivot.description == 'card') ?? []
-      );
+      this.options_user.set(user?.rol?.options ?? []);
     });
 
   }
