@@ -16,7 +16,7 @@ export class HomeComponent extends BaseComponent implements OnDestroy, OnInit {
     public override readonly translate: TranslateService,
     public override readonly appService: AppService,
     public readonly router: Router) {
-    super(translate, appService);
+    super(translate, appService);    
   }
 
   ngOnDestroy(): void {

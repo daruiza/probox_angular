@@ -12,6 +12,7 @@ export class GeneralListService {
     public url = `${environment.baseAPI}`;
     public httpHeaders: HttpHeaders = new HttpHeaders({
         'Content-Type': 'application/json',
+        //'X-Content-Type-Options': 'nosniff',
     });
 
     constructor(protected http: HttpClient) { }

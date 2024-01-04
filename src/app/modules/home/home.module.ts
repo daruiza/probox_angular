@@ -5,6 +5,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule} from '../shared/shared.module';
 import { ProjectComponent } from './project/project.component'
+import { ProjectModule } from '../project/project.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ProjectComponent } from './project/project.component'
     CommonModule,
     HomeRoutingModule,
     SharedModule,
+    ProjectModule,
     
   ]
 })

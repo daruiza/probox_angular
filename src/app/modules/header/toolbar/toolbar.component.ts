@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from 'src/app/services/app.service';
 import { LoginComponent } from '../../access/login/login.component';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { ProfileComponent } from '../../user/profile/profile.component';
 import { UserService } from 'src/app/services/auth/user.service';
 import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
+import { Subscription, filter } from 'rxjs';
+import { IUser } from 'src/app/models/IUser';
 
 @Component({
   selector: 'app-toolbar',
@@ -18,27 +19,46 @@ import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
 })
 export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy {
 
-
+  public options_menu = signal<any[]>([]);
+  subscriptionUser: Subscription | undefined;
 
   constructor(
     public override readonly translate: TranslateService,
     public override readonly appService: AppService,
-    public readonly router: Router,
     private readonly modalService: NgbModal,
     private readonly snackBarService: SnackBarService,
     public readonly authService: AuthService,
     public readonly userService: UserService,
+    public readonly router: Router,
   ) {
     super(translate, appService);
+
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationStart)
+    ).subscribe((event: any) => {
+      console.log('listening routes', event?.url);
+      // this only fires for `NavigationStart` and no other events
+    });
   }
 
   ngOnDestroy(): void {
     if (this.translateSuscription) {
       this.translateSuscription.unsubscribe();
     }
+    if (this.subscriptionUser) {
+      this.subscriptionUser.unsubscribe();
+    }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.callServices().then(() => { })
+  }
+
+  async callServices() {
+    this.subscriptionUser = this.userService.observableUser.subscribe((user: any | undefined) => {
+      this.options_menu.set(user?.rol?.options?.filter((el: any) => el.pivot.name == 'menu') ?? []);
+    })
+  }
 
   openModalLogin() {
     if (!this.authService.checkLogin()) {
@@ -59,7 +79,7 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
       const modalRef = this.modalService.open(ProfileComponent, { size: 'lg', backdrop: 'static' });
       modalRef.result.then(result => {
         console.log('result', result);
-        
+
         this.snackBarService.updatedSnackBehavior({
           message: result?.message,
           action: 'updateok',
@@ -82,6 +102,10 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
       })
       this.router.navigate(['/']);
     })
+  }
+
+  navigateTo(route: string) {
+    this.router.navigate([`/home/${route}`]);
   }
 
   changeTheme(theme: string) {

@@ -49,7 +49,7 @@ export class ModalMapComponent implements OnInit {
 
   mapCenter() {
 
-    if (this.location && 'lat' in this.location && 'lng' in this.location) {      
+    if (this.location && 'lat' in this.location && 'lng' in this.location) {
       this.center = { ...this.location };
       this.addressMarker = { ...this.location }
       return;
@@ -95,8 +95,6 @@ export class ModalMapComponent implements OnInit {
 
   // Marker
   dragableChanged(event: any) {
-    console.log('dragableChanged', event);
-
     this.geoCoder.geocode({ 'location': { lat: event.latLng.lat(), lng: event.latLng.lng() } }, (results, status) => {
       if (status === 'OK') {
         if (results && results[0]) {

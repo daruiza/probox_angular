@@ -34,7 +34,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "@ng-select/ng-select/themes/material.theme.css",
-              "src/styles.scss"
+              "src/styles.scss"              
             ],
             "scripts": [],
             "serviceWorker": true,
@@ -116,6 +116,7 @@
     }
   },
   "cli": {
-    "analytics": "bd2fbb6e-4676-437b-8bf2-644946809d11"
+    "analytics": "bd2fbb6e-4676-437b-8bf2-644946809d11",
+    "packageManager": "yarn"
   }
 }

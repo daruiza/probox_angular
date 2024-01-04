@@ -15,11 +15,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatRippleModule } from '@angular/material/core';
 
 import { AlertComponent } from './alert/alert.component';
 import { InputComponent } from './input/input.component';
@@ -71,6 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatChipsModule
 
   ],
   exports: [
@@ -84,7 +87,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     GoogleMapsModule,
 
-
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
@@ -93,8 +95,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    MatChipsModule,
     MatCardModule,
     MatDividerModule,
+    MatRippleModule,
 
     AlertComponent,
     InputComponent,
