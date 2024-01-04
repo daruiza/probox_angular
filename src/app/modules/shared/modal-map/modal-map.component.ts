@@ -13,7 +13,7 @@ export class ModalMapComponent implements OnInit {
 
   @Input() addMarkerOnClick: boolean = false;
   @Input() location!: google.maps.LatLngLiteral;
-  @Input() title!: string;
+  @Input() marker_options!: google.maps.MarkerOptions;
 
   @Input() limitMarkers: number = 1;
 

@@ -42,10 +42,10 @@ export class ProjectCardComponent implements OnInit {
 
   }
 
-  async init(){
+  async init() {
     this.options_card.set(this.options_user?.filter((el: any) =>
-        el.pivot.name == 'card' && el.pivot.description == 'card') ?? []
-      );
+      el.pivot.name == 'card' && el.pivot.description == 'card') ?? []
+    );
   }
 
   async formConstructor() {
@@ -108,6 +108,7 @@ export class ProjectCardComponent implements OnInit {
     const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
     if (this.options_user.find((el: any) => el.name === 'edit_map')) mapModal.componentInstance.addMarkerOnClick = true;
     mapModal.componentInstance.location = this.project?.location ? JSON.parse(this.project?.location) : null;
+    mapModal.componentInstance.marker_options = { title: this.project?.name??'', draggable: true }
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
       this.projectForm.get('address')?.setValue(geo.address);
       this.projectForm.get('location')?.setValue(geo.location);

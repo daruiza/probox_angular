@@ -4,7 +4,7 @@
             (mapDblclick)="mapDblclick($event)">
             <map-marker *ngIf="addressMarker" [position]="addressMarker" [options]="optionMarker"
                 (mapDragend)="dragableChanged($event)" (mapClick)="markerClick($event)" [clickable]="true"
-                [title]="title"></map-marker>
+                [options]="marker_options"></map-marker>
         </google-map>
     </div>
     <div class="modal-footer">
