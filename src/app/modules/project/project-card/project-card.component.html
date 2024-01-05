@@ -10,8 +10,11 @@
             <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
         </div>
         <mat-card-title>{{project.name??''}}</mat-card-title>
-        <mat-card-subtitle matTooltip="{{project.address??''}}" (click)="showAddressMap()">{{project.address??''}}</mat-card-subtitle>
+        <mat-card-subtitle matTooltip="{{project.address??''}}"
+            (click)="showAddressMap()">{{project.address??''}}</mat-card-subtitle>
+            
     </mat-card-header>
+    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
     <mat-card-content>
         <!-- Tags -->
         <!-- <mat-form-field class="mff"> -->
@@ -28,10 +31,11 @@
     </mat-card-content>
     <mat-card-actions>
         <ng-container *ngFor="let option of options_card()">
-            <button mat-mini-fab class="mat-fab-card" color="primary" [matTooltip]="option.label"
-                aria-label="assignment icon">
+            <button mat-mini-fab class="mat-fab-card_NO" color="primary" [matTooltip]="option.label"
+                aria-label="assignment icon" matBadge="8" matBadgeColor="accent" >
                 <mat-icon color="accent">{{option.icon}}</mat-icon>
             </button>
+            <!-- matBadge="8" matBadgeColor="accent" -->
         </ng-container>
     </mat-card-actions>
 </mat-card>

@@ -2,7 +2,7 @@
     <div class="modal-body my-primary-text">
         <google-map width="100%" [zoom]="zoom()" [center]="center" [options]="options()" (mapClick)="mapClick($event)"
             (mapDblclick)="mapDblclick($event)">
-            <map-marker *ngIf="addressMarker" [position]="addressMarker" [options]="optionMarker"
+            <map-marker *ngIf="location" [position]="location" [options]="optionMarker"
                 (mapDragend)="dragableChanged($event)" (mapClick)="markerClick($event)" [clickable]="true"
                 [options]="marker_options"></map-marker>
         </google-map>

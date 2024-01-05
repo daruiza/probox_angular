@@ -4,6 +4,14 @@
         display: none
     }
 
+    .mat-mdc-card-title {
+        font-weight: 300;
+    }
+
+    .mat-card-subtitle{
+        font-weight: 400;
+    }
+
     .mat-card-image-custom {
         width: 100% !important;
         border-radius: 50% !important;

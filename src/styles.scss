@@ -10,7 +10,7 @@ mat.$theme-ignore-duplication-warnings: true;
     background-color: map-get($custom-theme, primary, default) !important;
 
     .mat-mdc-menu-item-text, .material-icons {
-      color: white !important;
+      color: white
     }
   }
 }

@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 
-
+import { MatBadgeModule } from '@angular/material/badge'
 
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -99,6 +99,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatCardModule,
     MatDividerModule,
     MatRippleModule,
+    MatBadgeModule,
 
     AlertComponent,
     InputComponent,

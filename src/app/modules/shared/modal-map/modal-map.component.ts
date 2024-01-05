@@ -83,7 +83,6 @@ export class ModalMapComponent implements OnInit {
         }
       });
     }
-
   }
 
   mapDblclick(event: any) {

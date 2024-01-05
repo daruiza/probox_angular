@@ -18,15 +18,14 @@
   }
 
 }
-
-.indigo-icon {
+::ng-deep .indigo-icon {
   color: #3f51b5 !important;
 }
 
-.light-blue-icon {
+::ng-deep .light-blue-icon {
   color: #4fc3f7 !important;
 }
 
-.blue-grey-icon {
+::ng-deep .blue-grey-icon {
   color: #cfd8dc !important;
 }
