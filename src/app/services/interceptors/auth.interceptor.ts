@@ -27,7 +27,10 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.loadingService.showTogleLoadingSubject();
+    // noShowTogleLoadingSubject - no ejecutar el loadin visual
+    if (!request.params.get('noShowTogleLoadingSubject')) {
+      this.loadingService.showTogleLoadingSubject();
+    }
     let newHeaders = request.headers;
     if (this.authService.checkLogin()) {
       newHeaders = newHeaders.append(
@@ -44,7 +47,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
-      console.log('Interceptor',error);     
+      console.log('Interceptor', error);
 
       // Si el error es de autenticación
       if (error.status === 401 || error.status === 403) {

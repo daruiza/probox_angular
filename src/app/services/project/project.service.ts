@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, map } from "rxjs";
 import { environment } from "src/environments/environment";
 
 
@@ -18,7 +18,20 @@ export class ProjectService {
         protected http: HttpClient,
     ) { }
 
-    public update(id: number,formData: any): Observable<any> {
+    public showbyid(id: number): Observable<any> {
+        const options = {
+            // No tama los headers correctamente
+            // headers: this.httpHeaders,
+            params: {
+                noShowTogleLoadingSubject: true
+            }
+        };
+        return this.http.get<any>(`${this.url}/project/showbyid/${id}`, options).pipe(
+            map((res: any) => (res?.data?.project ?? {}))
+        );
+    }
+
+    public update(id: number, formData: any): Observable<any> {
         const options = {
             // No tama los headers correctamente
             // headers: this.httpHeaders,

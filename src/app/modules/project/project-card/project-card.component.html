@@ -32,7 +32,7 @@
     <mat-card-actions>
         <ng-container *ngFor="let option of options_card()">
             <button mat-mini-fab class="mat-fab-card_NO" color="primary" [matTooltip]="option.label"
-                aria-label="assignment icon" matBadge="8" matBadgeColor="accent" >
+                aria-label="assignment icon" [matBadge]="option.badge" matBadgeColor="accent" >
                 <mat-icon color="accent">{{option.icon}}</mat-icon>
             </button>
             <!-- matBadge="8" matBadgeColor="accent" -->

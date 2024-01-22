@@ -43,8 +43,11 @@ export class ProjectCardComponent implements OnInit {
   }
 
   async init() {
-    this.options_card.set(this.options_user?.filter((el: any) =>
-      el.pivot.name == 'card' && el.pivot.description == 'card') ?? []
+
+    this.options_card.set(
+      this.options_user?.filter((el: any) =>
+        el.pivot.name == 'card' && el.pivot.description == 'card')
+        .map((il: any) => ({ ...il, badge: null })) ?? []
     );
   }
 
@@ -63,10 +66,24 @@ export class ProjectCardComponent implements OnInit {
   }
 
   callService() {
+    this.projectData();
     this.setUrl();
   }
 
   // Services
+  projectData() {
+    this.projectService.showbyid(this.project.id).subscribe(project => {
+      console.log('project', project);
+      this.options_card.set(this.options_card().map((el: any) => {
+        if (el.name === 'notes') return { ...el, badge: project?.notes?.length ?? null }
+        if (el.name === 'tasks') return { ...el, badge: project?.tasks?.length ?? null }
+        if (el.name === 'colaborators') return { ...el, badge: project?.colaborators?.length ?? null }
+        if (el.name === 'customers') return { ...el, badge: project?.customers?.length ?? null }
+        return { ...el }
+      }))
+    })
+  }
+
   setUrl() {
     if (this.project.logo && this.project.logo != '') {
       this.storageService.downloadFile(this.project.logo).subscribe(file => {
@@ -108,7 +125,7 @@ export class ProjectCardComponent implements OnInit {
     const mapModal = this.modalService.open(ModalMapComponent, { size: 'lg', backdrop: 'static' });
     if (this.options_user.find((el: any) => el.name === 'edit_map')) mapModal.componentInstance.addMarkerOnClick = true;
     mapModal.componentInstance.location = this.project?.location ? JSON.parse(this.project?.location) : null;
-    mapModal.componentInstance.marker_options = { title: this.project?.name??'', draggable: true }
+    mapModal.componentInstance.marker_options = { title: this.project?.name ?? '', draggable: true }
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
       this.projectForm.get('address')?.setValue(geo.address);
       this.projectForm.get('location')?.setValue(geo.location);
