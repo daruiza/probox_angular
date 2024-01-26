@@ -5,13 +5,16 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 import { ModalMapComponent } from '../../shared/modal-map/modal-map.component';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
+import { BaseComponent } from 'src/app/components/base/base.component';
+import { TranslateService } from '@ngx-translate/core';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-project-card',
   templateUrl: './project-card.component.html',
   styleUrls: ['./project-card.component.scss']
 })
-export class ProjectCardComponent implements OnInit {
+export class ProjectCardComponent extends BaseComponent implements OnInit {
 
   @Input() project: any = {};
   @Input() options_user: any = [];
@@ -25,11 +28,19 @@ export class ProjectCardComponent implements OnInit {
   public url: string | ArrayBuffer | null = null;
 
   constructor(
+    public override readonly translate: TranslateService,
+    public override readonly appService: AppService,
     private readonly storageService: StorageService,
     private readonly projectService: ProjectService,
     private readonly modalService: NgbModal,
     public readonly snackBarService: SnackBarService,
-  ) { }
+  ) { super(translate, appService); }
+
+  ngOnDestroy(): void {
+    if (this.translateSuscription) {
+      this.translateSuscription.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
@@ -73,14 +84,18 @@ export class ProjectCardComponent implements OnInit {
   // Services
   projectData() {
     this.projectService.showbyid(this.project.id).subscribe(project => {
-      console.log('project', project);
+
       this.options_card.set(this.options_card().map((el: any) => {
         if (el.name === 'notes') return { ...el, badge: project?.notes?.length ?? null }
+        if (el.name === 'documents') return { ...el, badge: project?.documents?.length ?? null }
         if (el.name === 'tasks') return { ...el, badge: project?.tasks?.length ?? null }
         if (el.name === 'colaborators') return { ...el, badge: project?.colaborators?.length ?? null }
         if (el.name === 'customers') return { ...el, badge: project?.customers?.length ?? null }
         return { ...el }
       }))
+
+      console.log('project', project);
+      console.log('options_card', this.options_card());
     })
   }
 

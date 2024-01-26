@@ -12,30 +12,81 @@
         <mat-card-title>{{project.name??''}}</mat-card-title>
         <mat-card-subtitle matTooltip="{{project.address??''}}"
             (click)="showAddressMap()">{{project.address??''}}</mat-card-subtitle>
-            
+
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
     <mat-card-content>
+        <mat-divider></mat-divider>
         <!-- Tags -->
         <!-- <mat-form-field class="mff"> -->
         <mat-chip-listbox aria-label="status project">
             <ng-container *ngFor="let tag of project.tags">
-                <!-- {{tag | json}} -->
                 <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
             </ng-container>
         </mat-chip-listbox>
         <!-- </mat-form-field> -->
+        <!-- <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader> -->
+
+        <mat-vertical-stepper #stepper [linear]="false" [disableRipple]="true" animationDuration="1000">
+            <ng-template matStepperIcon="edit"></ng-template>
+            <ng-template matStepperIcon="number"></ng-template>
+            <ng-template matStepperIcon="done"></ng-template>
+            <mat-step>
+                <ng-template matStepLabel>{{'project_status' | translate | titlecase}}</ng-template>
+                <ng-template matStepContent>
+                    <ngb-carousel>
+                        <ng-template ngbSlide>
+                            <div>
+                                <!-- <img [src]="images[0]" alt="Random first slide" /> -->
+                                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                                    alt="Photo of a Shiba Inu">
+                            </div>
+                            <div class="carousel-caption">
+                                <h3>First slide label</h3>
+                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                            </div>
+                        </ng-template>
+                    </ngb-carousel>
+                </ng-template>
+            </mat-step>
+
+            <mat-step>
+                <ng-template matStepLabel>{{'project_data' | translate | titlecase}}</ng-template>
+                <ng-template matStepContent>
+                    <mat-accordion multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-description>
+                                    {{'project_status' | translate | titlecase}}
+                                    <mat-icon>account_circle</mat-icon>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <p>This is the primary content of the panel.</p>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    {{'project_data' | translate | titlecase}}
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>This is the primary content of the panel.</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </ng-template>
+            </mat-step>
+        </mat-vertical-stepper>
 
         <mat-divider></mat-divider>
         <div> Etiquetas de labor: piso, techo, pintura, etc</div>
     </mat-card-content>
     <mat-card-actions>
-        <ng-container *ngFor="let option of options_card()">
+        Los botones
+
+        <!-- <ng-container *ngFor="let option of options_card()">
             <button mat-mini-fab class="mat-fab-card_NO" color="primary" [matTooltip]="option.label"
-                aria-label="assignment icon" [matBadge]="option.badge" matBadgeColor="accent" >
+                aria-label="assignment icon" [matBadge]="option.badge ? option.badge: null" matBadgeColor="accent">
                 <mat-icon color="accent">{{option.icon}}</mat-icon>
             </button>
-            <!-- matBadge="8" matBadgeColor="accent" -->
-        </ng-container>
+        </ng-container> -->
     </mat-card-actions>
 </mat-card>

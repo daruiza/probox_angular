@@ -1,6 +1,6 @@
 <div class="container" [class]="'container-'+appService.theme">
     <div *ngIf="alert()" class="row">
-        <app-alert [alert]="{type: 'success', message:'message', title: 'title'}"></app-alert>
+        <app-alert [alert]="alert()"></app-alert>
     </div>
 
     <div class="row">

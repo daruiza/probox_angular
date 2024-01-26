@@ -8,8 +8,12 @@
         font-weight: 300;
     }
 
-    .mat-card-subtitle{
+    .mat-card-subtitle {
         font-weight: 400;
+    }
+
+    .mat-mdc-card-content {
+        padding: 0 6px;
     }
 
     .mat-card-image-custom {
@@ -95,6 +99,49 @@
         border-style: solid;
         border-width: 2px;
         border-color: whitesmoke;
+    }
+
+    // mat-vertical-stepper
+    mat-vertical-stepper {
+        background: none;
+    }
+
+    ::ng-deep mat-step-header {
+        padding: 15px 0px 15px 0px;
+    }
+
+    ::ng-deep .mat-vertical-content-container {
+        margin-left: 12px;
+    }
+
+    ::ng-deep .mat-vertical-content {
+        padding: 0 2px 14px 6px;
+
+    }
+
+    ::ng-deep mat-step-header:hover {
+        background-color: transparent !important;
+    }
+
+    ::ng-deep .mat-step-header.cdk-keyboard-focused,
+    ::ng-deep .mat-step-header.cdk-program-focused {
+        background-color: transparent !important;
+    }
+
+    // Acordeon
+    mat-expansion-panel {
+        background: none;
+    }
+
+    ::ng-deep mat-panel-description,
+    ::ng-deep mat-panel-title {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    // carousel
+    ::ng-deep .mat-mdc-card-image {
+        max-width: 100%;
     }
 
     @media only screen and (max-width: 720px) {}
