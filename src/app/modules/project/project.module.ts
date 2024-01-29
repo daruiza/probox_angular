@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProjectRoutingModule } from './project-routing.module';
 import { ProjectCardComponent } from './project-card/project-card.component';
+import { ProjectTaskComponent } from './project-task/project-task.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -10,7 +11,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
-    ProjectCardComponent
+    ProjectCardComponent,
+    ProjectTaskComponent
   ],
   imports: [
     CommonModule,

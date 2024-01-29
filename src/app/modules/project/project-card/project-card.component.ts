@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren, ViewContainerRef, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StorageService } from 'src/app/services/storage/storage.service';
@@ -8,6 +8,7 @@ import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
+import { ProjectTaskComponent } from '../project-task/project-task.component';
 
 @Component({
   selector: 'app-project-card',
@@ -15,6 +16,8 @@ import { AppService } from 'src/app/services/app.service';
   styleUrls: ['./project-card.component.scss']
 })
 export class ProjectCardComponent extends BaseComponent implements OnInit {
+
+  @ViewChildren('project_option_componet', { read: ViewContainerRef }) container!: QueryList<ViewContainerRef>;
 
   @Input() project: any = {};
   @Input() options_user: any = [];
@@ -34,6 +37,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     private readonly projectService: ProjectService,
     private readonly modalService: NgbModal,
     public readonly snackBarService: SnackBarService,
+    // private readonly cdr: ChangeDetectorRef
   ) { super(translate, appService); }
 
   ngOnDestroy(): void {
@@ -48,13 +52,17 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     this.init();
     this.formConstructor().then(() => {
       this.callService();
-
     })
-
   }
 
-  async init() {
+  ngAfterViewInit() {
+    // this.cdr.detectChanges();
+    // console.log('ngAfterViewInit', this.container);
+    // console.log('ngAfterViewInit', this.container);
+  }
 
+  // Opera con al opciones 
+  async init() {
     this.options_card.set(
       this.options_user?.filter((el: any) =>
         el.pivot.name == 'card' && el.pivot.description == 'card')
@@ -113,6 +121,28 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     }
   }
 
+   // Events
+
+   option_after_open(option: any) {
+    // this.cdr.detectChanges();
+    console.log('option', option);
+    console.log(this.options_card().indexOf(option));
+    console.log(this.container);
+    console.log(this.container.get(this.options_card().indexOf(option)));
+
+    
+
+    // this.options_card.set(this.options_card().map((op: any) => {
+    //   if (op.name === option.name) return { ...option, badge: null }
+    //   return op;
+    // }))
+
+
+    this.container.get(this.options_card().indexOf(option))?.clear();
+    const ProjectTaskComponentRef = this.container.get(this.options_card().indexOf(option))?.createComponent(ProjectTaskComponent)
+    // ProjectTaskComponentRef.instance.input = value;
+  }
+
   onFileChanged(event: any) {
     const file = event.target.files[0]
     if (file) {
@@ -151,8 +181,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     }, reason => {
       this.save();
     });
-
-  }
+  } 
 
   save() {
     // se guardan los cambios
