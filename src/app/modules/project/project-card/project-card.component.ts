@@ -28,6 +28,9 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   @Input() options_user: any = [];
   @Output() updataProject = new EventEmitter<any>();
 
+  tags_status = signal<any[]>([]);
+  tags_labour = signal<any[]>([]);
+
   options_card = signal<any[]>([]);
   options_main = signal<any[]>([]);
 
@@ -66,7 +69,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     // console.log('ngAfterViewInit', this.container);
     // console.log('ngAfterViewInit', this.container);
   }
-
+  
   // Opera con al opciones 
   async optionsSet() {
     this.options_card.set(
@@ -81,8 +84,20 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
         .map((il: any) => ({ ...il, badge: null })) ?? []
     );
 
+    this.tags_status.set(
+      this.project.tags?.filter((el: any) =>
+        el.category == 'status')
+        .map((il: any) => ({ ...il, badge: null })) ?? []
+    );
+
+    this.tags_labour.set(
+      this.project.tags?.filter((el: any) =>
+        el.category == 'labour')
+        .map((il: any) => ({ ...il, badge: null })) ?? []
+    );
+
     console.log('this.options_main', this.options_main());
-    
+
   }
 
   async formConstructor() {
@@ -213,14 +228,14 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     mapModal.componentInstance.marker_options = { title: this.project?.name ?? '', draggable: true }
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
       console.log('geo', geo);
-      
+
       this.projectForm.get('address')?.setValue(geo.address);
       this.projectForm.get('location')?.setValue(geo.location);
     });
 
     mapModal.result.then(result => {
       this.save();
-    }, reason => {      
+    }, reason => {
       this.save();
     });
   }

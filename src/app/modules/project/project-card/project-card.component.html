@@ -17,13 +17,16 @@
     <mat-card-content>
         <mat-divider></mat-divider>
         <!-- Tags -->
-        <!-- <mat-form-field class="mff"> -->
-        <mat-chip-listbox aria-label="status project">
-            <ng-container *ngFor="let tag of project.tags">
-                <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
-            </ng-container>
-        </mat-chip-listbox>
-        <!-- </mat-form-field> -->
+        <form>
+            <mat-form-field class="mff">
+                <mat-chip-listbox aria-label="status project">
+                    <ng-container *ngFor="let tag of tags_status()">
+                        <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
+                    </ng-container>
+                </mat-chip-listbox>
+                <input matInput type="text" />
+            </mat-form-field>
+        </form>
         <!-- <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader> -->
 
         <mat-vertical-stepper #stepper [linear]="false" [disableRipple]="true" animationDuration="1000">
@@ -87,7 +90,11 @@
         </mat-vertical-stepper>
 
         <mat-divider></mat-divider>
-        <div> Etiquetas de labor: piso, techo, pintura, etc</div>
+        <mat-chip-listbox aria-label="labour project">
+            <ng-container *ngFor="let tag of tags_labour()">
+                <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
+            </ng-container>
+        </mat-chip-listbox>
     </mat-card-content>
     <mat-card-actions>
         <ng-container *ngFor="let option of options_main()">
