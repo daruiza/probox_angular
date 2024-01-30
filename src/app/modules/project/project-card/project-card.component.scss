@@ -41,7 +41,7 @@
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-    }    
+    }
 
     .mff {
         width: 100%
@@ -68,6 +68,11 @@
     ::ng-deep .mat-mdc-card-subtitle:hover {
         cursor: pointer;
         filter: brightness(1.2);
+    }
+
+    mat-card-actions {
+        padding-right: 15%;
+        padding-left: 15%;
     }
 
     // CHIPS

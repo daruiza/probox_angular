@@ -44,6 +44,10 @@
   "accept": "accept",
   "update": "update",
 
+  "edit": "edit",
+  "photo": "photo",
+  "notification": "notification",
+
   "how_to_get": "how to get",
 
   "project_status": "project status",

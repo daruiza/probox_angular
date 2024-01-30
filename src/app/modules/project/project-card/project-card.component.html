@@ -37,7 +37,8 @@
                         <ng-template ngbSlide>
                             <div>
                                 <!-- <img [src]="images[0]" alt="Random first slide" /> -->
-                                <img mat-card-image src="https://estucosypinturas.com.co/wp-content/uploads/2018/02/IMG_4721.jpg"
+                                <img mat-card-image
+                                    src="https://estucosypinturas.com.co/wp-content/uploads/2018/02/IMG_4721.jpg"
                                     alt="Photo of a Shiba Inu">
                             </div>
                             <div class="carousel-caption">
@@ -47,7 +48,8 @@
                         </ng-template>
                         <ng-template ngbSlide>
                             <div>
-                                <img mat-card-image src="https://estucosypinturas.com.co/wp-content/uploads/2015/09/WhatsApp-Image-2017-05-18-at-16.32.09-1.jpeg"
+                                <img mat-card-image
+                                    src="https://estucosypinturas.com.co/wp-content/uploads/2015/09/WhatsApp-Image-2017-05-18-at-16.32.09-1.jpeg"
                                     alt="Photo of a Shiba Inu">
                             </div>
                             <div class="carousel-caption">
@@ -88,13 +90,19 @@
         <div> Etiquetas de labor: piso, techo, pintura, etc</div>
     </mat-card-content>
     <mat-card-actions>
-        Los botones
-
-        <!-- <ng-container *ngFor="let option of options_card()">
-            <button mat-mini-fab class="mat-fab-card_NO" color="primary" [matTooltip]="option.label"
-                aria-label="assignment icon" [matBadge]="option.badge ? option.badge: null" matBadgeColor="accent">
-                <mat-icon color="accent">{{option.icon}}</mat-icon>
-            </button>
-        </ng-container> -->
+        <ng-container *ngFor="let option of options_main()">
+            <ng-container *ngIf="option.name === 'photo'; else option_mini">
+                <button mat-fab color="accent" matTooltip="{{option.label | translate | titlecase}}"
+                    aria-label="assignment icon">
+                    <mat-icon color="primary">{{option.icon}}</mat-icon>
+                </button>
+            </ng-container>
+            <ng-template #option_mini>
+                <button mat-mini-fab color="primary" matTooltip="{{option.label | translate | titlecase}}"
+                    aria-label="assignment icon">
+                    <mat-icon color="accent">{{option.icon}}</mat-icon>
+                </button>
+            </ng-template>
+        </ng-container>
     </mat-card-actions>
 </mat-card>

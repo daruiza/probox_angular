@@ -29,6 +29,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   @Output() updataProject = new EventEmitter<any>();
 
   options_card = signal<any[]>([]);
+  options_main = signal<any[]>([]);
 
   public projectFormOld!: any;
   public projectForm!: FormGroup;
@@ -54,7 +55,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     // throw new Error('Method not implemented.');
     // get image by url - logo
-    this.init();
+    this.optionsSet();
     this.formConstructor().then(() => {
       this.callService();
     })
@@ -67,12 +68,21 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   }
 
   // Opera con al opciones 
-  async init() {
+  async optionsSet() {
     this.options_card.set(
       this.options_user?.filter((el: any) =>
         el.pivot.name == 'card' && el.pivot.description == 'card')
         .map((il: any) => ({ ...il, badge: null })) ?? []
     );
+
+    this.options_main.set(
+      this.options_user?.filter((el: any) =>
+        el.pivot.name == 'card' && el.pivot.description == 'card_main')
+        .map((il: any) => ({ ...il, badge: null })) ?? []
+    );
+
+    console.log('this.options_main', this.options_main());
+    
   }
 
   async formConstructor() {
@@ -108,7 +118,6 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
       }))
 
       console.log('project', project);
-      console.log('options_card', this.options_card());
     })
   }
 
@@ -203,13 +212,15 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     mapModal.componentInstance.location = this.project?.location ? JSON.parse(this.project?.location) : null;
     mapModal.componentInstance.marker_options = { title: this.project?.name ?? '', draggable: true }
     mapModal.componentInstance.addressMarkerOnChange.subscribe((geo: any) => {
+      console.log('geo', geo);
+      
       this.projectForm.get('address')?.setValue(geo.address);
       this.projectForm.get('location')?.setValue(geo.location);
     });
 
     mapModal.result.then(result => {
       this.save();
-    }, reason => {
+    }, reason => {      
       this.save();
     });
   }
