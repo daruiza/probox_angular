@@ -1,8 +1,8 @@
 
 export enum OptionCard {
-    tasks = 'ProjectTaskComponent',
-    documents = 'ProjectDocumentComponent',
-    customers = 'ProjectCustomersComponent',
-    colaborators = 'ProjectColaboratorsComponent',
-    notes = 'ProjectNotesComponent',    
+    tasks = 'tasks',
+    documents = 'documents',
+    customers = 'customers',
+    colaborators = 'colaborators',
+    notes = 'notes',
 }

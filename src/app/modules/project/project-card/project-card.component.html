@@ -33,16 +33,25 @@
             <mat-step>
                 <ng-template matStepLabel>{{'project_status' | translate | titlecase}}</ng-template>
                 <ng-template matStepContent>
-                    <ngb-carousel>
+                    <ngb-carousel [interval]="0">
                         <ng-template ngbSlide>
                             <div>
                                 <!-- <img [src]="images[0]" alt="Random first slide" /> -->
-                                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                                <img mat-card-image src="https://estucosypinturas.com.co/wp-content/uploads/2018/02/IMG_4721.jpg"
                                     alt="Photo of a Shiba Inu">
                             </div>
                             <div class="carousel-caption">
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                <!-- <h3>First slide label</h3> -->
+                                <!-- <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> -->
+                            </div>
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <div>
+                                <img mat-card-image src="https://estucosypinturas.com.co/wp-content/uploads/2015/09/WhatsApp-Image-2017-05-18-at-16.32.09-1.jpeg"
+                                    alt="Photo of a Shiba Inu">
+                            </div>
+                            <div class="carousel-caption">
+                                <!-- <h3>Second slide label</h3> -->
                             </div>
                         </ng-template>
                     </ngb-carousel>

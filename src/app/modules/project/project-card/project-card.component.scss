@@ -41,7 +41,7 @@
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-    }
+    }    
 
     .mff {
         width: 100%
@@ -148,9 +148,18 @@
         max-width: 100%;
     }
 
-    @media only screen and (max-width: 720px) {}
+    @media only screen and (max-width: 720px) {
+        ngb-carousel img {
+            // height: 150px;
+        }
+    }
 
     @media only screen and (min-width: 720px) {
+
+        ngb-carousel img {
+            // height: 150px;
+        }
+
         ::ng-deep .mat-mdc-card-header-text {
             overflow: hidden;
         }

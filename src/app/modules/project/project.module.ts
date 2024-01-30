@@ -8,11 +8,19 @@ import { SharedModule } from '../shared/shared.module';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ProjectDocumentComponent } from './project-document/project-document.component';
+import { ProjectCustomerComponent } from './project-customer/project-customer.component';
+import { ProjectColaboratorComponent } from './project-colaborator/project-colaborator.component';
+import { ProjectNoteComponent } from './project-note/project-note.component';
 
 @NgModule({
   declarations: [
     ProjectCardComponent,
-    ProjectTaskComponent
+    ProjectTaskComponent,
+    ProjectDocumentComponent,
+    ProjectCustomerComponent,
+    ProjectColaboratorComponent,
+    ProjectNoteComponent
   ],
   imports: [
     CommonModule,

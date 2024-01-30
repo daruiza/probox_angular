@@ -9,6 +9,11 @@ import { BaseComponent } from 'src/app/components/base/base.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 import { ProjectTaskComponent } from '../project-task/project-task.component';
+import { OptionCard } from 'src/app/enums/option-card';
+import { ProjectDocumentComponent } from '../project-document/project-document.component';
+import { ProjectCustomerComponent } from '../project-customer/project-customer.component';
+import { ProjectColaboratorComponent } from '../project-colaborator/project-colaborator.component';
+import { ProjectNoteComponent } from '../project-note/project-note.component';
 
 @Component({
   selector: 'app-project-card',
@@ -121,26 +126,52 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     }
   }
 
-   // Events
+  // Events
 
-   option_after_open(option: any) {
+  option_after_open(option: any) {
     // this.cdr.detectChanges();
     console.log('option', option);
     console.log(this.options_card().indexOf(option));
     console.log(this.container);
     console.log(this.container.get(this.options_card().indexOf(option)));
 
-    
+
 
     // this.options_card.set(this.options_card().map((op: any) => {
     //   if (op.name === option.name) return { ...option, badge: null }
     //   return op;
     // }))
 
-
+    let ProjectTaskComponentRef = null;
     this.container.get(this.options_card().indexOf(option))?.clear();
-    const ProjectTaskComponentRef = this.container.get(this.options_card().indexOf(option))?.createComponent(ProjectTaskComponent)
-    // ProjectTaskComponentRef.instance.input = value;
+    switch (option.name) {
+
+      case OptionCard.tasks:
+        ProjectTaskComponentRef = this.container.get(this.options_card().indexOf(option))?.createComponent(ProjectTaskComponent);
+        // ProjectTaskComponentRef.instance.input = value;
+        break;
+      case OptionCard.documents:
+        ProjectTaskComponentRef = this.container.get(this.options_card().indexOf(option))?.createComponent(ProjectDocumentComponent);
+        // ProjectTaskComponentRef.instance.input = value;
+        break;
+      case OptionCard.customers:
+        ProjectTaskComponentRef = this.container.get(this.options_card().indexOf(option))?.createComponent(ProjectCustomerComponent);
+        // ProjectTaskComponentRef.instance.input = value;
+        break;
+      case OptionCard.colaborators:
+        ProjectTaskComponentRef = this.container.get(this.options_card().indexOf(option))?.createComponent(ProjectColaboratorComponent);
+        // ProjectTaskComponentRef.instance.input = value;
+        break;
+      case OptionCard.notes:
+        ProjectTaskComponentRef = this.container.get(this.options_card().indexOf(option))?.createComponent(ProjectNoteComponent);
+        break;
+      default:
+        break;
+    }
+    if (option.name === OptionCard.tasks) {
+    }
+
+
   }
 
   onFileChanged(event: any) {
@@ -181,7 +212,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     }, reason => {
       this.save();
     });
-  } 
+  }
 
   save() {
     // se guardan los cambios
