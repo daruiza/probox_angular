@@ -19,11 +19,11 @@
         <!-- Tags -->
         <form>
             <mat-form-field class="mff">
-                <mat-chip-listbox aria-label="status project">
+                <mat-chip-grid aria-label="status project">
                     <ng-container *ngFor="let tag of tags_status()">
-                        <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
+                        <mat-chip-row class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip-row>
                     </ng-container>
-                </mat-chip-listbox>
+                </mat-chip-grid>
                 <input matInput type="text" />
             </mat-form-field>
         </form>
