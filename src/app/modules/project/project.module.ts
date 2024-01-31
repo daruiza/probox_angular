@@ -10,6 +10,7 @@ import { ProjectColaboratorComponent } from './project-colaborator/project-colab
 import { ProjectNoteComponent } from './project-note/project-note.component';
 
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -28,6 +29,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     CommonModule,
     ProjectRoutingModule,
     SharedModule,
+    ReactiveFormsModule,
     MatStepperModule,
     MatExpansionModule,
     NgxSkeletonLoaderModule

@@ -3,7 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { BaseComponent } from 'src/app/components/base/base.component';
 import { IAlert } from 'src/app/models/IAlert';
-import { IUser } from 'src/app/models/IUser';
 import { AppService } from 'src/app/services/app.service';
 import { UserService } from 'src/app/services/auth/user.service';
 

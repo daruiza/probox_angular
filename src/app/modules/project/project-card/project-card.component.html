@@ -9,9 +9,9 @@
             </ng-template>
             <input class="hidden" placeholder="selectFile" type="file" (change)="onFileChanged($event)" #fileInput>
         </div>
-        <mat-card-title>{{project.name??''}}</mat-card-title>
-        <mat-card-subtitle matTooltip="{{project.address??''}}"
-            (click)="showAddressMap()">{{project.address??''}}</mat-card-subtitle>
+        <mat-card-title>{{project?.name??''}}</mat-card-title>
+        <mat-card-subtitle matTooltip="{{project?.address??''}}"
+            (click)="showAddressMap()">{{project?.address??''}}</mat-card-subtitle>
 
     </mat-card-header>
     <mat-card-content>
@@ -19,12 +19,12 @@
         <!-- Tags -->
         <form>
             <mat-form-field class="mff">
-                <mat-chip-grid aria-label="status project">
+                <mat-chip-grid #chipGrid aria-label="status project">
                     <ng-container *ngFor="let tag of tags_status()">
                         <mat-chip-row class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip-row>
                     </ng-container>
                 </mat-chip-grid>
-                <input matInput type="text" />
+                <input matInput [matChipInputFor]="chipGrid" [formControl]="fruitCtrl" />
             </mat-form-field>
         </form>
         <!-- <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader> -->

@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren, ViewContainerRef, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren, ViewContainerRef, signal } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ModalMapComponent } from '../../shared/modal-map/modal-map.component';
@@ -14,6 +14,10 @@ import { ProjectDocumentComponent } from '../project-document/project-document.c
 import { ProjectCustomerComponent } from '../project-customer/project-customer.component';
 import { ProjectColaboratorComponent } from '../project-colaborator/project-colaborator.component';
 import { ProjectNoteComponent } from '../project-note/project-note.component';
+import { TagService } from 'src/app/services/project/tag.service';
+import { forkJoin } from 'rxjs';
+
+import { COMMA, ENTER } from '@angular/cdk/keycodes'
 
 @Component({
   selector: 'app-project-card',
@@ -34,8 +38,15 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   options_card = signal<any[]>([]);
   options_main = signal<any[]>([]);
 
-  public projectFormOld!: any;
+  tag_status_default = signal<any[]>([]);
+  tag_labour_default = signal<any[]>([]);
+
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  public projectFormOld = signal<any>({});
   public projectForm!: FormGroup;
+
+  fruitCtrl = new FormControl('');
 
   public url: string | ArrayBuffer | null = null;
 
@@ -44,9 +55,9 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     public override readonly appService: AppService,
     private readonly storageService: StorageService,
     private readonly projectService: ProjectService,
+    private readonly tagService: TagService,
     private readonly modalService: NgbModal,
     public readonly snackBarService: SnackBarService,
-    // private readonly cdr: ChangeDetectorRef
   ) { super(translate, appService); }
 
   ngOnDestroy(): void {
@@ -69,7 +80,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     // console.log('ngAfterViewInit', this.container);
     // console.log('ngAfterViewInit', this.container);
   }
-  
+
   // Opera con al opciones 
   async optionsSet() {
     this.options_card.set(
@@ -111,7 +122,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
       // tags: new FormArray([])
     });
     this.projectForm.patchValue({ ...this.project }, { emitEvent: false });
-    this.projectFormOld = { ...this.projectForm.value }
+    this.projectFormOld.set({ ...this.projectForm.value })
   }
 
   callService() {
@@ -121,19 +132,41 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
   // Services
   projectData() {
-    this.projectService.showbyid(this.project.id).subscribe(project => {
 
-      this.options_card.set(this.options_card().map((el: any) => {
-        if (el.name === 'notes') return { ...el, badge: project?.notes?.length ?? null }
-        if (el.name === 'documents') return { ...el, badge: project?.documents?.length ?? null }
-        if (el.name === 'tasks') return { ...el, badge: project?.tasks?.length ?? null }
-        if (el.name === 'colaborators') return { ...el, badge: project?.colaborators?.length ?? null }
-        if (el.name === 'customers') return { ...el, badge: project?.customers?.length ?? null }
-        return { ...el }
-      }))
+    forkJoin([
+      this.projectService.showbyid(this.project.id),
+      this.tagService.get()
+    ]).subscribe({
+      next: ([project, tags]) => {
 
-      console.log('project', project);
-    })
+        // Asignación de badge para las Opciones
+        this.options_card.set(this.options_card().map((el: any) => {
+          if (el.name === 'notes') return { ...el, badge: project?.notes?.length ?? null }
+          if (el.name === 'documents') return { ...el, badge: project?.documents?.length ?? null }
+          if (el.name === 'tasks') return { ...el, badge: project?.tasks?.length ?? null }
+          if (el.name === 'colaborators') return { ...el, badge: project?.colaborators?.length ?? null }
+          if (el.name === 'customers') return { ...el, badge: project?.customers?.length ?? null }
+          return { ...el }
+        }))
+
+
+        console.log('project', project);
+        console.log('tags', tags);
+
+        this.tag_status_default.set(tags.filter((el: any) => el.category === 'status' && el.default === 1))
+        this.tag_labour_default.set(tags.filter((el: any) => el.category === 'labour' && el.default === 1))
+        console.log('tag_status_default', this.tag_status_default());
+        console.log('tag_labour_default', this.tag_labour_default());
+
+
+      },
+      error: (error) => {
+        console.log('projectData', error);
+        console.log('error.status', error.status);
+        // Si el erro es 401
+        // this.activeModal.close;
+      }
+    });
   }
 
   setUrl() {
@@ -277,7 +310,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
   // validaciones
   oldChanges() {
-    return JSON.stringify(this.projectFormOld) == JSON.stringify(this.projectForm.value)
+    return JSON.stringify(this.projectFormOld()) == JSON.stringify(this.projectForm.value)
   }
 
 }
