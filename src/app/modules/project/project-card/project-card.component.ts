@@ -41,14 +41,13 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   tag_status_default = signal<any[]>([]);
   tag_labour_default = signal<any[]>([]);
 
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-
   public projectFormOld = signal<any>({});
   public projectForm!: FormGroup;
 
   fruitCtrl = new FormControl('');
+  separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  public url: string | ArrayBuffer | null = null;
+  public url = signal<string | ArrayBuffer | null>(null);
 
   constructor(
     public override readonly translate: TranslateService,
@@ -174,7 +173,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
       this.storageService.downloadFile(this.project.logo).subscribe(file => {
         let reader = new FileReader();
         reader.addEventListener("load", () => {
-          this.url = reader.result;
+          this.url.set(reader.result);
         }, false);
         if (file) {
           reader.readAsDataURL(file);
@@ -186,14 +185,8 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   // Events
 
   option_after_open(option: any) {
-    // this.cdr.detectChanges();
-    console.log('option', option);
-    console.log(this.options_card().indexOf(option));
-    console.log(this.container);
-    console.log(this.container.get(this.options_card().indexOf(option)));
 
-
-
+    // Actualización de Opción
     // this.options_card.set(this.options_card().map((op: any) => {
     //   if (op.name === option.name) return { ...option, badge: null }
     //   return op;
@@ -227,8 +220,15 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     }
     if (option.name === OptionCard.tasks) {
     }
+  }
 
+  // Event Chips
+  remove(tag: any) {
+    console.log('tag', tag);
+  }
 
+  selected(tag: any) {
+    console.log('tag', tag);
   }
 
   onFileChanged(event: any) {
@@ -249,7 +249,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
       let file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.url = reader.result;
+        this.url.set(reader.result);
       };
     }
   }

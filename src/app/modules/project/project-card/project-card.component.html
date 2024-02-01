@@ -1,8 +1,8 @@
 <mat-card>
     <mat-card-header>
         <div mat-card-avatar (click)="fileInput.click()">
-            <ng-container *ngIf="url; else usericon">
-                <img class="mat-card-image-custom" mat-card-image alt="profile-img" src={{url}} />
+            <ng-container *ngIf="url(); else usericon">
+                <img class="mat-card-image-custom" mat-card-image alt="profile-img" src={{url()}} />
             </ng-container>
             <ng-template #usericon>
                 <mat-icon color="accent" class="commerce_icon">store_mall_directory</mat-icon>
@@ -21,10 +21,21 @@
             <mat-form-field class="mff">
                 <mat-chip-grid #chipGrid aria-label="status project">
                     <ng-container *ngFor="let tag of tags_status()">
-                        <mat-chip-row class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip-row>
+                        <mat-chip-row class="small-chip" [class]="tag.class" (removed)="remove(tag)">
+                            {{tag.name}}
+                            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
                     </ng-container>
                 </mat-chip-grid>
-                <input matInput [matChipInputFor]="chipGrid" [formControl]="fruitCtrl" />
+                <input placeholder="{{'new_tag' | translate | titlecase}}" [matChipInputFor]="chipGrid"
+                    [formControl]="fruitCtrl" />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let tag of tag_status_default()" [value]="tag">
+                        {{tag}}
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
         </form>
         <!-- <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader> -->
