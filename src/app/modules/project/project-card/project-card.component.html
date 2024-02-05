@@ -18,8 +18,8 @@
         <mat-divider></mat-divider>
         <!-- Tags -->
         <form>
-            <mat-form-field class="mff">
-                <mat-chip-grid #chipGrid aria-label="status project">
+            <mat-form-field class="mff" appearance="fill">
+                <mat-chip-grid #chipGrid aria-label="status project" (click)="tagInput.click()">
                     <ng-container *ngFor="let tag of tags_status()">
                         <mat-chip-row class="small-chip" [class]="tag.class" (removed)="remove(tag)">
                             {{tag.name}}
@@ -29,15 +29,17 @@
                         </mat-chip-row>
                     </ng-container>
                 </mat-chip-grid>
-                <input placeholder="{{'new_tag' | translate | titlecase}}" [matChipInputFor]="chipGrid"
-                    [formControl]="fruitCtrl" />
+                <input matInput  placeholder="{{'new_tag' | translate }}" #tagInput [matChipInputFor]="chipGrid"
+                    [matAutocomplete]="auto" [formControl]="tagCtrl"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                    <mat-option *ngFor="let tag of tag_status_default()" [value]="tag">
-                        {{tag}}
+                    <mat-option *ngFor="let tag of tag_status_select()" [value]="tag">
+                        {{tag.name}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
         </form>
+        
         <!-- <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader> -->
 
         <mat-vertical-stepper #stepper [linear]="false" [disableRipple]="true" animationDuration="1000">

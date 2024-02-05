@@ -4,4 +4,5 @@ export const environment = {
     // baseAPI: 'http://projectbox_laravel.thinkwg.com/api',
     base: 'http://127.0.0.1:8090',
     baseAPI: 'http://127.0.0.1:8090/api',
+
 };

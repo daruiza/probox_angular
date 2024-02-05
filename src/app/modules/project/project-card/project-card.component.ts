@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren, ViewContainerRef, signal } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Signal, ViewChild, ViewChildren, ViewContainerRef, computed, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StorageService } from 'src/app/services/storage/storage.service';
@@ -18,6 +18,8 @@ import { TagService } from 'src/app/services/project/tag.service';
 import { forkJoin } from 'rxjs';
 
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-project-card',
@@ -26,25 +28,33 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes'
 })
 export class ProjectCardComponent extends BaseComponent implements OnInit {
 
+  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
   @ViewChildren('project_option_componet', { read: ViewContainerRef }) container!: QueryList<ViewContainerRef>;
 
   @Input() project: any = {};
   @Input() options_user: any = [];
   @Output() updataProject = new EventEmitter<any>();
 
-  tags_status = signal<any[]>([]);
-  tags_labour = signal<any[]>([]);
-
   options_card = signal<any[]>([]);
   options_main = signal<any[]>([]);
 
+  tags_status = signal<any[]>([]);
+  tags_labour = signal<any[]>([]);
+
+  // todos los tags
   tag_status_default = signal<any[]>([]);
   tag_labour_default = signal<any[]>([]);
+
+  // tags que se dentro del selector
+  // tag_status_select: Signal<any[]> = computed(() => (this.tag_status_default().filter(tsd => !this.tags_status().find(ts => ts === tsd))));
+  tag_status_select: Signal<any[]> = computed(() => this.tag_status_default().filter(tsd => !this.tags_status().find(ts => ts.name === tsd.name)));
+  tag_labour_select: Signal<any[]> = computed(() => this.tag_labour_default().filter(tsd => !this.tags_labour().find(ts => ts.name === tsd.name)));
+
 
   public projectFormOld = signal<any>({});
   public projectForm!: FormGroup;
 
-  fruitCtrl = new FormControl('');
+  tagCtrl = new FormControl('');
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   public url = signal<string | ArrayBuffer | null>(null);
@@ -154,8 +164,8 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
         this.tag_status_default.set(tags.filter((el: any) => el.category === 'status' && el.default === 1))
         this.tag_labour_default.set(tags.filter((el: any) => el.category === 'labour' && el.default === 1))
-        console.log('tag_status_default', this.tag_status_default());
-        console.log('tag_labour_default', this.tag_labour_default());
+        // console.log('tag_status_default', this.tag_status_default());
+        // console.log('tag_labour_default', this.tag_labour_default());
 
 
       },
@@ -224,11 +234,24 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
   // Event Chips
   remove(tag: any) {
-    console.log('tag', tag);
+    this.tags_status.set([...this.tags_status().filter(el => el != tag)]);
+    this.tagInput.nativeElement.value = '';
+    this.tagCtrl.setValue(null);
   }
 
-  selected(tag: any) {
-    console.log('tag', tag);
+  add(event: MatChipInputEvent) {
+    const value = (event.value || '').trim();
+    console.log('value', { name: value, category: 'status', class: 'primary', default: 0, });
+
+
+    this.tagInput.nativeElement.value = '';
+    this.tagCtrl.setValue(null);
+  }
+
+  selected(tag: MatAutocompleteSelectedEvent) {
+    this.tags_status.set([...this.tags_status(), this.tag_status_default().find(el => el.name === tag.option.viewValue)]);
+    this.tagInput.nativeElement.value = '';
+    this.tagCtrl.setValue(null);
   }
 
   onFileChanged(event: any) {
