@@ -128,7 +128,6 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
       photo: new FormControl(),
       address: new FormControl(),
       location: new FormControl(),
-      // tags: new FormArray([])
     });
     this.projectForm.patchValue({ ...this.project }, { emitEvent: false });
     this.projectFormOld.set({ ...this.projectForm.value })
@@ -237,6 +236,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     this.tags_status.set([...this.tags_status().filter(el => el != tag)]);
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
+    // Actualizamos las tag en back
   }
 
   add(event: MatChipInputEvent) {
