@@ -156,11 +156,8 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
           if (el.name === 'customers') return { ...el, badge: project?.customers?.length ?? null }
           return { ...el }
         }))
-
-
         console.log('project', project);
         console.log('tags', tags);
-
         this.tag_status_default.set(tags.filter((el: any) => el.category === 'status' && el.default === 1))
         this.tag_labour_default.set(tags.filter((el: any) => el.category === 'labour' && el.default === 1))
         // console.log('tag_status_default', this.tag_status_default());
@@ -233,7 +230,19 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
   // Event Chips
   remove(tag: any) {
-    this.tags_status.set([...this.tags_status().filter(el => el != tag)]);
+    console.log('tag', tag);
+    this.tagService.delete({
+      ...tag,
+      project_id: this.project.id,
+      return_all: true,
+      return_category: 'status'
+    }).subscribe({
+      next: (res) => {
+        console.log('res-add', res);
+        this.tags_status.set(res?.tags ?? this.tags_status());
+      }
+    })
+
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
     // Actualizamos las tag en back
@@ -241,9 +250,19 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
   add(event: MatChipInputEvent) {
     const value = (event.value || '').trim();
-    console.log('value', { name: value, category: 'status', class: 'primary', default: 0, });
-
-
+    this.tagService.store({
+      name: value,
+      category: 'status',
+      class: 'primary',
+      default: false,
+      active: true,
+      project_id: this.project.id,
+      return_all: true,
+      return_category: 'status'
+    }).subscribe(res => {
+      // refrescamos los tags del card-project      
+      this.tags_status.set(res?.tags ?? this.tags_status());
+    })
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);
   }

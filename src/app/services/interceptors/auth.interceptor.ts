@@ -33,9 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     let newHeaders = request.headers;
     if (this.authService.checkLogin()) {
-      newHeaders = newHeaders.append(
-        'Authorization', `Bearer  ${localStorage.getItem(this.authService.getNameToken())}`
-      );
+      newHeaders = newHeaders.append('Authorization', `Bearer  ${localStorage.getItem(this.authService.getNameToken())}`);
     }
     const authReq = request.clone({ headers: newHeaders });
     return next.handle(authReq).pipe(
