@@ -39,7 +39,8 @@ export class SnackbarComponent extends BaseComponent implements OnInit, OnDestro
     this.snackRefSuscription =
       this.snackBarService.snackbar.subscribe((snack: ISnackModel) => {
         if (snack?.message) {
-          console.log('snack', snack);
+          // Se comenta, el snack hace mucho ruido
+          // console.log('snack', snack);
           this.openSnackBar(this.translate.instant(snack.message), this.translate.instant(snack.action), snack.onAction);
         }
       });

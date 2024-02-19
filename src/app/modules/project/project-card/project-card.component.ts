@@ -166,10 +166,8 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
       },
       error: (error) => {
-        console.log('projectData', error);
-        console.log('error.status', error.status);
-        // Si el erro es 401
-        // this.activeModal.close;
+        // Se coemnta ya que debe haber solo un punto de control de errores - interceptor
+        // console.log('projectData', error);        
       }
     });
   }

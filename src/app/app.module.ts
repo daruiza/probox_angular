@@ -24,6 +24,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BaseComponent } from './components/base/base.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CapitalizeFirstPipe } from './pipes/capitalize-first.pipe';
+import { NacionalityService } from './services/utils/nacionality.service';
+import { GeneralListService } from './services/utils/generallist.service';
+import { StorageService } from './services/storage/storage.service';
+import { AuthGuard } from './services/auth/auth.guard';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -31,7 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 @NgModule({
   declarations: [
-    AppComponent,
+    // AppComponent,
     LoadingComponent,
     SnackbarComponent,
     BaseComponent,
@@ -39,32 +43,51 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   imports: [
     CommonModule,
-    BrowserModule,
-    NgbModule,
-    AppRoutingModule,
+    // BrowserModule,
+    // NgbModule,
+    // AppRoutingModule,
+    // BrowserAnimationsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    
+
+    // MatSnackBarModule,
+    // HeaderModule,
+  ],
+  exports: [
+    CommonModule,
+    // BrowserModule,
+    // BrowserAnimationsModule,
+    NgbModule,
+    HttpClientModule,
     MatSnackBarModule,
     HeaderModule,
+    LoadingComponent,
+    SnackbarComponent,
+    BaseComponent,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AppService,
+    AuthGuard,
     AuthService,
+    UserService,
     LoadingService,
     TranslateService,
-    UserService,
-    SnackBarService
+    SnackBarService,
+    NacionalityService,
+    GeneralListService,
+    StorageService
   ],
 
-  bootstrap: [AppComponent],
+  bootstrap: [
+    // AppComponent
+  ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA

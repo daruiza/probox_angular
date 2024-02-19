@@ -12,6 +12,7 @@ import { NacionalityService } from 'src/app/services/utils/nacionality.service';
 import { ModalMapComponent } from '../../shared/modal-map/modal-map.component';
 import { GeneralListService } from 'src/app/services/utils/generallist.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { HttpErrorCode } from 'src/app/enums/http-erros-code';
 
 @Component({
   selector: 'app-profile',
@@ -121,11 +122,11 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
         this.getUser();
       },
       error: (error) => {
-        console.log(error);
-        console.log('error.status', error.status);
-        
-        // Si el erro es 401
-        // this.activeModal.close;
+        if (error.status === HttpErrorCode.Unauthorized) {
+          // Si el erro es 401
+          this.activeModal.close;
+        }
+
       }
     })
   }

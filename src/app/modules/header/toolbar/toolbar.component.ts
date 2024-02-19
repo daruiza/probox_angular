@@ -57,6 +57,9 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
   async callServices() {
     this.subscriptionUser = this.userService.observableUser.subscribe((user: any | undefined) => {
       this.options_menu.set(user?.rol?.options?.filter((el: any) => el.pivot.name == 'menu') ?? []);
+
+      // TODO: Si el usuario esta vacio y se tiene token, se debe llamar el usuario de back
+      // sebe ser el servicio de suuario encargado de realizar esta labor
     })
   }
 
