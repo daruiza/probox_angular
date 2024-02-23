@@ -29,7 +29,7 @@ export class TagService {
                 noShowTogleLoadingSubject: true
             }
         };
-        return this.http.get<any>(`${this.url}/tag/index/`, options).pipe(
+        return this.http.get<any>(`${this.url}/tag/index`, options).pipe(
             map((res: any) => (res?.tags ?? {}))
         );
     }
@@ -41,9 +41,18 @@ export class TagService {
         );
     }
 
+    public storeProjectTag(tag: ITag): Observable<any> {
+        const options = { params: {} };
+        return this.http.post<any>(`${this.url}/projecttag/store/`, tag).pipe(
+            map((res: any) => (res?.data ?? {}))
+        );
+    }
+
     public delete(tag: ITag): Observable<any> {
         const options = { params: { ...tag } };
-        return this.http.delete<any>(`${this.url}/tag/delete/${tag.id}`, options);
+        return this.http.delete<any>(`${this.url}/projecttag/destroy/${tag.id}`, options).pipe(
+            map((res: any) => (res?.data ?? {}))
+        );
     }
 
     public deleteProjectTag(id: number): Observable<any> {
@@ -53,7 +62,7 @@ export class TagService {
                 return_all: true
             }
         };
-        return this.http.delete<any>(`${this.url}/projecttag/delete/`, options);
+        return this.http.delete<any>(`${this.url}/projecttag/destroy/`, options);
     }
 
 }

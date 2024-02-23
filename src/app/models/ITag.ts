@@ -1,5 +1,6 @@
 export interface ITag {
     id?: number;
+    tag_id?: number;
     category?: string;
     name?: string;
     class?: string;

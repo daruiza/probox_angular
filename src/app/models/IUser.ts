@@ -14,4 +14,5 @@ export interface IUser {
   theme?: string;
   active?: string;
   permits?: any[];
+  rol?: any;
 }

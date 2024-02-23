@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, Signal, computed, signal } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from 'src/app/services/app.service';
 import { LoginComponent } from '../../access/login/login.component';
@@ -19,7 +19,7 @@ import { IUser } from 'src/app/models/IUser';
 })
 export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy {
 
-  public options_menu = signal<any[]>([]);
+  public options_menu: Signal<any[]> = computed(()=>this.userService.user()?.rol?.options?.filter((el: any) => el.pivot.name == 'menu') ?? []);
   subscriptionUser: Subscription | undefined;
 
   constructor(
@@ -55,12 +55,15 @@ export class ToolbarComponent extends BaseComponent implements OnInit, OnDestroy
   }
 
   async callServices() {
-    this.subscriptionUser = this.userService.observableUser.subscribe((user: any | undefined) => {
-      this.options_menu.set(user?.rol?.options?.filter((el: any) => el.pivot.name == 'menu') ?? []);
+    // OBTENCION de opciones de menu via observable RXJS
+    // this.subscriptionUser = this.userService.observableUser.subscribe((user: any | undefined) => {
+    //   this.options_menu.set(user?.rol?.options?.filter((el: any) => el.pivot.name == 'menu') ?? []);
+    // })
 
-      // TODO: Si el usuario esta vacio y se tiene token, se debe llamar el usuario de back
-      // sebe ser el servicio de suuario encargado de realizar esta labor
-    })
+    // sebe ser el servicio de suuario encargado de realizar esta labor
+    if (!this.userService.user()?.id) {
+      this.userService.getUser().subscribe();
+    }
   }
 
   openModalLogin() {

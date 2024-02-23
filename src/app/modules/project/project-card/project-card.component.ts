@@ -38,6 +38,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   options_card = signal<any[]>([]);
   options_main = signal<any[]>([]);
 
+  // Los tags del projecto
   tags_status = signal<any[]>([]);
   tags_labour = signal<any[]>([]);
 
@@ -46,7 +47,6 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   tag_labour_default = signal<any[]>([]);
 
   // tags que se dentro del selector
-  // tag_status_select: Signal<any[]> = computed(() => (this.tag_status_default().filter(tsd => !this.tags_status().find(ts => ts === tsd))));
   tag_status_select: Signal<any[]> = computed(() => this.tag_status_default().filter(tsd => !this.tags_status().find(ts => ts.name === tsd.name)));
   tag_labour_select: Signal<any[]> = computed(() => this.tag_labour_default().filter(tsd => !this.tags_labour().find(ts => ts.name === tsd.name)));
 
@@ -115,9 +115,6 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
         el.category == 'labour')
         .map((il: any) => ({ ...il, badge: null })) ?? []
     );
-
-    console.log('this.options_main', this.options_main());
-
   }
 
   async formConstructor() {
@@ -157,7 +154,6 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
           return { ...el }
         }))
         console.log('project', project);
-        console.log('tags', tags);
         this.tag_status_default.set(tags.filter((el: any) => el.category === 'status' && el.default === 1))
         this.tag_labour_default.set(tags.filter((el: any) => el.category === 'labour' && el.default === 1))
         // console.log('tag_status_default', this.tag_status_default());
@@ -228,22 +224,19 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
   // Event Chips
   remove(tag: any) {
-    console.log('tag', tag);
+    // Se debe emviar el numero de la relación
     this.tagService.delete({
-      ...tag,
+      id: tag.pivot.id,
+      tag_id: tag.id,
+      default: tag.default,
       project_id: this.project.id,
       return_all: true,
       return_category: 'status'
     }).subscribe({
       next: (res) => {
-        console.log('res-add', res);
         this.tags_status.set(res?.tags ?? this.tags_status());
       }
-    })
-
-    this.tagInput.nativeElement.value = '';
-    this.tagCtrl.setValue(null);
-    // Actualizamos las tag en back
+    });
   }
 
   add(event: MatChipInputEvent) {
@@ -266,6 +259,18 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   }
 
   selected(tag: MatAutocompleteSelectedEvent) {
+    console.log('tag', tag.option.value);
+
+    this.tagService.store({
+      tag_id: tag.option.value.id,
+      project_id: this.project.id,
+      return_all: true,
+      return_category: 'status'
+    }).subscribe(res => {
+      // refrescamos los tags del card-project      
+      this.tags_status.set(res?.tags ?? this.tags_status());
+    })
+
     this.tags_status.set([...this.tags_status(), this.tag_status_default().find(el => el.name === tag.option.viewValue)]);
     this.tagInput.nativeElement.value = '';
     this.tagCtrl.setValue(null);

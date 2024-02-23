@@ -9,8 +9,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
 
-    providers: [
-        importProvidersFrom([BrowserModule, BrowserAnimationsModule]),        
-        provideRouter(routes)
+    providers: [{
+        provide: CSP_NONCE,
+        useValue: 'FwL+nkiRn6uydWA4g7MJtojf5RIpHSxnBwTzpS1+zyE='
+    },
+    importProvidersFrom([BrowserModule, BrowserAnimationsModule]),
+    provideRouter(routes)
     ]
 };

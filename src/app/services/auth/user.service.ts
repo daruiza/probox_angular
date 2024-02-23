@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable, of, BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { tap, catchError, map } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class UserService {
         'Content-Type': 'application/json',
     });
 
-    public user: IUser | undefined = undefined;
+    public user = signal<IUser>({});
     public observableUser!: Observable<IUser | undefined>;
     public behaviorUser = new Subject<IUser | undefined>();
 
@@ -31,25 +31,25 @@ export class UserService {
     }
 
     updatedUserBehavior(user: IUser | undefined) {
-        this.user = user;
+        this.user.set(user ?? {})
         this.behaviorUser.next(user);
     }
 
     public getUser(update = false): Observable<any> {
-        if ((!this.user && this.authService.checkLogin()) || update) {
+        if ((!this.user()?.id && this.authService.checkLogin()) || update) {
             const options = {
                 headers: this.httpHeaders,
                 params: {}
             };
             return this.http.get<any>(`${this.url}/auth/user`, options)
-                .pipe(map(resuser => {                    
-                    this.user = resuser.data.user;
+                .pipe(map(resuser => {
+                    this.user.set(resuser.data.user);
                     this.updatedUserBehavior(resuser.data.user);
-                    this.appService.setTheme(this.user?.theme ?? 'blue-grey-theme');
+                    this.appService.setTheme(this.user()?.theme ?? 'blue-grey-theme');
                     return resuser.data.user;
                 }));
         }
-        return of(this.user);
+        return of(this.user());
     }
 
     public updateUser(body: any): Observable<any> {
@@ -59,9 +59,9 @@ export class UserService {
         };
         return this.http.put<any>(`${this.url}/user/update`, body, options)
             .pipe(map(resuser => {
-                this.user = resuser.data.user;
+                this.user.set(resuser.data.user);
                 this.updatedUserBehavior(resuser.data.user);
-                this.appService.setTheme(this.user?.theme ?? 'blue-grey-theme');
+                this.appService.setTheme(this.user()?.theme ?? 'blue-grey-theme');
                 return { ...resuser.data.user, message: resuser.message };
             }));
     }

@@ -3,11 +3,19 @@
 
 <head>
   <meta charset="utf-8">
-  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none'; https://maps.googleapis.com; https://fonts.googleapis.com" /> -->
   <title>ProboxAngular</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self' ;
+  connect-src 'self' http://* ;
+  style-src 'self' 'nonce-FwL+nkiRn6uydWA4g7MJtojf5RIpHSxnBwTzpS1+zyE=';
+  script-src 'self' 'nonce-FwL+nkiRn6uydWA4g7MJtojf5RIpHSxnBwTzpS1+zyE='"
+  > -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src https://*; child-src 'none'; https://maps.googleapis.com; https://fonts.googleapis.com" /> -->
   <!-- <meta http-equiv="Content-Security-Policy" content="style-src 'self';script-src 'self'; font-src 'self'"> -->
+
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="manifest.webmanifest">
   <!-- <meta name="theme-color" content="#1976d2"> -->
@@ -20,7 +28,7 @@
 </head>
 
 <body class="mat-typography">
-  <app-root></app-root>
+  <app-root ngCspNonce="FwL+nkiRn6uydWA4g7MJtojf5RIpHSxnBwTzpS1+zyE="></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 

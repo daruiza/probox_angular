@@ -135,7 +135,6 @@ export class ProfileComponent extends BaseComponent implements OnInit, OnDestroy
     this.userService.getUser().subscribe({
       next: (user) => {
         if (user) {
-          console.log('user', user);
           this.user = { ...user };
           this.userForm.patchValue({
             ...this.user,
