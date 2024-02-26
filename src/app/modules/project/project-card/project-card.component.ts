@@ -50,10 +50,10 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   tag_status_select: Signal<any[]> = computed(() => this.tag_status_default().filter(tsd => !this.tags_status().find(ts => ts.name === tsd.name)));
   tag_labour_select: Signal<any[]> = computed(() => this.tag_labour_default().filter(tsd => !this.tags_labour().find(ts => ts.name === tsd.name)));
 
-
   public projectFormOld = signal<any>({});
   public projectForm!: FormGroup;
 
+  tagContaineCtrl = new FormControl('');
   tagCtrl = new FormControl('');
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -225,6 +225,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   // Event Chips
   remove(tag: any) {
     // Se debe emviar el numero de la relación
+    this.tagContaineCtrl.disable();
     this.tagService.delete({
       id: tag.pivot.id,
       tag_id: tag.id,
@@ -235,12 +236,16 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     }).subscribe({
       next: (res) => {
         this.tags_status.set(res?.tags ?? this.tags_status());
+      },
+      complete: () => {
+        this.tagContaineCtrl.enable();
       }
     });
   }
 
   add(event: MatChipInputEvent) {
     const value = (event.value || '').trim();
+    this.tagContaineCtrl.disable();
     this.tagService.store({
       name: value,
       category: 'status',
@@ -250,30 +255,37 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
       project_id: this.project.id,
       return_all: true,
       return_category: 'status'
-    }).subscribe(res => {
-      // refrescamos los tags del card-project      
-      this.tags_status.set(res?.tags ?? this.tags_status());
+    }).subscribe({
+      next: (res) => {
+        // refrescamos los tags del card-project      
+        this.tags_status.set(res?.tags ?? this.tags_status());
+        this.tagInput.nativeElement.value = '';
+        this.tagCtrl.setValue(null);
+      },
+      complete: () => {
+        this.tagContaineCtrl.enable();
+      }
     })
-    this.tagInput.nativeElement.value = '';
-    this.tagCtrl.setValue(null);
   }
 
   selected(tag: MatAutocompleteSelectedEvent) {
-    console.log('tag', tag.option.value);
-
-    this.tagService.store({
+    this.tagContaineCtrl.disable();
+    this.tagService.storeProjectTag({
       tag_id: tag.option.value.id,
       project_id: this.project.id,
       return_all: true,
       return_category: 'status'
-    }).subscribe(res => {
-      // refrescamos los tags del card-project      
-      this.tags_status.set(res?.tags ?? this.tags_status());
+    }).subscribe({
+      next: (res) => {
+        // refrescamos los tags del card-project      
+        this.tags_status.set(res?.tags ?? this.tags_status());
+        this.tagInput.nativeElement.value = '';
+        this.tagCtrl.setValue(null);
+      },
+      complete: () => {
+        this.tagContaineCtrl.enable();
+      }
     })
-
-    this.tags_status.set([...this.tags_status(), this.tag_status_default().find(el => el.name === tag.option.viewValue)]);
-    this.tagInput.nativeElement.value = '';
-    this.tagCtrl.setValue(null);
   }
 
   onFileChanged(event: any) {

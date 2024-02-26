@@ -19,7 +19,7 @@
         <!-- Tags -->
         <form>
             <mat-form-field class="mff" appearance="fill">
-                <mat-chip-grid #chipGrid aria-label="status project" (click)="tagInput.click()">
+                <mat-chip-grid #chipGrid aria-label="status project" (click)="tagInput.click()" [formControl]="tagContaineCtrl">
                     <ng-container *ngFor="let tag of tags_status()">
                         <mat-chip-row class="small-chip" [class]="tag.class" (removed)="remove(tag)">
                             {{tag.name}}
