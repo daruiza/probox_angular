@@ -36,14 +36,14 @@ export class TagService {
 
     public store(tag: ITag): Observable<any> {
         const options = { params: {} };
-        return this.http.post<any>(`${this.url}/tag/store/`, tag).pipe(
+        return this.http.post<any>(`${this.url}/tag/store`, tag).pipe(
             map((res: any) => (res?.data ?? {}))
         );
     }
 
     public storeProjectTag(tag: ITag): Observable<any> {
         const options = { params: {} };
-        return this.http.post<any>(`${this.url}/projecttag/store/`, tag).pipe(
+        return this.http.post<any>(`${this.url}/projecttag/store`, tag).pipe(
             map((res: any) => (res?.data ?? {}))
         );
     }
@@ -62,7 +62,7 @@ export class TagService {
                 return_all: true
             }
         };
-        return this.http.delete<any>(`${this.url}/projecttag/destroy/`, options);
+        return this.http.delete<any>(`${this.url}/projecttag/destroy`, options);
     }
 
 }

@@ -20,6 +20,7 @@ import { forkJoin } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { TagCategory } from 'src/app/enums/tag-category';
 
 @Component({
   selector: 'app-project-card',
@@ -28,7 +29,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class ProjectCardComponent extends BaseComponent implements OnInit {
 
-  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('statusTagInput') statusTagInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('labourTagInput') labourTagInput!: ElementRef<HTMLInputElement>;
   @ViewChildren('project_option_componet', { read: ViewContainerRef }) container!: QueryList<ViewContainerRef>;
 
   @Input() project: any = {};
@@ -53,8 +55,12 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   public projectFormOld = signal<any>({});
   public projectForm!: FormGroup;
 
-  tagContaineCtrl = new FormControl('');
-  tagCtrl = new FormControl('');
+  statusTagFormCtrl = new FormControl('');
+  statusTagInputCtrl = new FormControl('');
+
+  labourTagFormCtrl = new FormControl('');
+  labourTagInputCtrl = new FormControl('');
+
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   public url = signal<string | ArrayBuffer | null>(null);
@@ -106,13 +112,13 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
 
     this.tags_status.set(
       this.project.tags?.filter((el: any) =>
-        el.category == 'status')
+        el.category == TagCategory.status)
         .map((il: any) => ({ ...il, badge: null })) ?? []
     );
 
     this.tags_labour.set(
       this.project.tags?.filter((el: any) =>
-        el.category == 'labour')
+        el.category == TagCategory.labour)
         .map((il: any) => ({ ...il, badge: null })) ?? []
     );
   }
@@ -153,13 +159,9 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
           if (el.name === 'customers') return { ...el, badge: project?.customers?.length ?? null }
           return { ...el }
         }))
-        console.log('project', project);
-        this.tag_status_default.set(tags.filter((el: any) => el.category === 'status' && el.default === 1))
-        this.tag_labour_default.set(tags.filter((el: any) => el.category === 'labour' && el.default === 1))
-        // console.log('tag_status_default', this.tag_status_default());
-        // console.log('tag_labour_default', this.tag_labour_default());
-
-
+        // console.log('project', project);
+        this.tag_status_default.set(tags.filter((el: any) => el.category === TagCategory.status && el.default === 1))
+        this.tag_labour_default.set(tags.filter((el: any) => el.category === TagCategory.labour && el.default === 1))
       },
       error: (error) => {
         // Se coemnta ya que debe haber solo un punto de control de errores - interceptor
@@ -223,69 +225,83 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   }
 
   // Event Chips
-  remove(tag: any) {
+  remove(tag: any, category: string = TagCategory.status) {
+
     // Se debe emviar el numero de la relación
-    this.tagContaineCtrl.disable();
+    this.statusTagFormCtrl.disable();
+    this.labourTagFormCtrl.disable();
     this.tagService.delete({
       id: tag.pivot.id,
       tag_id: tag.id,
       default: tag.default,
       project_id: this.project.id,
       return_all: true,
-      return_category: 'status'
+      return_category: category
     }).subscribe({
       next: (res) => {
-        this.tags_status.set(res?.tags ?? this.tags_status());
+        this.status_labour_refresh(res, category);
       },
-      complete: () => {
-        this.tagContaineCtrl.enable();
-      }
+      error: () => this.status_labour_enable(),
+      complete: () => this.status_labour_enable()
     });
   }
 
-  add(event: MatChipInputEvent) {
+  add(event: MatChipInputEvent, category: string = TagCategory.status) {
     const value = (event.value || '').trim();
-    this.tagContaineCtrl.disable();
+    this.statusTagFormCtrl.disable();
+    this.labourTagFormCtrl.disable();
     this.tagService.store({
       name: value,
-      category: 'status',
+      category: category,
       class: 'primary',
       default: false,
       active: true,
       project_id: this.project.id,
       return_all: true,
-      return_category: 'status'
+      return_category: category
     }).subscribe({
       next: (res) => {
-        // refrescamos los tags del card-project      
-        this.tags_status.set(res?.tags ?? this.tags_status());
-        this.tagInput.nativeElement.value = '';
-        this.tagCtrl.setValue(null);
+        this.status_labour_refresh(res, category);
       },
-      complete: () => {
-        this.tagContaineCtrl.enable();
-      }
+      error: () => this.status_labour_enable(),
+      complete: () => this.status_labour_enable()
     })
   }
 
-  selected(tag: MatAutocompleteSelectedEvent) {
-    this.tagContaineCtrl.disable();
+  selected(tag: MatAutocompleteSelectedEvent, category: string = TagCategory.status) {
+    this.statusTagFormCtrl.disable();
+    this.labourTagFormCtrl.disable();
     this.tagService.storeProjectTag({
       tag_id: tag.option.value.id,
       project_id: this.project.id,
       return_all: true,
-      return_category: 'status'
+      return_category: category
     }).subscribe({
       next: (res) => {
-        // refrescamos los tags del card-project      
-        this.tags_status.set(res?.tags ?? this.tags_status());
-        this.tagInput.nativeElement.value = '';
-        this.tagCtrl.setValue(null);
+        this.status_labour_refresh(res, category);
       },
-      complete: () => {
-        this.tagContaineCtrl.enable();
-      }
+      error: () => this.status_labour_enable(),
+      complete: () => this.status_labour_enable()
     })
+  }
+
+  // refresh selectors
+  status_labour_refresh(res: any, category: string) {
+    if (category === TagCategory.status) {
+      this.tags_status.set(res?.tags ?? this.tags_status());
+    }
+    if (category === TagCategory.labour) {
+      this.tags_labour.set(res?.tags ?? this.tags_labour());
+    }
+  }
+
+  status_labour_enable() {
+    this.statusTagInput.nativeElement.value = '';
+    this.statusTagInputCtrl.setValue(null);
+    this.statusTagFormCtrl.enable();
+    this.labourTagInput.nativeElement.value = '';
+    this.labourTagInputCtrl.setValue(null);
+    this.labourTagFormCtrl.enable();
   }
 
   onFileChanged(event: any) {

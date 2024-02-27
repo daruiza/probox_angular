@@ -19,7 +19,9 @@
         <!-- Tags -->
         <form>
             <mat-form-field class="mff" appearance="fill">
-                <mat-chip-grid #chipGrid aria-label="status project" (click)="tagInput.click()" [formControl]="tagContaineCtrl">
+                <mat-label></mat-label>
+                <mat-chip-grid #chipStatusGrid aria-label="status project" (click)="statusTagInput.click()"
+                    [formControl]="statusTagFormCtrl">
                     <ng-container *ngFor="let tag of tags_status()">
                         <mat-chip-row class="small-chip" [class]="tag.class" (removed)="remove(tag)">
                             {{tag.name}}
@@ -29,8 +31,8 @@
                         </mat-chip-row>
                     </ng-container>
                 </mat-chip-grid>
-                <input matInput  placeholder="{{'new_tag' | translate }}" #tagInput [matChipInputFor]="chipGrid"
-                    [matAutocomplete]="auto" [formControl]="tagCtrl"
+                <input matInput placeholder="{{'new_tag' | translate }}" #statusTagInput [matChipInputFor]="chipStatusGrid"
+                    [matAutocomplete]="auto" [formControl]="statusTagInputCtrl"
                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                     <mat-option *ngFor="let tag of tag_status_select()" [value]="tag">
@@ -39,7 +41,7 @@
                 </mat-autocomplete>
             </mat-form-field>
         </form>
-        
+
         <!-- <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader> -->
 
         <mat-vertical-stepper #stepper [linear]="false" [disableRipple]="true" animationDuration="1000">
@@ -103,11 +105,33 @@
         </mat-vertical-stepper>
 
         <mat-divider></mat-divider>
-        <mat-chip-listbox aria-label="labour project">
-            <ng-container *ngFor="let tag of tags_labour()">
-                <mat-chip class="small-chip" [class]="tag.class">{{tag.name}}</mat-chip>
-            </ng-container>
-        </mat-chip-listbox>
+
+        <form>
+            <mat-form-field class="mff" appearance="fill">
+                <mat-label></mat-label>
+                <mat-chip-grid #chipGridLabour aria-label="labour project" (click)="labourTagInput.click()"
+                    [formControl]="labourTagFormCtrl">
+                    <ng-container *ngFor="let tag of tags_labour()">
+                        <mat-chip-row class="small-chip" [class]="tag.class" (removed)="remove(tag, 'labour')">
+                            {{tag.name}}
+                            <button matChipRemove [attr.aria-label]="'remove ' + tag.name">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
+                    </ng-container>
+                </mat-chip-grid>
+                <input matInput placeholder="{{'new_tag' | translate }}" #labourTagInput
+                    [matChipInputFor]="chipGridLabour" [matAutocomplete]="autoLabour" [formControl]="labourTagInputCtrl"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event, 'labour')" />
+                <mat-autocomplete #autoLabour="matAutocomplete" (optionSelected)="selected($event, 'labour')">
+                    <mat-option *ngFor="let tag of tag_labour_select()" [value]="tag">
+                        {{tag.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+
+
     </mat-card-content>
     <mat-card-actions>
         <ng-container *ngFor="let option of options_main()">
