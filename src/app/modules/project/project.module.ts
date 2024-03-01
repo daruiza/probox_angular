@@ -34,10 +34,10 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatAutocompleteModule,
     MatStepperModule,
     MatExpansionModule,
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
   ],
   exports: [
     ProjectCardComponent
-  ]
+  ]  
 })
 export class ProjectModule { }

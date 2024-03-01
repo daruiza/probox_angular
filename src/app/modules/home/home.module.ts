@@ -15,37 +15,42 @@ import { AuthInterceptor } from 'src/app/services/interceptors/auth.interceptor'
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { TagService } from 'src/app/services/project/tag.service';
+import { AppModule } from 'src/app/app.module';
+import { SnackbarComponent } from "../../components/snackbar/snackbar.component";
+import { LoadingComponent } from "../../components/loading/loading.component";
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    WelcomeComponent,
-    ProjectComponent,
-  ],
-  imports: [
-    CommonModule,
-    HomeRoutingModule,
-    SharedModule,
-    ProjectModule,
-    HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000',
-    }),
-  ],
-  exports: [
-    HttpClientModule
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    AuthGuard,
-    AuthService,
-    UserService,
-    StorageService,
-    ProjectService,
-    TagService,
-  ]
+    declarations: [
+        HomeComponent,
+        WelcomeComponent,
+        ProjectComponent,
+    ],
+    exports: [
+        HttpClientModule
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        AuthGuard,
+        AuthService,
+        UserService,
+        StorageService,
+        ProjectService,
+        TagService,
+    ],
+    imports: [
+        CommonModule,
+        HomeRoutingModule,
+        SharedModule,
+        ProjectModule,
+        HttpClientModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
+        // SnackbarComponent,
+        // LoadingComponent
+    ]
 })
 export class HomeModule { }

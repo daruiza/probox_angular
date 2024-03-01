@@ -15,12 +15,8 @@ export class SnackBarService {
         this.snackbar = this.snackBehavior.asObservable();
     }
 
-
-    updatedSnackBehavior(message: ISnackModel) {
-        console.log('message', message);
-        
+    updatedSnackBehavior(message: ISnackModel) {        
         this.snackBehavior.next(message);
     }
-
 
 }

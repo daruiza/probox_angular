@@ -36,8 +36,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     // AppComponent,
-    LoadingComponent,
-    SnackbarComponent,
+    // LoadingComponent,
+    // SnackbarComponent,
     BaseComponent,
     //CapitalizeFirstPipe,
   ],
@@ -66,8 +66,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     MatSnackBarModule,
     HeaderModule,
-    LoadingComponent,
-    SnackbarComponent,
+    // LoadingComponent,
+    // SnackbarComponent,
     BaseComponent,
 
   ],
@@ -77,9 +77,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AuthGuard,
     AuthService,
     UserService,
-    LoadingService,
-    TranslateService,
-    SnackBarService,
+    TranslateService,    
     NacionalityService,
     GeneralListService,
     StorageService

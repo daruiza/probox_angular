@@ -1,11 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { LoadingService } from 'src/app/services/midleware/loading.service';
 
 @Component({
   selector: 'app-loading',
+  standalone: true,
   templateUrl: './loading.component.html',
-  styleUrls: ['./loading.component.scss']
+  styleUrls: ['./loading.component.scss'],
+  imports: [CommonModule]
 })
 export class LoadingComponent implements OnInit, OnDestroy {
 

@@ -5,13 +5,15 @@ import { AppModule } from './app.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { LoadingComponent } from "./components/loading/loading.component";
+import { SnackbarComponent } from "./components/snackbar/snackbar.component";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  imports:[RouterOutlet, AppModule]
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [RouterOutlet, AppModule, LoadingComponent, SnackbarComponent]
 })
 export class AppComponent implements OnInit {
   title = 'probox_angular';
@@ -24,7 +26,7 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private readonly _appService: AppService,) {
   }
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.translate.setDefaultLang(this.appService.translateDefault);
   }  
 }

@@ -1,12 +1,19 @@
-<div class="container" [class]="'container-'+appService.theme">
-    <div *ngIf="alert()" class="row">
-        <app-alert [alert]="alert()"></app-alert>
-    </div>
+<div class="container" [class]="'container-' + appService.theme">
+  <div *ngIf="alert()" class="row">
+    <app-alert [alert]="alert()"></app-alert>
+  </div>
 
-    <div class="row">
-        <!-- project_customer -->
-        <div *ngFor="let project of projects_customer()" class="col-xs-3 col-md-3 mat-card-container">
-            <app-project-card [project]="project" [options_user]="options_user()" (updataProject)="updataProject($event)"></app-project-card>
-        </div>
+  <div class="row">
+    <!-- project_customer -->
+    <div
+      *ngFor="let project of projects_customer()"
+      class="col-xs-3 col-md-3 mat-card-container"
+    >
+      <app-project-card
+        [project]="project"
+        [options_user]="options_user()"
+        (updataProject)="updataProject($event)"
+      ></app-project-card>
     </div>
+  </div>
 </div>

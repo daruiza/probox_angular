@@ -75,7 +75,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     private readonly projectService: ProjectService,
     private readonly tagService: TagService,
     private readonly modalService: NgbModal,
-    public readonly snackBarService: SnackBarService,
+    public readonly snackBarService: SnackBarService    
   ) { super(translate, appService); }
 
   ngOnDestroy(): void {
@@ -342,11 +342,17 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   uploadEvidence(){
     console.log('uploadEvidence');    
     // Una evidencia documental se adjunta a una tarea
+    // this.snackBarService.updatedSnackBehavior({
+    //   message: 'need a task ',
+    //   action: 'only one',
+    //   onAction: () => { }
+    // });
+
     this.snackBarService.updatedSnackBehavior({
-      message: 'need a task ',
-      action: 'only one',
+      message: 'result?.message',
+      action: 'accessok',
       onAction: () => { }
-    });
+    })
   }
 
   onFileChanged(event: any) {

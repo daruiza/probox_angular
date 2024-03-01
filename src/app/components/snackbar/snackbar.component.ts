@@ -1,17 +1,20 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ISnackModel } from 'src/app/models/ISnackModel';
 import { SnackBarService } from 'src/app/services/midleware/snackbar.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 import { BaseComponent } from '../base/base.component';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-snackbar',
+  standalone: true,
   templateUrl: './snackbar.component.html',
-  styleUrls: ['./snackbar.component.scss']
+  styleUrls: ['./snackbar.component.scss'],
+  imports: [CommonModule, MatSnackBarModule]
 })
 export class SnackbarComponent extends BaseComponent implements OnInit, OnDestroy {
 
@@ -36,13 +39,11 @@ export class SnackbarComponent extends BaseComponent implements OnInit, OnDestro
   }
 
   ngOnInit(): void {
-    console.log('SnackbarComponent');
-    
     this.snackRefSuscription =
       this.snackBarService.snackbar.subscribe((snack: ISnackModel) => {
+        console.log('snack', snack);
         if (snack?.message) {
           // Se comenta, el snack hace mucho ruido
-          console.log('snack', snack);
           this.openSnackBar(this.translate.instant(snack.message), this.translate.instant(snack.action), snack.onAction);
         }
       });
