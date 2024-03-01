@@ -37,31 +37,34 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   @Input() options_user: any = [];
   @Output() updataProject = new EventEmitter<any>();
 
-  options_card = signal<any[]>([]);
-  options_main = signal<any[]>([]);
+  public options_card = signal<any[]>([]);
+  public options_main = signal<any[]>([]);
 
-  // Los tags del projecto
-  tags_status = signal<any[]>([]);
-  tags_labour = signal<any[]>([]);
+  // Evidencias
+  public evidences = signal<any[]>([]);
+
+  // Los tags del proyecto
+  public tags_status = signal<any[]>([]);
+  public tags_labour = signal<any[]>([]);
 
   // todos los tags
-  tag_status_default = signal<any[]>([]);
-  tag_labour_default = signal<any[]>([]);
+  public tag_status_default = signal<any[]>([]);
+  public tag_labour_default = signal<any[]>([]);
 
   // tags que se dentro del selector
-  tag_status_select: Signal<any[]> = computed(() => this.tag_status_default().filter(tsd => !this.tags_status().find(ts => ts.name === tsd.name)));
-  tag_labour_select: Signal<any[]> = computed(() => this.tag_labour_default().filter(tsd => !this.tags_labour().find(ts => ts.name === tsd.name)));
+  public tag_status_select: Signal<any[]> = computed(() => this.tag_status_default().filter(tsd => !this.tags_status().find(ts => ts.name === tsd.name)));
+  public tag_labour_select: Signal<any[]> = computed(() => this.tag_labour_default().filter(tsd => !this.tags_labour().find(ts => ts.name === tsd.name)));
 
   public projectFormOld = signal<any>({});
   public projectForm!: FormGroup;
 
-  statusTagFormCtrl = new FormControl('');
-  statusTagInputCtrl = new FormControl('');
+  public statusTagFormCtrl = new FormControl('');
+  public statusTagInputCtrl = new FormControl('');
 
-  labourTagFormCtrl = new FormControl('');
-  labourTagInputCtrl = new FormControl('');
+  public labourTagFormCtrl = new FormControl('');
+  public labourTagInputCtrl = new FormControl('');
 
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
 
   public url = signal<string | ArrayBuffer | null>(null);
 
@@ -150,6 +153,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     ]).subscribe({
       next: ([project, tags]) => {
 
+        // console.log('project', project);
         // Asignación de badge para las Opciones
         this.options_card.set(this.options_card().map((el: any) => {
           if (el.name === 'notes') return { ...el, badge: project?.notes?.length ?? null }
@@ -159,17 +163,27 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
           if (el.name === 'customers') return { ...el, badge: project?.customers?.length ?? null }
           return { ...el }
         }))
-        // console.log('project', project);
+
+        // set tags
         this.tag_status_default.set(tags.filter((el: any) => el.category === TagCategory.status && el.default === 1))
         this.tag_labour_default.set(tags.filter((el: any) => el.category === TagCategory.labour && el.default === 1))
+
+        // set evidencias, las evidenceias estan dentro de las tareas tags
+        this.evidences.set(project?.tasks?.reduce((a: any, c: any) => ([...a, ...c?.evidences ?? []]), []));
+        this.getDawnEvidencesUrl();
+
       },
       error: (error) => {
-        // Se coemnta ya que debe haber solo un punto de control de errores - interceptor
+        // Se comenta ya que debe haber solo un punto de control de errores - interceptor
         // console.log('projectData', error);        
       }
     });
   }
 
+  /**
+   * Get/Download the Logo Project 
+   * @param {string} logo - Logo of the project
+   */
   setUrl() {
     if (this.project.logo && this.project.logo != '') {
       this.storageService.downloadFile(this.project.logo).subscribe(file => {
@@ -184,10 +198,30 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     }
   }
 
+  /**
+   * Get/Download the data/url of each evidence
+   * change status in this.evidence
+   */
+  getDawnEvidencesUrl() {
+    this.evidences().forEach(ev => {
+      // Solicitamos cada imagen
+      if (ev.file && ev.file != '') {
+        this.storageService.downloadFile(ev.file).subscribe(file => {
+          let reader = new FileReader();
+          reader.addEventListener("load", () => {
+            this.evidences.set([...this.evidences().filter(el => el.id !== ev.id), { ...ev, url: reader.result }])
+          }, false);
+          if (file) {
+            reader.readAsDataURL(file);
+          }
+        })
+      }
+    })
+  }
+
   // Events
 
   option_after_open(option: any) {
-
     // Actualización de Opción
     // this.options_card.set(this.options_card().map((op: any) => {
     //   if (op.name === option.name) return { ...option, badge: null }
@@ -304,15 +338,26 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
     this.labourTagFormCtrl.enable();
   }
 
+  // Event photo button
+  uploadEvidence(){
+    console.log('uploadEvidence');    
+    // Una evidencia documental se adjunta a una tarea
+    this.snackBarService.updatedSnackBehavior({
+      message: 'need a task ',
+      action: 'only one',
+      onAction: () => { }
+    });
+  }
+
   onFileChanged(event: any) {
     const file = event.target.files[0]
     if (file) {
       this.storageService.postUpload(`commerce/${this.project.commerce_id ?? 1}/project/${this.project.id ?? 1}/logo`, file).subscribe(
         response => {
           if (response) {
-            console.log('postUpload', response);
-            // asignamos a campo photo
-            // this.userForm.get('photo')?.setValue(response.storage_image_path);
+            // console.log('postUpload', response);
+            this.projectForm.get('logo')?.setValue(response.storage_image_path);
+            this.save();
           }
         })
     }

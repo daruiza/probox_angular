@@ -17,6 +17,8 @@ export class SnackBarService {
 
 
     updatedSnackBehavior(message: ISnackModel) {
+        console.log('message', message);
+        
         this.snackBehavior.next(message);
     }
 

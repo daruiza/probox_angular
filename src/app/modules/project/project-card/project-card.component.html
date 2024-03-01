@@ -31,8 +31,8 @@
                         </mat-chip-row>
                     </ng-container>
                 </mat-chip-grid>
-                <input matInput placeholder="{{'new_tag' | translate }}" #statusTagInput [matChipInputFor]="chipStatusGrid"
-                    [matAutocomplete]="auto" [formControl]="statusTagInputCtrl"
+                <input matInput placeholder="{{'new_tag' | translate }}" #statusTagInput
+                    [matChipInputFor]="chipStatusGrid" [matAutocomplete]="auto" [formControl]="statusTagInputCtrl"
                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                     <mat-option *ngFor="let tag of tag_status_select()" [value]="tag">
@@ -52,28 +52,20 @@
                 <ng-template matStepLabel>{{'project_status' | translate | titlecase}}</ng-template>
                 <ng-template matStepContent>
                     <ngb-carousel [interval]="0">
-                        <ng-template ngbSlide>
-                            <div>
-                                <!-- <img [src]="images[0]" alt="Random first slide" /> -->
-                                <img mat-card-image
-                                    src="https://estucosypinturas.com.co/wp-content/uploads/2018/02/IMG_4721.jpg"
-                                    alt="Photo of a Shiba Inu">
-                            </div>
-                            <div class="carousel-caption">
-                                <!-- <h3>First slide label</h3> -->
-                                <!-- <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> -->
-                            </div>
-                        </ng-template>
-                        <ng-template ngbSlide>
-                            <div>
-                                <img mat-card-image
-                                    src="https://estucosypinturas.com.co/wp-content/uploads/2015/09/WhatsApp-Image-2017-05-18-at-16.32.09-1.jpeg"
-                                    alt="Photo of a Shiba Inu">
-                            </div>
-                            <div class="carousel-caption">
-                                <!-- <h3>Second slide label</h3> -->
-                            </div>
-                        </ng-template>
+                        <ng-container *ngFor="let evidence of evidences()">
+                            <ng-template ngbSlide>
+                                <div>
+                                    <ng-container *ngIf="evidence?.url">
+                                        <img [src]="evidence.url" alt="Random first slide" />
+                                    </ng-container>
+                                    <!-- else un eskeeleton -->
+                                </div>
+                                <div class="carousel-caption">
+                                    <!-- <h3>First slide label</h3> -->
+                                    <!-- <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> -->
+                                </div>
+                            </ng-template>
+                        </ng-container>                        
                     </ngb-carousel>
                 </ng-template>
             </mat-step>
@@ -122,7 +114,8 @@
                 </mat-chip-grid>
                 <input matInput placeholder="{{'new_tag' | translate }}" #labourTagInput
                     [matChipInputFor]="chipGridLabour" [matAutocomplete]="autoLabour" [formControl]="labourTagInputCtrl"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event, 'labour')" />
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event, 'labour')" />
                 <mat-autocomplete #autoLabour="matAutocomplete" (optionSelected)="selected($event, 'labour')">
                     <mat-option *ngFor="let tag of tag_labour_select()" [value]="tag">
                         {{tag.name}}
@@ -137,7 +130,7 @@
         <ng-container *ngFor="let option of options_main()">
             <ng-container *ngIf="option.name === 'photo'; else option_mini">
                 <button mat-fab color="accent" matTooltip="{{option.label | translate | titlecase}}"
-                    aria-label="assignment icon">
+                    aria-label="assignment icon" (click)="uploadEvidence()">
                     <mat-icon color="primary">{{option.icon}}</mat-icon>
                 </button>
             </ng-container>
