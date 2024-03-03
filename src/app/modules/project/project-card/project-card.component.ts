@@ -40,9 +40,14 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   public options_card = signal<any[]>([]);
   public options_main = signal<any[]>([]);
 
-  // Evidencias
+  // EVIDENCIAS
   public evidences = signal<any[]>([]);
 
+  // TASKS - TAREAS
+  public tasks = signal<any[]>([]);
+
+  // *** TAGS
+ 
   // Los tags del proyecto
   public tags_status = signal<any[]>([]);
   public tags_labour = signal<any[]>([]);
@@ -152,8 +157,12 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
       this.tagService.get()
     ]).subscribe({
       next: ([project, tags]) => {
+        
+        console.log('project', project);
+        // set evidencias, las evidenceias estan dentro de las tareas tags
+        this.evidences.set(project?.tasks?.reduce((a: any, c: any) => ([...a, ...c?.evidences ?? []]), []));
+        this.getDawnEvidencesUrl().then(()=>{});
 
-        // console.log('project', project);
         // Asignación de badge para las Opciones
         this.options_card.set(this.options_card().map((el: any) => {
           if (el.name === 'notes') return { ...el, badge: project?.notes?.length ?? null }
@@ -168,10 +177,9 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
         this.tag_status_default.set(tags.filter((el: any) => el.category === TagCategory.status && el.default === 1))
         this.tag_labour_default.set(tags.filter((el: any) => el.category === TagCategory.labour && el.default === 1))
 
-        // set evidencias, las evidenceias estan dentro de las tareas tags
-        this.evidences.set(project?.tasks?.reduce((a: any, c: any) => ([...a, ...c?.evidences ?? []]), []));
-        this.getDawnEvidencesUrl();
-
+        // set tasks
+        this.tasks.set(project?.tasks??[]);
+        
       },
       error: (error) => {
         // Se comenta ya que debe haber solo un punto de control de errores - interceptor
@@ -202,7 +210,7 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
    * Get/Download the data/url of each evidence
    * change status in this.evidence
    */
-  getDawnEvidencesUrl() {
+  async getDawnEvidencesUrl() {
     this.evidences().forEach(ev => {
       // Solicitamos cada imagen
       if (ev.file && ev.file != '') {
@@ -342,17 +350,15 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   uploadEvidence(){
     console.log('uploadEvidence');    
     // Una evidencia documental se adjunta a una tarea
-    // this.snackBarService.updatedSnackBehavior({
-    //   message: 'need a task ',
-    //   action: 'only one',
-    //   onAction: () => { }
-    // });
+    if(this.tasks()){
+      // Dado el caso de que no tenga tareas
+      this.snackBarService.updatedSnackBehavior({
+        message: 'result?.message',
+        action: 'accessok',
+        onAction: () => { }
+      })
+    }
 
-    this.snackBarService.updatedSnackBehavior({
-      message: 'result?.message',
-      action: 'accessok',
-      onAction: () => { }
-    })
   }
 
   onFileChanged(event: any) {
