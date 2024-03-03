@@ -350,11 +350,11 @@ export class ProjectCardComponent extends BaseComponent implements OnInit {
   uploadEvidence(){
     console.log('uploadEvidence');    
     // Una evidencia documental se adjunta a una tarea
-    if(this.tasks()){
+    if(this.tasks().length){
       // Dado el caso de que no tenga tareas
       this.snackBarService.updatedSnackBehavior({
-        message: 'result?.message',
-        action: 'accessok',
+        message: 'need_tasks',
+        action: 'create_a_task',
         onAction: () => { }
       })
     }
