@@ -53,5 +53,8 @@
     "project_status": "estado de proyecto",
     "project_data": "datos de proyecto",
 
+    "need_tasks": "se necesita al menos una tarea",
+    "create_a_task": "crear una tarea",
+
     "new_tag":" nuevo tag"
 }
